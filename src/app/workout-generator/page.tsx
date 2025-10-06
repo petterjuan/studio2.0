@@ -20,17 +20,21 @@ export default function WorkoutGeneratorPage() {
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 p-4 max-w-3xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline tracking-tight">
-            Tu Entrenador Físico Personal
+            Tu Entrenador Personal con IA
           </h1>
           <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto font-body">
-            Dinos tus objetivos y crearemos un plan de entrenamiento único solo para ti. Tu viaje de fitness, redefinido.
+            Dinos tus objetivos y nuestra IA creará un plan de entrenamiento único, solo para ti. Tu viaje de fitness, redefinido.
           </p>
         </div>
       </section>
 
       <section className="container -mt-16 relative z-20 pb-24">
         <div className="max-w-4xl mx-auto">
-          <WorkoutGeneratorForm />
+            <Card>
+                <CardContent className="p-6 md:p-8">
+                    <WorkoutGeneratorForm />
+                </CardContent>
+            </Card>
         </div>
       </section>
     </div>
