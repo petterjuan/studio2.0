@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter }
 import { getProducts, getArticles } from '@/lib/shopify';
 import TestimonialCarousel from '@/components/testimonial-carousel';
 import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 
 const { placeholderImages } = placeholderData;
 
@@ -119,7 +120,7 @@ export default async function Home() {
                   <CardTitle className="font-headline text-xl h-16 overflow-hidden">
                     <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
                   </CardTitle>
-                  <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy')}</CardDescription>
+                  <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>
                 </CardHeader>
                 <CardContent className="flex-grow">
                   <p className="text-sm text-muted-foreground line-clamp-3">{article.excerpt}</p>
