@@ -10,6 +10,7 @@ export type ShopifyProduct = {
   title: string;
   description: string;
   price: string;
+  rawPrice: number; // Added for Stripe
   imageUrl: string;
   tags: string[];
 };

@@ -1,12 +1,14 @@
 'use client';
 
 import Image from 'next/image';
+import { useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import placeholderData from '@/lib/placeholder-images.json';
-import { CheckCircle, Zap } from 'lucide-react';
+import { CheckCircle, Zap, Loader2 } from 'lucide-react';
 import { ShopifyProduct } from '@/lib/definitions';
 import { useToast } from '@/hooks/use-toast';
+import { createCheckoutSession } from '../actions';
 
 const productPlaceholder = placeholderData.placeholderImages.find(p => p.id === 'blog-1')!;
 
@@ -18,16 +20,25 @@ const muscleBitesFeatures = [
 
 export default function ProductDetails({ product }: { product: ShopifyProduct }) {
   const { toast } = useToast();
+  const [isPending, startTransition] = useTransition();
 
   if (!product) {
     return null;
   }
 
-  const handleAddToCart = () => {
-    toast({
-        title: '¡Próximamente!',
-        description: 'La funcionalidad de pago con Stripe estará disponible pronto.',
-      });
+  const handleBuyNow = async () => {
+    startTransition(async () => {
+      try {
+        await createCheckoutSession(product);
+      } catch (error) {
+        console.error(error);
+        toast({
+            variant: 'destructive',
+            title: '¡Oh, no! Algo salió mal.',
+            description: 'No se pudo redirigir a la página de pago. Por favor, inténtalo de nuevo.',
+        });
+      }
+    });
   }
 
   const imageUrl = product.imageUrl || productPlaceholder.imageUrl;
@@ -64,11 +75,20 @@ export default function ProductDetails({ product }: { product: ShopifyProduct })
               ))}
           </div>
 
-          <Button size="lg" onClick={handleAddToCart} className="w-full shadow-lg hover:shadow-primary/50 transition-shadow duration-300">
-            <Zap className="mr-2 h-5 w-5" />
-            ¡Lo Quiero Ahora!
+          <Button size="lg" onClick={handleBuyNow} disabled={isPending} className="w-full shadow-lg hover:shadow-primary/50 transition-shadow duration-300">
+            {isPending ? (
+                <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Redirigiendo...
+                </>
+            ) : (
+                <>
+                    <Zap className="mr-2 h-5 w-5" />
+                    ¡Lo Quiero Ahora!
+                </>
+            )}
           </Button>
-          <p className="text-xs text-center mt-2 text-muted-foreground">Compra segura. Acceso instantáneo.</p>
+          <p className="text-xs text-center mt-2 text-muted-foreground">Compra segura con Stripe. Acceso instantáneo.</p>
         </div>
       </div>
     </div>

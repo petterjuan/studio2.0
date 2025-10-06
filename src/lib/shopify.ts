@@ -25,8 +25,9 @@ async function shopifyFetch<T>({
         'X-Shopify-Storefront-Access-Token': key,
       },
       body: JSON.stringify({ query, variables }),
+      // Use force-cache and revalidate to allow for static generation
       cache: 'force-cache',
-      next: { revalidate: 3600 },
+      next: { revalidate: 3600 }, // Revalidate every hour
     });
 
     const body = await result.json();
@@ -86,6 +87,7 @@ function reshapeProduct(product: any): ShopifyProduct {
         title: product.title,
         description: product.description,
         price: formatPrice(minVariantPrice.amount, minVariantPrice.currencyCode),
+        rawPrice: parseFloat(minVariantPrice.amount),
         imageUrl: product.featuredImage?.url || '',
         tags: product.tags || [],
     };
