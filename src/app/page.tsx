@@ -1,10 +1,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, Star } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import placeholderData from '@/lib/placeholder-images.json';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getProducts, getArticles } from '@/lib/shopify';
 import TestimonialCarousel from '@/components/testimonial-carousel';
 import { format } from 'date-fns';
@@ -127,10 +127,10 @@ export default async function Home() {
                   <CardTitle className="font-headline text-xl h-16 overflow-hidden">
                     <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
                   </CardTitle>
-                  <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>
                 </CardHeader>
-                <CardContent className="flex-grow">
-                  <p className="text-sm text-muted-foreground line-clamp-3">{article.excerpt}</p>
+                <CardContent className='pt-0'>
+                  <p className="text-sm text-muted-foreground">{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</p>
+                  <p className="text-sm text-muted-foreground line-clamp-3 mt-2">{article.excerpt}</p>
                 </CardContent>
                 <CardFooter>
                   <Button variant="link" asChild className="p-0">

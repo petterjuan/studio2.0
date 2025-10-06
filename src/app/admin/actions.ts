@@ -1,17 +1,15 @@
 'use server';
 
-import { collectionGroup, getDocs, query, orderBy } from 'firebase/firestore';
-import { firestore } from '@/firebase/server';
+import { collectionGroup, getDocs, query, orderBy, getDoc } from 'firebase/firestore';
+import { firestore as adminFirestore } from '@/firebase/server';
 import { WorkoutPlan } from '@/lib/definitions';
 
 type UserWorkoutPlan = WorkoutPlan & { userName: string; userEmail: string; };
 
 export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
-  if (!firestore) {
-    console.log("Firestore not initialized for server.");
-    return [];
-  }
-  const plansQuery = query(collectionGroup(firestore, 'workoutPlans'), orderBy('createdAt', 'desc'));
+  // Firestore is not available on the client, so we must use the admin SDK
+  // This function is a server action, so it will only run on the server
+  const plansQuery = query(collectionGroup(adminFirestore, 'workoutPlans'), orderBy('createdAt', 'desc'));
   const plansSnapshot = await getDocs(plansQuery);
 
   const plans: UserWorkoutPlan[] = [];
@@ -21,7 +19,7 @@ export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
     const userRef = doc.ref.parent.parent;
     
     if (userRef) {
-        const userDoc = await userRef.get();
+        const userDoc = await getDoc(userRef);
         if (userDoc.exists()) {
             const userData = userDoc.data();
             plans.push({

@@ -110,7 +110,7 @@ export default function WorkoutGeneratorForm() {
                             <FormControl>
                             <SelectTrigger>
                                 <SelectValue placeholder="Selecciona tu experiencia" />
-                            </SelectTrigger>
+                            </Trigger>
                             </FormControl>
                             <SelectContent>
                             <SelectItem value="beginner">Principiante (0-1 años)</SelectItem>
