@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import WorkoutGeneratorForm from './workout-generator-form';
 import placeholderData from '@/lib/placeholder-images.json';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
 const { placeholderImages } = placeholderData;
 const bgImage = placeholderImages.find(p => p.id === 'workout-generator-bg') || placeholderImages[0];
