@@ -122,7 +122,7 @@ export default function ShoppingAssistantChat() {
                         >
                           <p>{message.content}</p>
                         </div>
-                        {message.role === 'user' && <UserIcon className="h-6 w-6 text-muted-foreground" />}
+                        {message.role === 'user' && <User className="h-8 w-8 rounded-full p-1 bg-muted text-muted-foreground" />}
                       </div>
                     ))}
                     {isLoading && (
