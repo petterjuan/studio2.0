@@ -19,9 +19,9 @@ export default async function ProductsPage() {
   return (
     <div className="container py-12 md:py-16">
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-headline">Tienda</h1>
+        <h1 className="text-4xl md:text-5xl font-headline">Tienda de Muscle Bites</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          La selección de equipamiento y suplementos de Valentina para ayudarte a alcanzar tus metas.
+          La selección de suplementos y comidas de Valentina para ayudarte a alcanzar tus metas.
         </p>
       </div>
 
