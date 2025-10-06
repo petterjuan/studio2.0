@@ -3,6 +3,10 @@ import { ShopifyArticle, ShopifyProduct } from './definitions';
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!;
 const storefrontAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
+function areShopifyCredentialsValid() {
+    return domain && domain !== 'your-shopify-store-domain.myshopify.com' && storefrontAccessToken && storefrontAccessToken !== 'your-storefront-access-token';
+}
+
 async function shopifyFetch<T>({
   query,
   variables,
@@ -100,6 +104,9 @@ function reshapeArticle(article: any): ShopifyArticle {
 
 
 export async function getProducts(first: number = 10): Promise<ShopifyProduct[]> {
+    if (!areShopifyCredentialsValid()) {
+        return [];
+    }
     const query = `
         query getProducts($first: Int!) {
             products(first: $first, sortKey: TITLE, reverse: false) {
@@ -121,6 +128,9 @@ export async function getProducts(first: number = 10): Promise<ShopifyProduct[]>
 }
 
 export async function getProductByHandle(handle: string): Promise<ShopifyProduct | null> {
+    if (!areShopifyCredentialsValid()) {
+        return null;
+    }
     const query = `
       query getProductByHandle($handle: String!) {
         product(handle: $handle) {
@@ -159,6 +169,9 @@ const ArticleFragment = `
 `;
 
 export async function getArticles(first: number = 10): Promise<ShopifyArticle[]> {
+    if (!areShopifyCredentialsValid()) {
+        return [];
+    }
     const query = `
         query getArticles($first: Int!) {
             articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
@@ -181,6 +194,9 @@ export async function getArticles(first: number = 10): Promise<ShopifyArticle[]>
 
 
 export async function getArticleByHandle(handle: string): Promise<ShopifyArticle | null> {
+    if (!areShopifyCredentialsValid()) {
+        return null;
+    }
     const query = `
         query getArticleByHandle($handle: String!) {
             blog(handle: "news") {
@@ -205,6 +221,9 @@ export async function getArticleByHandle(handle: string): Promise<ShopifyArticle
 }
 
 export async function getAllArticleHandles(): Promise<string[]> {
+  if (!areShopifyCredentialsValid()) {
+        return [];
+  }
   const query = `
     query getAllArticleHandles {
       articles(first: 100) {
@@ -223,6 +242,9 @@ export async function getAllArticleHandles(): Promise<string[]> {
 }
 
 export async function getAllProductHandles(): Promise<string[]> {
+    if (!areShopifyCredentialsValid()) {
+        return [];
+    }
     const query = `
       query getAllProductHandles {
         products(first: 100) {
