@@ -1,5 +1,136 @@
-# Firebase Studio
+# VM Fitness Hub - Plataforma Headless de E-Commerce y Contenido
 
-This is a NextJS starter in Firebase Studio.
+![VM Fitness Hub Hero Image](https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzU5NzY3MDA5fDA&ixlib=rb-4.1.0&q=80&w=1080)
 
-To get started, take a look at src/app/page.tsx.
+## Resumen del Proyecto
+
+**VM Fitness Hub** es una aplicación web moderna y de alto rendimiento construida con Next.js que sirve como la fachada (frontend) para una experiencia de e-commerce y contenido headless. La aplicación ofrece a los usuarios una interfaz de usuario pulida para explorar productos, leer artículos de blog e interactuar con un asistente de compras de IA, todo mientras se gestiona el contenido y el inventario a través de un backend de Shopify. La autenticación de usuarios, los datos de perfil y las funciones de administrador se gestionan a través de Firebase. Los pagos se procesan de forma segura a través de Stripe.
+
+Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, proporcionando una solución escalable y totalmente gestionada.
+
+---
+
+## ✨ Características Principales
+
+- **Framework Moderno:** Construido con **Next.js 15 (App Router)** para un rendimiento óptimo y Server-Side Rendering (SSR).
+- **Diseño Responsivo:** Interfaz de usuario elegante y totalmente responsiva construida con **Tailwind CSS** y **ShadCN UI**.
+- **E-commerce Headless:** Los productos se obtienen dinámicamente desde una tienda **Shopify** a través de la API de Storefront.
+- **Blog de Contenido:** Los artículos del blog también se gestionan en Shopify y se renderizan en la aplicación Next.js.
+- **Autenticación Segura:** Sistema completo de registro e inicio de sesión de usuarios con roles (incluyendo un panel de administrador) utilizando **Firebase Authentication**.
+- **Base de Datos Firestore:** Los perfiles de usuario y los roles se almacenan en **Cloud Firestore**.
+- **Procesamiento de Pagos:** Integración segura de pagos con **Stripe Checkout**.
+- **Asistente de IA:** Un chatbot de conserje de compras impulsado por **Google AI (Genkit)** que puede proporcionar información sobre productos utilizando herramientas.
+- **Optimización de Despliegue:** Configurado para un despliegue sin problemas en **Firebase App Hosting**.
+
+---
+
+## 🚀 Pila Tecnológica
+
+- **Framework:** [Next.js](https://nextjs.org/) 15.3.3
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **UI Framework:** [React](https://reactjs.org/) 18.3
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+- **Componentes UI:** [ShadCN UI](https://ui.shadcn.com/)
+- **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
+- **E-commerce Headless:** [Shopify Storefront API](https://shopify.dev/docs/api/storefront)
+- **Pagos:** [Stripe](https://stripe.com/)
+- **Inteligencia Artificial:** [Genkit (Google AI)](https://firebase.google.com/docs/genkit)
+- **Gestión de Formularios:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
+
+---
+
+## 🛠️ Configuración y Desarrollo Local
+
+Sigue estos pasos para poner en marcha el proyecto en tu máquina local.
+
+### 1. Prerrequisitos
+
+- Node.js (v20 o superior recomendado)
+- npm (o pnpm/yarn)
+
+### 2. Clonar el Repositorio (si aplica)
+
+```bash
+git clone [URL_DEL_REPOSITORIO]
+cd [NOMBRE_DEL_REPOSITORIO]
+```
+
+### 3. Instalar Dependencias
+
+Instala todas las dependencias del proyecto.
+
+```bash
+npm install
+```
+
+### 4. Configurar Variables de Entorno
+
+Crea un archivo `.env` en la raíz del proyecto copiando el archivo `.env.example` (si existe) o creándolo desde cero. Luego, rellena las siguientes variables:
+
+```plaintext
+# Firebase (Obtenido desde la consola de Firebase)
+NEXT_PUBLIC_FIREBASE_API_KEY=AIza...
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
+NEXT_PUBLIC_FIREBASE_APP_ID=1:...
+
+# Shopify (Obtenido desde el panel de Shopify -> Apps -> Desarrollar apps)
+NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
+NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=...
+
+# Stripe (Obtenido desde el Stripe Dashboard -> Desarrolladores -> Claves de API)
+STRIPE_SECRET_KEY=sk_test_...
+
+# Google AI (Genkit - Obtenido desde Google AI Studio)
+GEMINI_API_KEY=AIza...
+```
+
+### 5. Ejecutar el Servidor de Desarrollo
+
+Inicia el servidor de desarrollo de Next.js. Turbopack está habilitado para un rendimiento más rápido.
+
+```bash
+npm run dev
+```
+
+La aplicación estará disponible en `http://localhost:9002`.
+
+---
+
+## 🔧 Integraciones Clave
+
+### Firebase
+
+- **Autenticación:** El flujo de autenticación (registro, inicio de sesión, cierre de sesión) se gestiona a través de `firebase/auth`. El estado del usuario se comparte globalmente mediante un `AuthProvider`.
+- **Firestore:** Se utiliza para almacenar perfiles de usuario, incluyendo un campo `isAdmin` para el control de acceso al panel de administración.
+- **Server SDK:** El SDK de administración de Firebase (`firebase-admin`) se utiliza en las Server Actions (`src/app/admin/actions.ts`) para realizar operaciones privilegiadas de backend, como la obtención de datos de todos los usuarios.
+
+### Shopify
+
+La aplicación se comunica con la **API de Storefront de Shopify** para obtener productos y artículos de blog. La lógica de obtención de datos se encuentra en `src/lib/shopify.ts`. Se utiliza la estrategia de caché `force-cache` con revalidación para permitir la generación de páginas estáticas (SSG) y mejorar el rendimiento.
+
+### Stripe
+
+El flujo de pago se gestiona a través de **Stripe Checkout**.
+1.  Un usuario hace clic en el botón de compra en la página de detalles de un producto (`src/app/products/[handle]/product-details.tsx`).
+2.  Se invoca una **Server Action** (`src/app/products/actions.ts`).
+3.  Esta acción crea una `checkout.Session` de Stripe en el lado del servidor, pasando los detalles del producto.
+4.  La aplicación redirige al usuario a la URL segura de la pasarela de pago de Stripe.
+
+### Genkit (Google AI)
+
+El asistente de compras se implementa utilizando un **flujo de Genkit** definido en `src/ai/flows/shopping-assistant.ts`.
+- **Flujo:** `shoppingAssistantFlow` procesa la consulta del usuario y el historial de chat.
+- **Herramientas (Tools):** Utiliza `getProductInfo` como una herramienta para permitir que el modelo de IA obtenga dinámicamente información actualizada sobre productos desde la API de Shopify durante una conversación.
+
+---
+
+## 🚀 Despliegue
+
+Este proyecto está optimizado para **Firebase App Hosting**.
+
+El despliegue se gestiona automáticamente a través del flujo de trabajo de Firebase Studio. Cada vez que se confirma un cambio, se puede iniciar una nueva compilación y despliegue.
+
+El archivo `apphosting.yaml` en la raíz contiene la configuración básica para el entorno de App Hosting. No se necesita configuración manual de CI/CD.
