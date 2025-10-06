@@ -52,11 +52,13 @@ export default async function Home() {
       </section>
 
       <section className="py-16 md:py-24 bg-secondary/50">
-        <div className="container text-center">
-          <h2 className="text-3xl md:text-4xl font-headline mb-4">Productos Destacados de Muscle Bites</h2>
-          <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
-            Una selección de nuestras comidas y suplementos más populares para potenciar tu rendimiento.
-          </p>
+        <div className="container">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-headline mb-4">Productos Destacados de Muscle Bites</h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
+              Una selección de nuestras comidas y suplementos más populares para potenciar tu rendimiento.
+            </p>
+          </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {featuredProducts.map((product, index) => (
               <Card key={product.id} className="overflow-hidden group text-left">
@@ -80,9 +82,11 @@ export default async function Home() {
               </Card>
             ))}
           </div>
-          <Button asChild size="lg" variant="outline" className="mt-12">
-            <Link href="/products">Comprar Todos los Productos</Link>
-          </Button>
+          <div className="text-center">
+            <Button asChild size="lg" variant="outline" className="mt-12">
+              <Link href="/products">Comprar Todos los Productos</Link>
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -97,11 +101,13 @@ export default async function Home() {
       </section>
       
       <section className="py-16 md:py-24 bg-secondary/50">
-        <div className="container text-center">
-          <h2 className="text-3xl md:text-4xl font-headline mb-4">Del Blog de Fitness</h2>
-          <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
-            Consejos, recetas y motivación para mantenerte en el camino correcto.
-          </p>
+        <div className="container">
+          <div className="text-center">
+            <h2 className="text-3xl md:text-4xl font-headline mb-4">Del Blog de Fitness</h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
+              Consejos, recetas y motivación para mantenerte en el camino correcto.
+            </p>
+          </div>
           <div className="grid md:grid-cols-3 gap-8">
             {articles.map((article, index) => (
               <Card key={article.id} className="flex flex-col overflow-hidden text-left">
