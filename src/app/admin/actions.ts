@@ -22,17 +22,18 @@ export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
     
     if (userRef) {
         const userDoc = await userRef.get();
-        const userData = userDoc.data();
-
-        plans.push({
-            id: doc.id,
-            title: data.title,
-            summary: data.summary,
-            weeklySchedule: data.weeklySchedule,
-            createdAt: data.createdAt.toDate().toISOString(),
-            userName: userData?.name || 'Usuario Desconocido',
-            userEmail: userData?.email || 'Sin correo',
-        });
+        if (userDoc.exists()) {
+            const userData = userDoc.data();
+            plans.push({
+                id: doc.id,
+                title: data.title,
+                summary: data.summary,
+                weeklySchedule: data.weeklySchedule,
+                createdAt: data.createdAt.toDate().toISOString(),
+                userName: userData?.name || 'Usuario Desconocido',
+                userEmail: userData?.email || 'Sin correo',
+            });
+        }
     }
   }
 

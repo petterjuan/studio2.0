@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const userDocRef = doc(firestore, 'users', firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
         if (userDoc.exists() && userDoc.data().isAdmin) {
-          setUser({ ...firebaseUser, isAdmin: true });
+          setUser({ ...firebaseUser, isAdmin: true, displayName: firebaseUser.displayName, email: firebaseUser.email, uid: firebaseUser.uid });
         } else {
           setUser(firebaseUser);
         }
