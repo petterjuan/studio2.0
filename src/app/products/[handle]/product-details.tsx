@@ -4,11 +4,11 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import placeholderData from '@/lib/placeholder-images.json';
-import { ShoppingCart, CheckCircle, Zap } from 'lucide-react';
+import { CheckCircle, Zap } from 'lucide-react';
 import { ShopifyProduct } from '@/lib/definitions';
 import { useToast } from '@/hooks/use-toast';
 
-const productPlaceholder = placeholderData.placeholderImages.find(p => p.id === 'product-1')!;
+const productPlaceholder = placeholderData.placeholderImages.find(p => p.id === 'blog-1')!;
 
 const muscleBitesFeatures = [
     "Descubre 4 secretos para combinar snacks de forma inteligente y mantener tu energía.",
@@ -30,10 +30,8 @@ export default function ProductDetails({ product }: { product: ShopifyProduct })
       });
   }
 
-  const isMuscleBites = product.handle === 'muscle-bites';
-  const imageUrl = isMuscleBites 
-    ? 'https://images.unsplash.com/photo-1543353071-873f6b6a6a89?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxib29rfGVufDB8fHx8MTc2MDM0NTc0Nnww&ixlib=rb-4.1.0&q=80&w=1080' 
-    : product.imageUrl || productPlaceholder.imageUrl;
+  const imageUrl = product.imageUrl || productPlaceholder.imageUrl;
+  const imageHint = product.imageUrl ? "product image" : productPlaceholder.imageHint;
 
   return (
     <div className="container py-12 md:py-20">
@@ -42,10 +40,10 @@ export default function ProductDetails({ product }: { product: ShopifyProduct })
           <Image
             src={imageUrl}
             alt={product.title}
-            data-ai-hint={isMuscleBites ? "ebook recipe" : "product image"}
+            data-ai-hint={imageHint}
             fill
             className="object-cover"
-            priority={isMuscleBites}
+            priority={!product.imageUrl}
           />
         </div>
         <div className="flex flex-col justify-center">
