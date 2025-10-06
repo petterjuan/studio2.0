@@ -72,8 +72,8 @@ const shoppingAssistantPrompt = ai.definePrompt({
 
   Este es el historial de la conversación:
   {{#each history}}
-  {{#if (eq role \"user\")}}Usuario: {{content}}{{/if}}
-  {{#if (eq role \"assistant\")}}Asistente: {{content}}{{/if}}
+  {{#if (this.role == 'user')}}Usuario: {{this.content}}{{/if}}
+  {{#if (this.role == 'assistant')}}Asistente: {{this.content}}{{/if}}
   {{/each}}
 
   Usuario: {{{query}}}
