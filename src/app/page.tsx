@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, Star } from 'lucide-react';
@@ -53,9 +54,9 @@ export default async function Home() {
 
       <section className="py-16 md:py-24 bg-secondary/50">
         <div className="container">
-          <div className="text-center">
+          <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-headline mb-4">Productos Destacados de Muscle Bites</h2>
-            <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
+            <p className="max-w-2xl mx-auto text-muted-foreground">
               Una selección de nuestras comidas y suplementos más populares para potenciar tu rendimiento.
             </p>
           </div>
@@ -102,9 +103,9 @@ export default async function Home() {
       
       <section className="py-16 md:py-24 bg-secondary/50">
         <div className="container">
-          <div className="text-center">
+          <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-headline mb-4">Del Blog de Fitness</h2>
-            <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
+            <p className="max-w-2xl mx-auto text-muted-foreground">
               Consejos, recetas y motivación para mantenerte en el camino correcto.
             </p>
           </div>
