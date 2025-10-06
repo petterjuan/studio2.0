@@ -14,39 +14,39 @@ import {z} from 'genkit';
 const GenerateCustomWorkoutPlanInputSchema = z.object({
   fitnessGoals: z
     .string()
-    .describe('The fitness goals of the user (e.g., weight loss, muscle gain, improved endurance).'),
+    .describe('Los objetivos de fitness del usuario (ej., pérdida de peso, ganancia muscular, mejora de la resistencia).'),
   experienceLevel: z
     .enum(['beginner', 'intermediate', 'advanced'])
-    .describe('The experience level of the user (beginner, intermediate, or advanced).'),
+    .describe('El nivel de experiencia del usuario (principiante, intermedio o avanzado).'),
   availableEquipment: z
     .string()
-    .describe('The equipment available to the user (e.g., dumbbells, resistance bands, gym access).'),
+    .describe('El equipamiento disponible para el usuario (ej., mancuernas, bandas de resistencia, acceso a gimnasio).'),
   workoutDuration: z
     .number()
-    .describe('How long should the workout be in minutes?'),
+    .describe('¿Cuánto debe durar el entrenamiento en minutos?'),
   workoutFrequency: z
     .number()
-    .describe('How many days a week can they workout?'),
+    .describe('¿Cuántos días a la semana puede entrenar?'),
 });
 
 export type GenerateCustomWorkoutPlanInput = z.infer<typeof GenerateCustomWorkoutPlanInputSchema>;
 
 const DailyWorkoutSchema = z.object({
-    day: z.string().describe("Day of the week or session number (e.g., Day 1, Monday)."),
-    focus: z.string().describe("Main focus for the day (e.g., Upper Body, Full Body, Cardio & Core)."),
+    day: z.string().describe("Día de la semana o número de sesión (ej., Día 1, Lunes)."),
+    focus: z.string().describe("Enfoque principal del día (ej., Tren Superior, Cuerpo Completo, Cardio y Core)."),
     exercises: z.array(z.object({
-      name: z.string().describe("Name of the exercise."),
-      sets: z.string().describe("Number of sets to perform (e.g., '3-4', '3')."),
-      reps: z.string().describe("Number of repetitions per set (e.g., '8-12', 'AMRAP')."),
-      rest: z.string().optional().describe("Rest time between sets (e.g., '60-90 seconds')."),
-      notes: z.string().optional().describe("Additional notes or instructions for the exercise."),
-    })).describe("List of exercises for the day.")
+      name: z.string().describe("Nombre del ejercicio."),
+      sets: z.string().describe("Número de series a realizar (ej., '3-4', '3')."),
+      reps: z.string().describe("Número de repeticiones por serie (ej., '8-12', 'AMRAP')."),
+      rest: z.string().optional().describe("Tiempo de descanso entre series (ej., '60-90 segundos')."),
+      notes: z.string().optional().describe("Notas adicionales o instrucciones para el ejercicio."),
+    })).describe("Lista de ejercicios para el día.")
 });
 
 const GenerateCustomWorkoutPlanOutputSchema = z.object({
-  title: z.string().describe("A catchy and motivational title for the workout plan."),
-  weeklySchedule: z.array(DailyWorkoutSchema).describe("The structured workout schedule for the week."),
-  summary: z.string().describe("A brief summary of the plan and some motivational words for the user."),
+  title: z.string().describe("Un título pegadizo y motivador para el plan de entrenamiento."),
+  weeklySchedule: z.array(DailyWorkoutSchema).describe("El horario de entrenamiento estructurado para la semana."),
+  summary: z.string().describe("Un breve resumen del plan y algunas palabras de motivación para el usuario."),
 });
 
 
@@ -62,10 +62,10 @@ const generateCustomWorkoutPlanPrompt = ai.definePrompt({
   name: 'generateCustomWorkoutPlanPrompt',
   input: {schema: GenerateCustomWorkoutPlanInputSchema},
   output: {schema: GenerateCustomWorkoutPlanOutputSchema},
-  prompt: `You are a world-class personal trainer, creating a personalized workout plan.\n
-      User Profile:\n      - Fitness Goals: {{{fitnessGoals}}}\n      - Experience Level: {{{experienceLevel}}}\n      - Available Equipment: {{{availableEquipment}}}\n      - Workout Duration: {{{workoutDuration}}} minutes\n      - Workout Frequency: {{{workoutFrequency}}} days a week\n
-      Your Task:\n      Create a detailed, structured, and easy-to-follow workout plan based on the user's profile.\n      1.  Generate a motivational title for the plan.\n      2.  Design a weekly schedule with 'workoutFrequency' number of workout days.\n      3.  For each workout day, specify the focus (e.g., Upper Body, Lower Body, Full Body, Cardio).\n      4.  For each exercise, provide the name, number of sets, repetitions (reps), and rest time.\n      5.  Add brief, helpful notes for complex exercises if necessary.\n      6.  Ensure the plan is logical, progressive, and suitable for the user's experience level and available equipment.\n      7.  Conclude with a summary and a motivational message.\n
-      Output must be in the specified JSON format.\n`,
+  prompt: `Eres un entrenador personal de clase mundial, creando un plan de entrenamiento personalizado.\n
+      Perfil del Usuario:\n      - Objetivos de Fitness: {{{fitnessGoals}}}\n      - Nivel de Experiencia: {{{experienceLevel}}}\n      - Equipamiento Disponible: {{{availableEquipment}}}\n      - Duración del Entrenamiento: {{{workoutDuration}}} minutos\n      - Frecuencia del Entrenamiento: {{{workoutFrequency}}} días a la semana\n
+      Tu Tarea:\n      Crea un plan de entrenamiento detallado, estructurado y fácil de seguir basado en el perfil del usuario.\n      1.  Genera un título motivador para el plan.\n      2.  Diseña un horario semanal con 'workoutFrequency' días de entrenamiento.\n      3.  Para cada día de entrenamiento, especifica el enfoque (ej., Tren Superior, Tren Inferior, Cuerpo Completo, Cardio).\n      4.  Para cada ejercicio, proporciona el nombre, número de series, repeticiones (reps) y tiempo de descanso.\n      5.  Añade notas breves y útiles para ejercicios complejos si es necesario.\n      6.  Asegúrate de que el plan sea lógico, progresivo y adecuado para el nivel de experiencia y el equipamiento disponible del usuario.\n      7.  Concluye con un resumen y un mensaje motivador.\n
+      La salida debe estar en el formato JSON especificado.\n`,
 });
 
 const generateCustomWorkoutPlanFlow = ai.defineFlow(

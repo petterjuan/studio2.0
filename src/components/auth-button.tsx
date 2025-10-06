@@ -29,7 +29,7 @@ export function AuthButton() {
   if (!user) {
     return (
       <Button asChild>
-        <Link href="/login">Login</Link>
+        <Link href="/login">Acceder</Link>
       </Button>
     );
   }
@@ -52,7 +52,7 @@ export function AuthButton() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{user.displayName || 'Welcome'}</p>
+            <p className="text-sm font-medium leading-none">{user.displayName || 'Bienvenido'}</p>
             <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
           </div>
         </DropdownMenuLabel>
@@ -60,21 +60,21 @@ export function AuthButton() {
         <DropdownMenuItem asChild>
           <Link href="/dashboard">
             <LayoutDashboard className="mr-2 h-4 w-4" />
-            <span>Dashboard</span>
+            <span>Panel</span>
           </Link>
         </DropdownMenuItem>
         {user.isAdmin && (
            <DropdownMenuItem asChild>
            <Link href="/admin">
              <ShieldCheck className="mr-2 h-4 w-4" />
-             <span>Admin Panel</span>
+             <span>Panel de Admin</span>
            </Link>
          </DropdownMenuItem>
         )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={handleSignOut}>
           <LogOut className="mr-2 h-4 w-4" />
-          <span>Log out</span>
+          <span>Cerrar sesión</span>
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

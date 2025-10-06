@@ -7,6 +7,10 @@ import { WorkoutPlan } from '@/lib/definitions';
 type UserWorkoutPlan = WorkoutPlan & { userName: string; userEmail: string; };
 
 export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
+  if (!firestore) {
+    console.log("Firestore not initialized for server.");
+    return [];
+  }
   const plansQuery = query(collectionGroup(firestore, 'workoutPlans'), orderBy('createdAt', 'desc'));
   const plansSnapshot = await getDocs(plansQuery);
 
@@ -26,8 +30,8 @@ export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
             summary: data.summary,
             weeklySchedule: data.weeklySchedule,
             createdAt: data.createdAt.toDate().toISOString(),
-            userName: userData?.name || 'Unknown User',
-            userEmail: userData?.email || 'No email',
+            userName: userData?.name || 'Usuario Desconocido',
+            userEmail: userData?.email || 'Sin correo',
         });
     }
   }

@@ -21,9 +21,9 @@ export default async function BlogPage() {
   return (
     <div className="container py-12 md:py-16">
       <div className="text-center mb-12">
-        <h1 className="text-4xl md:text-5xl font-headline">The VM Fitness Blog</h1>
+        <h1 className="text-4xl md:text-5xl font-headline">El Blog de VM Fitness</h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Insights, tips, and motivation from Valentina Montero to fuel your fitness journey.
+          Ideas, consejos y motivación de Valentina Montero para impulsar tu viaje de fitness.
         </p>
       </div>
 
@@ -45,14 +45,14 @@ export default async function BlogPage() {
               <CardTitle className="font-headline text-2xl h-16 overflow-hidden">
                 <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
               </CardTitle>
-              <CardDescription>{format(new Date(article.publishedAt), 'MMMM d, yyyy')}</CardDescription>
+              <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy')}</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow">
               <p className="text-sm text-muted-foreground line-clamp-4">{article.excerpt}</p>
             </CardContent>
             <CardFooter>
               <Button variant="outline" asChild>
-                <Link href={`/blog/${article.handle}`}>Read More <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
               </Button>
             </CardFooter>
           </Card>

@@ -17,7 +17,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? 'Logging in...' : 'Login'}
+      {pending ? 'Iniciando sesión...' : 'Iniciar Sesión'}
     </Button>
   );
 }
@@ -38,8 +38,8 @@ export default function LoginPage() {
         <div className="flex justify-center mb-4">
           <Dumbbell className="h-10 w-10 text-primary" />
         </div>
-        <CardTitle className="text-2xl font-headline">Welcome Back</CardTitle>
-        <CardDescription>Enter your credentials to access your account.</CardDescription>
+        <CardTitle className="text-2xl font-headline">Bienvenido de Nuevo</CardTitle>
+        <CardDescription>Ingresa tus credenciales para acceder a tu cuenta.</CardDescription>
       </CardHeader>
       <form action={formAction}>
         <CardContent className="grid gap-4">
@@ -50,20 +50,20 @@ export default function LoginPage() {
             </Alert>
           )}
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" placeholder="m@example.com" required />
+            <Label htmlFor="email">Correo Electrónico</Label>
+            <Input id="email" name="email" type="email" placeholder="m@ejemplo.com" required />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Contraseña</Label>
             <Input id="password" name="password" type="password" required />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <SubmitButton />
           <div className="text-sm text-center text-muted-foreground">
-            Don&apos;t have an account?{' '}
+            ¿No tienes una cuenta?{' '}
             <Link href="/signup" className="underline hover:text-primary">
-              Sign up
+              Regístrate
             </Link>
           </div>
         </CardFooter>

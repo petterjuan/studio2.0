@@ -29,7 +29,7 @@ export default function ShoppingAssistantChat() {
         setIsLoading(true);
         setTimeout(() => {
             setMessages([
-                { role: 'assistant', content: `Hi ${user?.displayName || 'there'}! I'm your Muscle Bites concierge. How can I help you find the perfect meal plan or product today?` },
+                { role: 'assistant', content: `¡Hola ${user?.displayName || 'chica'}! Soy tu conserje de Muscle Bites. ¿Cómo puedo ayudarte a encontrar el plan de comidas o producto perfecto hoy?` },
             ]);
             setIsLoading(false);
         }, 1000)
@@ -64,8 +64,8 @@ export default function ShoppingAssistantChat() {
         const assistantMessage: Message = { role: 'assistant', content: result.response };
         setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-        console.error("Error calling shopping assistant:", error);
-        const errorMessage: Message = { role: 'assistant', content: "Sorry, I'm having trouble connecting right now. Please try again later." };
+        console.error("Error al llamar al asistente de compras:", error);
+        const errorMessage: Message = { role: 'assistant', content: "Lo siento, estoy teniendo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde." };
         setMessages((prev) => [...prev, errorMessage]);
     } finally {
         setIsLoading(false);
@@ -81,7 +81,7 @@ export default function ShoppingAssistantChat() {
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X className="h-8 w-8" /> : <Sparkles className="h-8 w-8" />}
-          <span className="sr-only">Toggle Muscle Bites Concierge</span>
+          <span className="sr-only">Alternar Conserje de Muscle Bites</span>
         </Button>
       </div>
       <AnimatePresence>
@@ -97,7 +97,7 @@ export default function ShoppingAssistantChat() {
               <CardHeader className="flex flex-row items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Bot className="h-6 w-6 text-primary" />
-                  <CardTitle className="text-lg font-headline">Muscle Bites Concierge</CardTitle>
+                  <CardTitle className="text-lg font-headline">Conserje de Muscle Bites</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="flex-grow overflow-hidden p-0">
@@ -140,7 +140,7 @@ export default function ShoppingAssistantChat() {
                 <form onSubmit={handleSendMessage} className="flex w-full items-center space-x-2">
                   <Input
                     id="message"
-                    placeholder="Ask about meals..."
+                    placeholder="Pregunta sobre comidas..."
                     className="flex-1"
                     autoComplete="off"
                     value={input}
@@ -149,7 +149,7 @@ export default function ShoppingAssistantChat() {
                   />
                   <Button type="submit" size="icon" disabled={!input.trim() || isLoading}>
                     <CornerDownLeft className="h-4 w-4" />
-                    <span className="sr-only">Send</span>
+                    <span className="sr-only">Enviar</span>
                   </Button>
                 </form>
               </CardFooter>

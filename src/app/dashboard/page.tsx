@@ -47,8 +47,8 @@ export default function DashboardPage() {
   return (
     <div className="container py-8 md:py-12">
       <div className="mb-8">
-        <h1 className="text-3xl md:text-4xl font-headline">Welcome back, {user.displayName}!</h1>
-        <p className="text-muted-foreground">Here are your saved workout plans. Ready to sweat?</p>
+        <h1 className="text-3xl md:text-4xl font-headline">¡Bienvenido de nuevo, {user.displayName}!</h1>
+        <p className="text-muted-foreground">Aquí están tus planes de entrenamiento guardados. ¿Listo para sudar?</p>
       </div>
 
       {isLoadingPlans && (
@@ -67,7 +67,7 @@ export default function DashboardPage() {
                     {plan.title}
                 </CardTitle>
                 <CardDescription>
-                  Saved on {plan.createdAt && format(new Date(plan.createdAt), 'MMMM d, yyyy')}
+                  Guardado el {plan.createdAt && format(new Date(plan.createdAt), 'd MMMM, yyyy')}
                 </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow">
@@ -80,14 +80,14 @@ export default function DashboardPage() {
       
       {!isLoadingPlans && plans.length === 0 && (
         <div className="text-center py-24 border-2 border-dashed rounded-lg">
-            <h3 className="text-xl font-semibold">No saved plans yet</h3>
+            <h3 className="text-xl font-semibold">Aún no tienes planes guardados</h3>
             <p className="text-muted-foreground mt-2 mb-4">
-                It looks like you haven&apos;t saved any workout plans.
+                Parece que no has guardado ningún plan de entrenamiento.
             </p>
             <Button asChild>
                 <Link href="/workout-generator">
                     <PlusCircle className="mr-2 h-4 w-4" />
-                    Create a New Plan
+                    Crear un Nuevo Plan
                 </Link>
             </Button>
         </div>

@@ -26,8 +26,8 @@ export default function WorkoutPlanDisplay({ plan }: WorkoutPlanDisplayProps) {
     const handleSave = async () => {
         if (!user) {
             toast({
-                title: 'Login Required',
-                description: 'Please log in to save your workout plan.',
+                title: 'Inicio de Sesión Requerido',
+                description: 'Por favor, inicia sesión para guardar tu plan de entrenamiento.',
                 variant: 'destructive',
             });
             return;
@@ -37,13 +37,13 @@ export default function WorkoutPlanDisplay({ plan }: WorkoutPlanDisplayProps) {
         try {
             await saveWorkoutPlan(plan, user.uid);
             toast({
-                title: 'Plan Saved!',
-                description: 'Your workout plan has been saved to your dashboard.',
+                title: '¡Plan Guardado!',
+                description: 'Tu plan de entrenamiento ha sido guardado en tu panel.',
             });
         } catch (error) {
             toast({
-                title: 'Error Saving Plan',
-                description: 'Could not save the workout plan. Please try again.',
+                title: 'Error al Guardar el Plan',
+                description: 'No se pudo guardar el plan de entrenamiento. Por favor, inténtalo de nuevo.',
                 variant: 'destructive',
             });
         } finally {
@@ -62,7 +62,7 @@ export default function WorkoutPlanDisplay({ plan }: WorkoutPlanDisplayProps) {
         <div className="flex justify-end mb-4">
             <Button onClick={handleSave} disabled={isSaving}>
                 <Save className="mr-2 h-4 w-4" />
-                {isSaving ? 'Saving...' : 'Save Plan'}
+                {isSaving ? 'Guardando...' : 'Guardar Plan'}
             </Button>
         </div>
       )}
@@ -80,10 +80,10 @@ export default function WorkoutPlanDisplay({ plan }: WorkoutPlanDisplayProps) {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-[40%]">Exercise</TableHead>
-                    <TableHead>Sets</TableHead>
-                    <TableHead>Reps</TableHead>
-                    <TableHead>Rest</TableHead>
+                    <TableHead className="w-[40%]">Ejercicio</TableHead>
+                    <TableHead>Series</TableHead>
+                    <TableHead>Repeticiones</TableHead>
+                    <TableHead>Descanso</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

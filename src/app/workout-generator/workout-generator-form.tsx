@@ -18,9 +18,9 @@ import { Loader, Wand2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const formSchema = z.object({
-  fitnessGoals: z.string().min(10, { message: 'Please describe your goals in more detail.' }),
+  fitnessGoals: z.string().min(10, { message: 'Por favor, describe tus objetivos con más detalle.' }),
   experienceLevel: z.enum(['beginner', 'intermediate', 'advanced']),
-  availableEquipment: z.string().min(5, { message: 'Please list your available equipment.' }),
+  availableEquipment: z.string().min(5, { message: 'Por favor, enumera el equipo que tienes disponible.' }),
   workoutDuration: z.coerce.number().min(15).max(120),
   workoutFrequency: z.coerce.number().min(1).max(7),
 });
@@ -37,7 +37,7 @@ export default function WorkoutGeneratorForm() {
     defaultValues: {
       fitnessGoals: '',
       experienceLevel: 'beginner',
-      availableEquipment: 'Bodyweight only',
+      availableEquipment: 'Solo peso corporal',
       workoutDuration: 45,
       workoutFrequency: 3,
     },
@@ -71,11 +71,11 @@ export default function WorkoutGeneratorForm() {
                         name="fitnessGoals"
                         render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Fitness Goals</FormLabel>
+                            <FormLabel>Metas de Fitness</FormLabel>
                             <FormControl>
-                            <Textarea placeholder="e.g., I want to lose 10 pounds and build lean muscle, focusing on my core and upper body." {...field} />
+                            <Textarea placeholder="Ej: Quiero perder 10 kilos y construir músculo magro, enfocándome en mi core y tren superior." {...field} />
                             </FormControl>
-                            <FormDescription>Describe what you want to achieve.</FormDescription>
+                            <FormDescription>Describe lo que quieres lograr.</FormDescription>
                             <FormMessage />
                         </FormItem>
                         )}
@@ -87,17 +87,17 @@ export default function WorkoutGeneratorForm() {
                         name="experienceLevel"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Experience Level</FormLabel>
+                            <FormLabel>Nivel de Experiencia</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                                 <FormControl>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Select your experience" />
+                                    <SelectValue placeholder="Selecciona tu experiencia" />
                                 </SelectTrigger>
                                 </FormControl>
                                 <SelectContent>
-                                <SelectItem value="beginner">Beginner</SelectItem>
-                                <SelectItem value="intermediate">Intermediate</SelectItem>
-                                <SelectItem value="advanced">Advanced</SelectItem>
+                                <SelectItem value="beginner">Principiante</SelectItem>
+                                <SelectItem value="intermediate">Intermedio</SelectItem>
+                                <SelectItem value="advanced">Avanzado</SelectItem>
                                 </SelectContent>
                             </Select>
                             <FormMessage />
@@ -109,11 +109,11 @@ export default function WorkoutGeneratorForm() {
                         name="availableEquipment"
                         render={({ field }) => (
                             <FormItem>
-                            <FormLabel>Available Equipment</FormLabel>
+                            <FormLabel>Equipamiento Disponible</FormLabel>
                             <FormControl>
-                                <Input placeholder="e.g., Dumbbells, resistance bands" {...field} />
+                                <Input placeholder="Ej: Mancuernas, bandas de resistencia" {...field} />
                             </FormControl>
-                             <FormDescription>List what you have access to.</FormDescription>
+                             <FormDescription>Enumera a qué tienes acceso.</FormDescription>
                             <FormMessage />
                             </FormItem>
                         )}
@@ -126,7 +126,7 @@ export default function WorkoutGeneratorForm() {
                             name="workoutDuration"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>Workout Duration (minutes)</FormLabel>
+                                <FormLabel>Duración del Entrenamiento (minutos)</FormLabel>
                                 <FormControl>
                                     <Input type="number" {...field} />
                                 </FormControl>
@@ -139,7 +139,7 @@ export default function WorkoutGeneratorForm() {
                             name="workoutFrequency"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel>Workouts per Week</FormLabel>
+                                <FormLabel>Entrenamientos por Semana</FormLabel>
                                 <FormControl>
                                     <Input type="number" {...field} />
                                 </FormControl>
@@ -151,7 +151,7 @@ export default function WorkoutGeneratorForm() {
 
                     <Button type="submit" size="lg" className="w-full" disabled={isLoading}>
                         <Wand2 className="mr-2 h-5 w-5" />
-                        Generate Plan
+                        Generar Plan
                     </Button>
                     </form>
                 </Form>
@@ -162,14 +162,14 @@ export default function WorkoutGeneratorForm() {
         {isLoading && (
             <div className="flex flex-col items-center justify-center text-center p-12 bg-card rounded-lg">
                 <Loader className="h-12 w-12 animate-spin text-primary mb-4" />
-                <h3 className="text-xl font-headline">Crafting your perfect plan...</h3>
-                <p className="text-muted-foreground">Our AI is analyzing your goals to create a personalized routine.</p>
+                <h3 className="text-xl font-headline">Creando tu plan perfecto...</h3>
+                <p className="text-muted-foreground">Nuestro sistema está analizando tus metas para crear una rutina personalizada.</p>
             </div>
         )}
 
         {error && (
             <Alert variant="destructive">
-                <AlertTitle>Generation Failed</AlertTitle>
+                <AlertTitle>Falló la Generación</AlertTitle>
                 <AlertDescription>{error}</AlertDescription>
             </Alert>
         )}
@@ -180,7 +180,7 @@ export default function WorkoutGeneratorForm() {
                 <div className="text-center mt-8">
                     <Button variant="outline" onClick={() => setGeneratedPlan(null)}>
                         <Wand2 className="mr-2 h-4 w-4" />
-                        Generate Another Plan
+                        Generar Otro Plan
                     </Button>
                 </div>
             </>

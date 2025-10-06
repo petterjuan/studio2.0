@@ -18,7 +18,7 @@ function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? 'Creating Account...' : 'Create Account'}
+      {pending ? 'Creando Cuenta...' : 'Crear Cuenta'}
     </Button>
   );
 }
@@ -39,8 +39,8 @@ export default function SignupPage() {
         <div className="flex justify-center mb-4">
           <Dumbbell className="h-10 w-10 text-primary" />
         </div>
-        <CardTitle className="text-2xl font-headline">Create an Account</CardTitle>
-        <CardDescription>Join VM Fitness Hub to start your journey.</CardDescription>
+        <CardTitle className="text-2xl font-headline">Crear una Cuenta</CardTitle>
+        <CardDescription>Únete a VM Fitness Hub para comenzar tu viaje.</CardDescription>
       </CardHeader>
       <form action={formAction}>
         <CardContent className="grid gap-4">
@@ -51,24 +51,24 @@ export default function SignupPage() {
             </Alert>
           )}
           <div className="grid gap-2">
-            <Label htmlFor="name">Name</Label>
+            <Label htmlFor="name">Nombre</Label>
             <Input id="name" name="name" placeholder="Valentina Montero" required />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="email">Email</Label>
-            <Input id="email" name="email" type="email" placeholder="m@example.com" required />
+            <Label htmlFor="email">Correo Electrónico</Label>
+            <Input id="email" name="email" type="email" placeholder="m@ejemplo.com" required />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">Contraseña</Label>
             <Input id="password" name="password" type="password" required />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
           <SubmitButton />
           <div className="text-sm text-center text-muted-foreground">
-            Already have an account?{' '}
+            ¿Ya tienes una cuenta?{' '}
             <Link href="/login" className="underline hover:text-primary">
-              Login
+              Iniciar Sesión
             </Link>
           </div>
         </CardFooter>

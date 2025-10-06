@@ -12,18 +12,18 @@ import {getProductByHandle} from '@/lib/shopify';
 import {z} from 'genkit';
 
 const ShoppingAssistantInputSchema = z.object({
-  query: z.string().describe('The user query about fitness and nutrition products.'),
+  query: z.string().describe('La consulta del usuario sobre productos de fitness y nutrición.'),
   history: z.array(
     z.object({
       role: z.enum(['user', 'assistant']),
       content: z.string(),
     })
-  ).optional().describe('The history of the conversation.'),
+  ).optional().describe('El historial de la conversación.'),
 });
 export type ShoppingAssistantInput = z.infer<typeof ShoppingAssistantInputSchema>;
 
 const ShoppingAssistantOutputSchema = z.object({
-  response: z.string().describe('The response from the AI shopping assistant.'),
+  response: z.string().describe('La respuesta del asistente de compras de IA.'),
 });
 export type ShoppingAssistantOutput = z.infer<typeof ShoppingAssistantOutputSchema>;
 
@@ -33,9 +33,9 @@ export async function shoppingAssistant(input: ShoppingAssistantInput): Promise<
 
 const productInfoTool = ai.defineTool({
   name: 'getProductInfo',
-  description: 'Retrieves information about a product given its handle.',
+  description: 'Recupera información sobre un producto dado su handle.',
   inputSchema: z.object({
-    handle: z.string().describe('The handle of the product to retrieve information about.'),
+    handle: z.string().describe('El handle del producto para recuperar información.'),
   }),
   outputSchema: z.object({
     title: z.string(),
@@ -46,9 +46,9 @@ const productInfoTool = ai.defineTool({
   const product = await getProductByHandle(input.handle);
   if (!product) {
     return {
-      title: 'Product not found.',
-      description: 'Product not found.',
-      price: 'Product not found.',
+      title: 'Producto no encontrado.',
+      description: 'Producto no encontrado.',
+      price: 'Producto no encontrado.',
     };
   }
   return {
@@ -63,21 +63,21 @@ const shoppingAssistantPrompt = ai.definePrompt({
   tools: [productInfoTool],
   input: {schema: ShoppingAssistantInputSchema},
   output: {schema: ShoppingAssistantOutputSchema},
-  prompt: `You are a shopping assistant for a fitness and nutrition store.
+  prompt: `Eres un asistente de compras para una tienda de fitness y nutrición.
 
-  Your job is to help users find the products they need.
-  You have access to a tool called \"getProductInfo\" that allows you to get information about a product given its handle.
+  Tu trabajo es ayudar a los usuarios a encontrar los productos que necesitan.
+  Tienes acceso a una herramienta llamada \"getProductInfo\" que te permite obtener información sobre un producto dado su handle.
 
-  Use this tool to answer questions about products.
+  Usa esta herramienta para responder preguntas sobre productos.
 
-  Here's the conversation history:
+  Este es el historial de la conversación:
   {{#each history}}
-  {{#if (eq role \"user\")}}User: {{content}}{{/if}}
-  {{#if (eq role \"assistant\")}}Assistant: {{content}}{{/if}}
+  {{#if (eq role \"user\")}}Usuario: {{content}}{{/if}}
+  {{#if (eq role \"assistant\")}}Asistente: {{content}}{{/if}}
   {{/each}}
 
-  User: {{{query}}}
-  Assistant: `,
+  Usuario: {{{query}}}
+  Asistente: `,
 });
 
 const shoppingAssistantFlow = ai.defineFlow(
@@ -91,4 +91,3 @@ const shoppingAssistantFlow = ai.defineFlow(
     return output!;
   }
 );
-

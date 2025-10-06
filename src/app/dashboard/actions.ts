@@ -5,7 +5,7 @@ import { firestore } from '@/firebase/server';
 import { WorkoutPlan } from '@/lib/definitions';
 
 export async function getSavedWorkoutPlans(userId: string): Promise<WorkoutPlan[]> {
-  if (!userId) {
+  if (!userId || !firestore) {
     return [];
   }
 

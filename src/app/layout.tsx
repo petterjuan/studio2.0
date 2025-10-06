@@ -9,8 +9,8 @@ import ShoppingAssistantChat from '@/components/shopping-assistant-chat';
 import { PageTransition } from '@/components/page-transition';
 
 export const metadata: Metadata = {
-  title: 'VM Fitness Hub | Premium Nutrition & Coaching',
-  description: 'Fuel your greatness with Muscle Bites, the ultimate meal prep solution by Valentina Montero. Personalized coaching and premium products for your fitness journey.',
+  title: 'VM Fitness Hub | Nutrición Premium y Coaching',
+  description: 'Impulsa tu grandeza con Muscle Bites, la solución definitiva de preparación de comidas de Valentina Montero. Coaching personalizado y productos premium para tu viaje de fitness.',
 };
 
 export default function RootLayout({
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="es" suppressHydrationWarning>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />

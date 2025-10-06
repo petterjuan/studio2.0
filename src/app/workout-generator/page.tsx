@@ -20,10 +20,10 @@ export default function WorkoutGeneratorPage() {
         <div className="absolute inset-0 bg-black/60" />
         <div className="relative z-10 p-4 max-w-3xl">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline tracking-tight">
-            Your Personal AI Fitness Coach
+            Tu Entrenador Físico Personal
           </h1>
           <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto font-body">
-            Tell us your goals, and our AI will create a unique workout plan just for you. Your fitness journey, redefined.
+            Dinos tus objetivos y crearemos un plan de entrenamiento único solo para ti. Tu viaje de fitness, redefinido.
           </p>
         </div>
       </section>

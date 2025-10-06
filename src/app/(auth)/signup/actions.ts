@@ -6,9 +6,9 @@ import { doc, setDoc } from 'firebase/firestore';
 import { auth, firestore } from '@/firebase/client';
 
 const SignupSchema = z.object({
-  name: z.string().min(2, { message: "Name must be at least 2 characters."}),
-  email: z.string().email({ message: "Invalid email address." }),
-  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
+  name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres."}),
+  email: z.string().email({ message: "Dirección de correo electrónico inválida." }),
+  password: z.string().min(6, { message: "La contraseña debe tener al menos 6 caracteres." }),
 });
 
 type SignupState = {
@@ -23,7 +23,7 @@ export async function signup(prevState: SignupState, formData: FormData): Promis
 
   if (!validatedFields.success) {
     const errors = validatedFields.error.flatten().fieldErrors;
-    const errorMessage = errors.name?.[0] || errors.email?.[0] || errors.password?.[0] || 'Invalid fields.';
+    const errorMessage = errors.name?.[0] || errors.email?.[0] || errors.password?.[0] || 'Campos inválidos.';
     return {
       message: errorMessage,
       success: false,
@@ -45,14 +45,14 @@ export async function signup(prevState: SignupState, formData: FormData): Promis
         isAdmin: false, // Default role
     });
 
-    return { message: 'Signup successful! Welcome.', success: true };
+    return { message: '¡Registro exitoso! Bienvenido.', success: true };
   } catch (error: any) {
-    console.error('Signup error:', error.code);
-    let message = 'An unknown error occurred.';
+    console.error('Error de registro:', error.code);
+    let message = 'Ocurrió un error desconocido.';
     if (error.code === 'auth/email-already-in-use') {
-      message = 'This email is already registered.';
+      message = 'Este correo electrónico ya está registrado.';
     } else {
-      message = 'Failed to create an account. Please try again later.';
+      message = 'No se pudo crear una cuenta. Por favor, inténtalo de nuevo más tarde.';
     }
     return { message, success: false };
   }

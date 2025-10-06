@@ -49,16 +49,16 @@ export default async function ProductPage({ params }: { params: { handle: string
           </div>
           <Button size="lg">
             <ShoppingCart className="mr-2 h-5 w-5" />
-            Add to Cart
+            Añadir al Carrito
           </Button>
         </div>
       </div>
     </div>
     <section className="py-16 md:py-24 bg-secondary/50">
         <div className="container text-center">
-           <h2 className="text-3xl md:text-4xl font-headline mb-4">Don't Just Take Our Word For It</h2>
+           <h2 className="text-3xl md:text-4xl font-headline mb-4">No Confíes Solo en Nuestra Palabra</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
-                Our clients love the results they get with Muscle Bites.
+                A nuestros clientes les encantan los resultados que obtienen con Muscle Bites.
             </p>
             <TestimonialCarousel />
         </div>

@@ -2,56 +2,56 @@
   "placeholderImages": [
     {
       "id": "hero-image",
-      "description": "An athletic woman with a determined expression, ready for a workout in a modern, stylish gym.",
-      "imageUrl": "https://images.unsplash.com/photo-1581009146145-b5f30a5820ae?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzE2OTU2MTg3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Una mujer atlética con una expresión decidida, lista para un entrenamiento en un gimnasio moderno y elegante.",
+      "imageUrl": "https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzU5NzY3MDA5fDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "fitness woman"
     },
     {
       "id": "blog-1",
-      "description": "A close-up of a vibrant and healthy gourmet meal in a bowl, featuring fresh vegetables and lean protein.",
-      "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxoZWFsdGh5JTIwZm9vZHxlbnwwfHx8fDE3MTY5NTYyNTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Un primer plano de una comida gourmet vibrante y saludable en un tazón, con verduras frescas y proteínas magras.",
+      "imageUrl": "https://images.unsplash.com/photo-1490818387583-1baba5e638af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxoZWFsdGh5JTIwZm9vZHxlbnwwfHx8fDE3NTk3MjcyNTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "healthy food"
     },
     {
       "id": "blog-2",
-      "description": "A focused woman lifting a kettlebell with proper form in a boutique fitness studio.",
-      "imageUrl": "https://images.unsplash.com/photo-1584735935634-58a367041b39?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxrZXR0bGViZWxsJTIwd29tYW58ZW58MHx8fHwxNzE2OTU2MzE0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Una mujer concentrada levantando una pesa rusa con la forma correcta en un estudio de fitness boutique.",
+      "imageUrl": "https://images.unsplash.com/photo-1547919307-1ecb10702e6f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxrZXR0bGViZWxsJTIwd29ya291dHxlbnwwfHx8fDE3NTk3NjU2NTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "kettlebell workout"
     },
     {
       "id": "blog-3",
-      "description": "A serene woman meditating at sunrise, embodying mindfulness and mental clarity.",
-      "imageUrl": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx5b2dhJTIwd29tYW58ZW58MHx8fHwxNzE2OTU2MzQ1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Una mujer serena meditando al amanecer, encarnando la atención plena y la claridad mental.",
+      "imageUrl": "https://images.unsplash.com/photo-1577344718665-3e7c0c1ecf6b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWluZGZ1bG5lc3MlMjBtZWRpdGF0aW9ufGVufDB8fHx8MTc1OTc2NTY1Nnww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "mindfulness meditation"
     },
     {
       "id": "product-1",
-      "description": "A beautifully plated high-protein chicken and quinoa meal, ready to eat.",
-      "imageUrl": "https://images.unsplash.com/photo-1594998893878-50269f8f4a47?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxtZWFsJTIwcHJlcCUyMGNoaWNrZW58ZW58MHx8fHwxNzE2OTU2NDExfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Una comida de pollo y quinoa alta en proteínas, bellamente emplatada y lista para comer.",
+      "imageUrl": "https://images.unsplash.com/photo-1606858274001-dd10efc5ce7d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxtZWFsJTIwcHJlcHxlbnwwfHx8fDE3NTk2OTM4MjZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "meal prep"
     },
     {
       "id": "product-2",
-      "description": "A delicious-looking salmon and asparagus meal prep container.",
-      "imageUrl": "https://images.unsplash.com/photo-1565557623262-b27c25248a64?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtZWFsJTIwcHJlcCUyMHNhbG1vbnxlbnwwfHx8fDE3MTY5NTY0NDB8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Un delicioso recipiente de preparación de comidas de salmón y espárragos.",
+      "imageUrl": "https://images.unsplash.com/photo-1611599537845-1c7aca0091c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxoZWFsdGh5JTIwbWVhbHxlbnwwfHx8fDE3NTk2ODY4Mjd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "healthy meal"
     },
     {
       "id": "product-3",
-      "description": "A container of rich, chocolate-flavored whey protein powder with a scoop.",
-      "imageUrl": "https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwcm90ZWluJTIwcG93ZGVyfGVufDB8fHx8MTc1OTY4NzQ2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Un recipiente de rico polvo de proteína de suero con sabor a chocolate con una cuchara.",
+      "imageUrl": "https://images.unsplash.com/photo-1704650312191-005ab02786f5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwcm90ZWluJTIwcG93ZGVyfGVufDB8fHx8MTc1OTY4NzQ2MXww&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "protein powder"
     },
     {
       "id": "product-4",
-      "description": "A woman in stylish fitness attire, holding a yoga mat and smiling.",
-      "imageUrl": "https://images.unsplash.com/photo-1549576490-b0b4831ef60a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaXRuZXNzJTIwYXBwYXJlbCUyMHdvbWFufGVufDB8fHx8fDE3MTY5NTY1MTJ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Una mujer con ropa de fitness elegante, sosteniendo una esterilla de yoga y sonriendo.",
+      "imageUrl": "https://images.unsplash.com/photo-1552364142-f06dd635a796?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxmaXRuZXNzJTIwYXBwYXJlbHxlbnwwfHx8fDE3NTk3MDU1MDd8MA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "fitness apparel"
     },
     {
       "id": "workout-generator-bg",
-      "description": "A woman performing a dynamic workout move with an abstract, energetic feel.",
-      "imageUrl": "https://images.unsplash.com/photo-1533681018288-DB43313955a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw4fHxhYnN0cmFjdCUyMGZpdG5lc3MlMjB3b21hbnxlbnwwfHx8fDE3MTY5NTY1NDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "description": "Una mujer realizando un movimiento de entrenamiento dinámico con una sensación abstracta y enérgica.",
+      "imageUrl": "https://images.unsplash.com/photo-1740813402046-08ec3e0ce5d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxhYnN0cmFjdCUyMGZpdG5lc3N8ZW58MHx8fHwxNzU5NzYxMzYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
       "imageHint": "abstract fitness"
     }
   ]

@@ -17,10 +17,10 @@ import { useState } from 'react';
 
 
 const navLinks = [
-  { href: '/', label: 'Home' },
+  { href: '/', label: 'Inicio' },
   { href: '/blog', label: 'Blog' },
-  { href: '/products', label: 'Products' },
-  { href: '/workout-generator', label: 'Custom Plan' },
+  { href: '/products', label: 'Productos' },
+  { href: '/workout-generator', label: 'Plan Personalizado' },
 ];
 
 export function Header() {
@@ -60,7 +60,7 @@ export function Header() {
               <SheetTrigger asChild>
                 <Button variant="ghost" size="icon">
                   <Menu />
-                  <span className="sr-only">Toggle Menu</span>
+                  <span className="sr-only">Abrir Menú</span>
                 </Button>
               </SheetTrigger>
               <SheetContent side="left">

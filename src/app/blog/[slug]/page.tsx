@@ -35,7 +35,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
             <time dateTime={article.publishedAt} className="text-sm">
-              {format(new Date(article.publishedAt), 'MMMM d, yyyy')}
+              {format(new Date(article.publishedAt), 'd MMMM, yyyy')}
             </time>
           </div>
         </div>
