@@ -39,14 +39,14 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
         <div className="relative z-10 p-4 max-w-4xl flex flex-col items-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline tracking-tight">
-            Impulsa Tu Grandeza con Muscle Bites
+            Deja de Adivinar Qué Comer. Transforma Tu Cuerpo con Muscle Bites.
           </h1>
-          <p className="mt-4 text-lg md:text-xl max-w-2xl mx-auto font-body">
-            Comidas gourmet altas en proteínas, entregadas en tu puerta. La solución definitiva de preparación de comidas por Valentina Montero para ayudarte a alcanzar tus metas de fitness.
+          <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto font-body">
+            Comidas gourmet, altas en proteínas y diseñadas por Valentina Montero para esculpir tu figura ideal. Entregadas frescas en tu puerta.
           </p>
           <Button asChild size="lg" className="mt-8">
             <Link href="/products">
-              Explorar Planes de Comidas <ArrowRight className="ml-2 h-5 w-5" />
+              Ver Menú y Planes <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
         </div>
@@ -57,7 +57,7 @@ export default async function Home() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-headline mb-4">Productos Destacados de Muscle Bites</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              Una selección de nuestras comidas y suplementos más populares para potenciar tu rendimiento.
+              Platillos diseñados por Valentina Montero para potenciar tu rendimiento.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -93,9 +93,9 @@ export default async function Home() {
 
       <section className="py-16 md:py-24 bg-background">
         <div className="container text-center">
-           <h2 className="text-3xl md:text-4xl font-headline mb-4">Lo que Dicen Nuestros Clientes</h2>
+           <h2 className="text-3xl md:text-4xl font-headline mb-4">Lo que Dicen Nuestras Clientes</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
-                Personas reales, resultados reales. Ve cómo hemos ayudado a otros a transformar sus vidas.
+                Personas reales, resultados reales. Ve cómo hemos ayudado a otras a transformar sus vidas.
             </p>
             <TestimonialCarousel />
         </div>
@@ -104,7 +104,7 @@ export default async function Home() {
       <section className="py-16 md:py-24 bg-secondary/50">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-headline mb-4">Del Blog de Fitness</h2>
+            <h2 className="text-3xl md:text-4xl font-headline mb-4">Del Blog de Fitness por Valentina</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               Consejos, recetas y motivación para mantenerte en el camino correcto.
             </p>
