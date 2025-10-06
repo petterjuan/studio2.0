@@ -4,7 +4,7 @@ import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import placeholderData from '@/lib/placeholder-images.json';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { getProducts, getArticles } from '@/lib/shopify';
 import TestimonialCarousel from '@/components/testimonial-carousel';
 import { format } from 'date-fns';
