@@ -20,7 +20,6 @@ const navLinks = [
   { href: '/', label: 'Inicio' },
   { href: '/blog', label: 'Blog' },
   { href: '/products', label: 'Productos' },
-  { href: '/workout-generator', label: 'Plan Personalizado' },
 ];
 
 export function Header() {
