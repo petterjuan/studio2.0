@@ -20,7 +20,7 @@ const navLinks = [
   { href: '/', label: 'Home' },
   { href: '/blog', label: 'Blog' },
   { href: '/products', label: 'Products' },
-  { href: '/workout-generator', label: 'AI Coach' },
+  { href: '/workout-generator', label: 'Custom Plan' },
 ];
 
 export function Header() {

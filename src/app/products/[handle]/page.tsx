@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import placeholderData from '@/lib/placeholder-images.json';
 import { ShoppingCart } from 'lucide-react';
+import TestimonialCarousel from '@/components/testimonial-carousel';
 
 const productPlaceholder = placeholderData.placeholderImages.find(p => p.id === 'product-1')!;
 
@@ -23,9 +24,10 @@ export default async function ProductPage({ params }: { params: { handle: string
   }
 
   return (
+    <>
     <div className="container py-12 md:py-20">
-      <div className="grid md:grid-cols-2 gap-8 lg:gap-16">
-        <div className="relative aspect-square bg-muted rounded-lg overflow-hidden">
+      <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
+        <div className="relative aspect-square bg-muted rounded-lg overflow-hidden shadow-lg">
           <Image
             src={product.imageUrl || productPlaceholder.imageUrl}
             alt={product.title}
@@ -52,5 +54,15 @@ export default async function ProductPage({ params }: { params: { handle: string
         </div>
       </div>
     </div>
+    <section className="py-16 md:py-24 bg-secondary/50">
+        <div className="container text-center">
+           <h2 className="text-3xl md:text-4xl font-headline mb-4">Don't Just Take Our Word For It</h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
+                Our clients love the results they get with Muscle Bites.
+            </p>
+            <TestimonialCarousel />
+        </div>
+      </section>
+    </>
   );
 }

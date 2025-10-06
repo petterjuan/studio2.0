@@ -6,10 +6,11 @@ import { Footer } from '@/components/layout/footer';
 import { AuthProvider } from '@/firebase/auth-provider';
 import { Toaster } from '@/components/ui/toaster';
 import ShoppingAssistantChat from '@/components/shopping-assistant-chat';
+import { PageTransition } from '@/components/page-transition';
 
 export const metadata: Metadata = {
-  title: 'VM Fitness Hub',
-  description: 'Plataforma de Coaching con Next.js y GenAI',
+  title: 'VM Fitness Hub | Premium Nutrition & Coaching',
+  description: 'Fuel your greatness with Muscle Bites, the ultimate meal prep solution by Valentina Montero. Personalized coaching and premium products for your fitness journey.',
 };
 
 export default function RootLayout({
@@ -28,7 +29,9 @@ export default function RootLayout({
         <AuthProvider>
           <div className="relative flex min-h-dvh flex-col bg-background">
             <Header />
-            <main className="flex-1">{children}</main>
+            <PageTransition>
+              <main className="flex-1">{children}</main>
+            </PageTransition>
             <Footer />
             <ShoppingAssistantChat />
           </div>

@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingBasket, Bot, User, CornerDownLeft, X, Loader } from 'lucide-react';
+import { Bot, User, CornerDownLeft, X, Loader, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -29,7 +29,7 @@ export default function ShoppingAssistantChat() {
         setIsLoading(true);
         setTimeout(() => {
             setMessages([
-                { role: 'assistant', content: `Hi ${user?.displayName || 'there'}! I'm your AI shopping assistant. How can I help you find the perfect fitness gear or nutrition product today?` },
+                { role: 'assistant', content: `Hi ${user?.displayName || 'there'}! I'm your Muscle Bites concierge. How can I help you find the perfect meal plan or product today?` },
             ]);
             setIsLoading(false);
         }, 1000)
@@ -77,11 +77,11 @@ export default function ShoppingAssistantChat() {
       <div className="fixed bottom-6 right-6 z-50">
         <Button
           size="icon"
-          className="rounded-full h-16 w-16 bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg"
+          className="rounded-full h-16 w-16 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
           onClick={() => setIsOpen(!isOpen)}
         >
-          {isOpen ? <X className="h-8 w-8" /> : <ShoppingBasket className="h-8 w-8" />}
-          <span className="sr-only">Toggle Shopping Assistant</span>
+          {isOpen ? <X className="h-8 w-8" /> : <Sparkles className="h-8 w-8" />}
+          <span className="sr-only">Toggle Muscle Bites Concierge</span>
         </Button>
       </div>
       <AnimatePresence>
@@ -97,7 +97,7 @@ export default function ShoppingAssistantChat() {
               <CardHeader className="flex flex-row items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Bot className="h-6 w-6 text-primary" />
-                  <CardTitle className="text-lg font-headline">AI Shopping Assistant</CardTitle>
+                  <CardTitle className="text-lg font-headline">Muscle Bites Concierge</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="flex-grow overflow-hidden p-0">
@@ -140,7 +140,7 @@ export default function ShoppingAssistantChat() {
                 <form onSubmit={handleSendMessage} className="flex w-full items-center space-x-2">
                   <Input
                     id="message"
-                    placeholder="Ask about products..."
+                    placeholder="Ask about meals..."
                     className="flex-1"
                     autoComplete="off"
                     value={input}
