@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { handleGenerateWorkout } from './actions';
-import { WorkoutPlan } from '@/lib/definitions';
+import { GenerateCustomWorkoutPlanOutput } from '@/ai/flows/generate-custom-workout-plan';
 import WorkoutPlanDisplay from './workout-plan-display';
 import { Wand2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -36,7 +36,7 @@ const loadingSteps = [
 ];
 
 export default function WorkoutGeneratorForm() {
-  const [generatedPlan, setGeneratedPlan] = useState<WorkoutPlan | null>(null);
+  const [generatedPlan, setGeneratedPlan] = useState<GenerateCustomWorkoutPlanOutput | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loadingStep, setLoadingStep] = useState(0);

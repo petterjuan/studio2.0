@@ -1,5 +1,5 @@
 'use client';
-import { WorkoutPlan } from '@/lib/definitions';
+import { GenerateCustomWorkoutPlanOutput } from '@/ai/flows/generate-custom-workout-plan';
 import {
   Accordion,
   AccordionContent,
@@ -13,9 +13,10 @@ import { useAuth } from '@/hooks/use-auth';
 import { saveWorkoutPlan } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import { useState } from 'react';
+import { WorkoutPlan } from '@/lib/definitions';
 
 interface WorkoutPlanDisplayProps {
-  plan: WorkoutPlan;
+  plan: GenerateCustomWorkoutPlanOutput;
 }
 
 export default function WorkoutPlanDisplay({ plan }: WorkoutPlanDisplayProps) {
@@ -35,7 +36,7 @@ export default function WorkoutPlanDisplay({ plan }: WorkoutPlanDisplayProps) {
 
         setIsSaving(true);
         try {
-            await saveWorkoutPlan(plan, user.uid);
+            await saveWorkoutPlan(plan as WorkoutPlan, user.uid);
             toast({
                 title: '¡Plan Guardado!',
                 description: 'Tu plan de entrenamiento ha sido guardado en tu panel.',
