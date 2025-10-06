@@ -4,26 +4,6 @@ export interface User extends FirebaseUser {
   isAdmin?: boolean;
 }
 
-export type DailyWorkout = {
-  day: string;
-  focus: string;
-  exercises: {
-    name: string;
-    sets: string;
-    reps: string;
-    rest?: string;
-    notes?: string;
-  }[];
-};
-
-export type WorkoutPlan = {
-  id?: string;
-  title: string;
-  weeklySchedule: DailyWorkout[];
-  summary: string;
-  createdAt?: any;
-};
-
 export type ShopifyProduct = {
   id: string;
   handle: string;
