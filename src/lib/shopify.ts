@@ -4,7 +4,7 @@ const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!;
 const storefrontAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
 function areShopifyCredentialsValid() {
-    return domain && domain !== 'your-shopify-store-domain.myshopify.com' && storefrontAccessToken && storefrontAccessToken !== 'your-storefront-access-token';
+    return domain && !domain.startsWith('your-') && storefrontAccessToken && !storefrontAccessToken.startsWith('your-');
 }
 
 async function shopifyFetch<T>({

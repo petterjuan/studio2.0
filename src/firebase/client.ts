@@ -15,8 +15,7 @@ let app: FirebaseApp;
 let auth: Auth;
 let firestore: Firestore;
 
-// Prevent Firebase from initializing on the server side without credentials
-if (typeof window !== 'undefined' && firebaseConfig.apiKey && firebaseConfig.apiKey !== 'your-api-key') {
+if (typeof window !== 'undefined' && firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('your-')) {
     app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
     auth = getAuth(app);
     firestore = getFirestore(app);
