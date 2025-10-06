@@ -1,3 +1,58 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-image",
+      "description": "Valentina Montero coaching a client in a bright, modern gym.",
+      "imageUrl": "https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxmaXRuZXNzJTIwY29hY2h8ZW58MHx8fHwxNzU5NzY1NjU3fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "fitness coach"
+    },
+    {
+      "id": "blog-1",
+      "description": "A vibrant and healthy meal.",
+      "imageUrl": "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxoZWFsdGh5JTIwZm9vZHxlbnwwfHx8fDE3NTk3MjcyNTF8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "healthy food"
+    },
+    {
+      "id": "blog-2",
+      "description": "Someone performing a kettlebell swing.",
+      "imageUrl": "https://images.unsplash.com/photo-1623428455276-c5243d302dbe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxrZXR0bGViZWxsJTIwd29ya291dHxlbnwwfHx8fDE3NTk3NjU2NTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "kettlebell workout"
+    },
+    {
+      "id": "blog-3",
+      "description": "A person meditating at sunrise.",
+      "imageUrl": "https://images.unsplash.com/photo-1506126613408-eca07ce68773?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxtaW5kZnVsbmVzcyUyMG1lZGl0YXRpb258ZW58MHx8fHwxNzU5NzY1NjU2fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "mindfulness meditation"
+    },
+    {
+      "id": "product-1",
+      "description": "A sleek, modern protein shaker bottle.",
+      "imageUrl": "https://images.unsplash.com/photo-1701859077992-7374a9f243f3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8cHJvdGVpbiUyMHNoYWtlcnxlbnwwfHx8fDE3NTk3NjU2NTZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "protein shaker"
+    },
+    {
+      "id": "product-2",
+      "description": "A set of high-quality resistance bands.",
+      "imageUrl": "https://images.unsplash.com/photo-1517130038641-a774d04afb3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxyZXNpc3RhbmNlJTIwYmFuZHN8ZW58MHx8fHwxNzU5Njc5OTI0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "resistance bands"
+    },
+    {
+      "id": "product-3",
+      "description": "A tub of whey protein powder.",
+      "imageUrl": "https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxwcm90ZWluJTIwcG93ZGVyfGVufDB8fHx8MTc1OTY4NzQ2MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "protein powder"
+    },
+    {
+      "id": "product-4",
+      "description": "A high-tech yoga mat.",
+      "imageUrl": "https://images.unsplash.com/photo-1621886178958-be42369fc9e7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHx5b2dhJTIwbWF0fGVufDB8fHx8MTc1OTc2MTU5MHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "yoga mat"
+    },
+    {
+      "id": "workout-generator-bg",
+      "description": "An abstract, energetic background for the workout generator section.",
+      "imageUrl": "https://images.unsplash.com/photo-1596549969402-30040dc1d4b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwyfHxhYnN0cmFjdCUyMGZpdG5lc3N8ZW58MHx8fHwxNzU5NzYxMzYyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "abstract fitness"
+    }
+  ]
 }
