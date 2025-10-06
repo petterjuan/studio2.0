@@ -47,7 +47,7 @@ export default async function ProductPage({ params }: { params: { handle: string
               <Badge key={tag} variant="secondary">{tag}</Badge>
             ))}
           </div>
-          <Button size="lg">
+          <Button size="lg" onClick={() => alert('¡Funcionalidad de pago próximamente!')}>
             <ShoppingCart className="mr-2 h-5 w-5" />
             Añadir al Carrito
           </Button>
