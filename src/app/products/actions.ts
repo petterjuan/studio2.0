@@ -6,15 +6,15 @@ import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { ShopifyProduct } from '@/lib/definitions';
 
-if (!process.env.STRIPE_SECRET_KEY) {
-    throw new Error('STRIPE_SECRET_KEY is not set');
-}
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '', {
     apiVersion: '2024-06-20',
 });
 
 export async function createCheckoutSession(product: ShopifyProduct) {
+    if (!process.env.STRIPE_SECRET_KEY) {
+        throw new Error('STRIPE_SECRET_KEY is not set');
+    }
+
     const headersList = headers();
     const domain = headersList.get('host') || '';
     const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
