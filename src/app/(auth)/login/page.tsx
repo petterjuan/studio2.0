@@ -1,6 +1,7 @@
 'use client';
 
-import { useFormState, useFormStatus } from 'react-dom';
+import { useActionState } from 'react';
+import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -24,7 +25,7 @@ function SubmitButton() {
 
 export default function LoginPage() {
   const router = useRouter();
-  const [state, formAction] = useFormState(login, { message: '', success: false });
+  const [state, formAction] = useActionState(login, { message: '', success: false });
 
   useEffect(() => {
     if (state.success) {
