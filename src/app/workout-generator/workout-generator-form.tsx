@@ -15,7 +15,7 @@ import { WorkoutPlan } from '@/lib/definitions';
 import WorkoutPlanDisplay from './workout-plan-display';
 import { Wand2 } from 'lucide-react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const formSchema = z.object({
   fitnessGoals: z.string().min(10, { message: 'Por favor, describe tus objetivos con más detalle.' }),
