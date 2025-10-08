@@ -1,7 +1,6 @@
 import * as admin from 'firebase-admin';
 
 let firestore: admin.firestore.Firestore;
-let auth: admin.auth.Auth;
 
 const hasFirebaseCredentials =
   process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID &&
@@ -24,15 +23,12 @@ if (hasFirebaseCredentials && !admin.apps.length) {
 
 if (admin.apps.length) {
   firestore = admin.firestore();
-  auth = admin.auth();
 } else {
   // Provide dummy objects if Firebase is not initialized
-  // This can happen in a development environment without credentials
   firestore = {} as admin.firestore.Firestore;
-  auth = {} as admin.auth.Auth;
   if (process.env.NODE_ENV !== 'development') {
     console.warn("Firebase Admin SDK not initialized. Functionality will be limited.");
   }
 }
 
-export { firestore, auth };
+export { firestore };

@@ -8,7 +8,6 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { shoppingAssistant, ShoppingAssistantInput } from '@/ai/flows/shopping-assistant';
-import { useAuth } from '@/hooks/use-auth';
 
 type Message = {
   role: 'user' | 'assistant';
@@ -21,7 +20,6 @@ export default function ShoppingAssistantChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const { user } = useAuth();
 
 
   useEffect(() => {
@@ -29,12 +27,12 @@ export default function ShoppingAssistantChat() {
         setIsLoading(true);
         setTimeout(() => {
             setMessages([
-                { role: 'assistant', content: `¡Hola, ${user?.displayName || 'campeona'}! Soy la asistente de Valentina. ¿Cuáles son tus metas de fitness? Cuéntame un poco para poder guiarte hacia el plan de coaching o el producto perfecto para ti.` },
+                { role: 'assistant', content: `¡Hola, campeona! Soy la asistente de Valentina. ¿Cuáles son tus metas de fitness? Cuéntame un poco para poder guiarte hacia el plan de coaching o el producto perfecto para ti.` },
             ]);
             setIsLoading(false);
         }, 1000)
     }
-  }, [isOpen, messages.length, isLoading, user]);
+  }, [isOpen, messages.length, isLoading]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {

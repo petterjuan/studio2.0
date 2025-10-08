@@ -4,7 +4,6 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
-import { AuthProvider } from '@/firebase/auth-provider';
 import { Toaster } from '@/components/ui/toaster';
 import ShoppingAssistantChat from '@/components/shopping-assistant-chat';
 import { PageTransition } from '@/components/page-transition';
@@ -46,7 +45,6 @@ export default function RootLayout({
         fontHeadline.variable,
         fontCode.variable
       )}>
-        <AuthProvider>
           <div className="relative flex min-h-dvh flex-col bg-background">
             <Header />
             <PageTransition>
@@ -56,7 +54,6 @@ export default function RootLayout({
             <ShoppingAssistantChat />
           </div>
           <Toaster />
-        </AuthProvider>
       </body>
     </html>
   );
