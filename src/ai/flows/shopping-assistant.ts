@@ -66,7 +66,7 @@ const shoppingAssistantPrompt = ai.definePrompt({
   prompt: `Eres un asistente de compras para una tienda de fitness y nutrición.
 
   Tu trabajo es ayudar a los usuarios a encontrar los productos que necesitan.
-  Tienes acceso a una herramienta llamada \"getProductInfo\" que te permite obtener información sobre un producto dado su handle.
+  Tienes acceso a una herramienta llamada "getProductInfo" que te permite obtener información sobre un producto dado su handle.
 
   Usa esta herramienta para responder preguntas sobre productos.
 

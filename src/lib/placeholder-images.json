@@ -3,61 +3,61 @@
     {
       "id": "hero-image",
       "description": "Una mujer atlética con una expresión decidida, lista para un entrenamiento en un gimnasio moderno y elegante.",
-      "imageUrl": "https://images.unsplash.com/photo-1581009137042-c552b485697a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGd5bSUyMHdvcmtvdXR8ZW58MHx8fHwxNzYwMTgwNDY0fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/hero/1080/720",
       "imageHint": "woman gym workout"
     },
     {
       "id": "blog-macros",
       "description": "Una mujer sonriendo mientras prepara una ensalada saludable en una cocina luminosa.",
-      "imageUrl": "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw1fHxoZWFsdGh5JTIwZm9vZHxlbnwwfHx8fDE3NjAxODA0MjV8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/macros/1080/720",
       "imageHint": "healthy food woman"
     },
     {
       "id": "blog-strength",
       "description": "Una mujer fuerte y concentrada levantando una barra en un gimnasio.",
-      "imageUrl": "https://images.unsplash.com/photo-1584735935682-2f2b69dff9d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw0fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzYwMTk2MTEyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/strength/1080/720",
       "imageHint": "fitness woman strength"
     },
     {
       "id": "blog-recovery",
       "description": "Una mujer estirando en una esterilla de yoga en una habitación tranquila.",
-      "imageUrl": "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMHlvZ2ElMjBzdHJldGNofGVufDB8fHx8MTc2MDE4MDUxMHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/recovery/1080/720",
       "imageHint": "woman yoga stretch"
     },
     {
       "id": "blog-magnesium",
       "description": "Una mujer bebiendo un batido de recuperación después de entrenar.",
-      "imageUrl": "https://images.unsplash.com/photo-1633519889412-f14d8b139c81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMHByb3RlaW4lMjBzaGFrZXxlbnwwfHx8fDE3NjAxODExODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/magnesium/1080/720",
       "imageHint": "woman protein shake"
     },
     {
       "id": "product-whey-protein",
       "description": "Un envase de proteína en polvo de diseño elegante junto a una coctelera, con una mujer fitness de fondo.",
-      "imageUrl": "https://images.unsplash.com/photo-1579758629938-03607ccdbaba?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMHByb3RlaW4lMjBzaGFrZXxlbnwwfHx8fDE3NjAxODExODZ8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/whey/600/600",
       "imageHint": "woman protein shake"
     },
     {
       "id": "product-resistance-bands",
       "description": "Una mujer usando bandas de resistencia de tela para un ejercicio de glúteos.",
-      "imageUrl": "https://images.unsplash.com/photo-1599058917212-d750089bc07e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxyZXNpc3RhbmNlJTIwYmFuZHN8ZW58MHx8fHwxNzYwMTgwNjc1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/bands/600/600",
       "imageHint": "woman resistance bands"
     },
     {
       "id": "product-intermittent-fasting",
       "description": "Una mujer en ropa de fitness escribiendo en un diario, con un aspecto enfocado y saludable.",
-      "imageUrl": "https://images.unsplash.com/photo-1549924231-3b2249c45b87?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHx3b21hbiUyMGZpdG5lc3MlMjBqb3VybmFsfGVufDB8fHx8MTc2MDE4MTI3MXww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/fasting/600/600",
       "imageHint": "woman fitness journal"
     },
     {
       "id": "product-ebook-muscle-bites",
       "description": "Una imagen atractiva de la portada del e-book 'Muscle Bites: Snacks para Ganar Masa Muscular'.",
-      "imageUrl": "https://images.unsplash.com/photo-1543362906-acfc16c67564?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxfHxoZWFsdGh5JTIwc25hY2tzJTIwZWJvb2t8ZW58MHx8fHwxNzYwMTgwODU4fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/ebook/600/600",
       "imageHint": "healthy snacks ebook"
     },
     {
       "id": "default",
       "description": "Una mujer en ropa deportiva sonriendo.",
-      "imageUrl": "https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw3fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzYwMTk2MTEyfDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageUrl": "https://picsum.photos/seed/default/600/400",
       "imageHint": "fitness woman"
     }
   ]
