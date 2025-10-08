@@ -1,3 +1,4 @@
+
 import type { Product } from './definitions';
 
 function formatPrice(amount: number, currencyCode: string = 'USD') {
@@ -10,6 +11,16 @@ function formatPrice(amount: number, currencyCode: string = 'USD') {
 
 
 const products: Product[] = [
+    {
+        id: '5',
+        handle: 'muscle-bites-snacks',
+        title: 'Muscle Bites: Snacks para Ganar Masa Muscular',
+        description: 'Tu guía de snacks altos en proteína. Incluye 10 recetas pre-entrenamiento y 5 post-entrenamiento con macros detallados para alimentar tu cuerpo de forma inteligente y deliciosa.',
+        rawPrice: 29.00,
+        price: formatPrice(29.00),
+        imageUrl: 'https://picsum.photos/seed/snacks/800/800',
+        tags: ['ebook', 'nutrición', 'snacks']
+    },
     {
         id: '1',
         handle: 'muscle-bites-e-book',
