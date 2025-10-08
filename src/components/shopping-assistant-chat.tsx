@@ -29,7 +29,7 @@ export default function ShoppingAssistantChat() {
         setIsLoading(true);
         setTimeout(() => {
             setMessages([
-                { role: 'assistant', content: `¡Hola ${user?.displayName || 'chica'}! Soy tu conserje de Muscle Bites. ¿Cómo puedo ayudarte a encontrar el plan de comidas o producto perfecto hoy?` },
+                { role: 'assistant', content: `¡Hola, ${user?.displayName || 'campeona'}! Soy la asistente de Valentina. ¿Cuáles son tus metas de fitness? Cuéntame un poco para poder guiarte hacia el plan de coaching o el producto perfecto para ti.` },
             ]);
             setIsLoading(false);
         }, 1000)
@@ -81,7 +81,7 @@ export default function ShoppingAssistantChat() {
           onClick={() => setIsOpen(!isOpen)}
         >
           {isOpen ? <X className="h-8 w-8" /> : <Sparkles className="h-8 w-8" />}
-          <span className="sr-only">Alternar Conserje de Muscle Bites</span>
+          <span className="sr-only">Abrir Asistente</span>
         </Button>
       </div>
       <AnimatePresence>
@@ -97,7 +97,7 @@ export default function ShoppingAssistantChat() {
               <CardHeader className="flex flex-row items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Bot className="h-6 w-6 text-primary" />
-                  <CardTitle className="text-lg font-headline">Conserje de Muscle Bites</CardTitle>
+                  <CardTitle className="text-lg font-headline">Asistente de Valentina</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="flex-grow overflow-hidden p-0">
@@ -140,7 +140,7 @@ export default function ShoppingAssistantChat() {
                 <form onSubmit={handleSendMessage} className="flex w-full items-center space-x-2">
                   <Input
                     id="message"
-                    placeholder="Pregunta sobre comidas..."
+                    placeholder="Describe tus metas..."
                     className="flex-1"
                     autoComplete="off"
                     value={input}

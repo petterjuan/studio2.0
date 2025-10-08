@@ -10,7 +10,7 @@ export function Footer() {
           <VmLogo className="h-12 text-primary" />
         </div>
         <div className="flex items-center gap-4">
-          <Link href="#" aria-label="Instagram">
+          <Link href="https://www.instagram.com/valentmontero" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
             <Instagram className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
           </Link>
           <Link href="#" aria-label="Facebook">
