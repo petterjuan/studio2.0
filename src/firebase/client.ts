@@ -15,19 +15,17 @@ let app: FirebaseApp;
 let auth: Auth;
 let firestore: Firestore;
 
-// This check is important to prevent Firebase from being initialized on the server.
-if (typeof window !== 'undefined' && firebaseConfig.apiKey && !firebaseConfig.apiKey.startsWith('your-')) {
-    // Initialize Firebase only on the client side
+if (typeof window !== 'undefined' && firebaseConfig.apiKey) {
+    // Ensure Firebase is initialized only on the client side
     app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
     auth = getAuth(app);
-firestore = getFirestore(app);
+    firestore = getFirestore(app);
 } else {
-    // If on the server or config is not set, provide placeholder objects
-    // This can help prevent errors during server-side rendering if client-side
-    // components are somehow imported.
+    // Provide placeholder objects on the server or if config is missing
     app = {} as FirebaseApp;
     auth = {} as Auth;
     firestore = {} as Firestore;
 }
+
 
 export { app, auth, firestore };

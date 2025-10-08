@@ -31,6 +31,17 @@ export async function signup(prevState: SignupState, formData: FormData): Promis
   const { name, email, password } = validatedFields.data;
 
   try {
+    // Check if user already exists
+    try {
+        await adminAuth.getUserByEmail(email);
+        return { message: 'Este correo electrónico ya está registrado.', success: false };
+    } catch (error: any) {
+        if (error.code !== 'auth/user-not-found') {
+            throw error; // Re-throw other errors
+        }
+        // If user not found, continue to create user.
+    }
+
     const userRecord = await adminAuth.createUser({
       email,
       password,
