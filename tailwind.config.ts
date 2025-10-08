@@ -1,4 +1,5 @@
 import type {Config} from 'tailwindcss';
+import { fontFamily } from 'tailwindcss/defaultTheme';
 
 export default {
   darkMode: ['class'],
@@ -10,9 +11,9 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        body: ['Alegreya', 'serif'],
-        headline: ['Belleza', 'sans-serif'],
-        code: ['"Source Code Pro"', 'monospace'],
+        body: ['var(--font-body)', ...fontFamily.serif],
+        headline: ['var(--font-headline)', ...fontFamily.sans],
+        code: ['var(--font-code)', ...fontFamily.mono],
       },
       colors: {
         background: 'hsl(var(--background))',

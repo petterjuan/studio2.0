@@ -48,7 +48,7 @@ export default async function Home() {
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent" />
         <div className="relative z-10 p-4 max-w-4xl flex flex-col items-center">
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-headline tracking-tight">
-            Deja de Adivinar Qué Comer. Transforma Tu Cuerpo con Muscle Bites.
+            Deja de Adivinar. Transforma Tu Cuerpo con Muscle Bites.
           </h1>
           <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto font-body">
             Comidas gourmet, altas en proteínas y diseñadas por Valentina Montero para esculpir tu figura ideal. Entregadas frescas en tu puerta.

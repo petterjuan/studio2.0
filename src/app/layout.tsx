@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { Alegreya, Belleza, Source_Code_Pro } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Header } from '@/components/layout/header';
@@ -7,6 +8,25 @@ import { AuthProvider } from '@/firebase/auth-provider';
 import { Toaster } from '@/components/ui/toaster';
 import ShoppingAssistantChat from '@/components/shopping-assistant-chat';
 import { PageTransition } from '@/components/page-transition';
+
+const fontBody = Alegreya({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
+
+const fontHeadline = Belleza({
+  subsets: ['latin'],
+  weight: '400',
+  variable: '--font-headline',
+  display: 'swap',
+});
+
+const fontCode = Source_Code_Pro({
+  subsets: ['latin'],
+  variable: '--font-code',
+  display: 'swap',
+});
 
 export const metadata: Metadata = {
   title: 'VM Fitness Hub | Nutrición Premium y Coaching',
@@ -20,12 +40,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es" suppressHydrationWarning>
-      <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Belleza&family=Source+Code+Pro:wght@400;700&display=swap" rel="stylesheet" />
-      </head>
-      <body className={cn('min-h-screen bg-background font-body antialiased')}>
+      <body className={cn(
+        'min-h-screen bg-background font-body antialiased',
+        fontBody.variable,
+        fontHeadline.variable,
+        fontCode.variable
+      )}>
         <AuthProvider>
           <div className="relative flex min-h-dvh flex-col bg-background">
             <Header />

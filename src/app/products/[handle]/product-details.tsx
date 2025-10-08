@@ -62,9 +62,7 @@ export default function ProductDetails({ product }: { product: Product }) {
           <h1 className="text-3xl md:text-4xl font-headline">Transforma tu Nutrición con {product.title}</h1>
           <p className="text-2xl font-bold text-primary mt-2 mb-4">{product.price}</p>
           
-          <div className="prose dark:prose-invert font-body mb-6">
-            <p>¿Lista para dejar de adivinar qué comer? Con este e-book, tendrás el secreto para nutrir tu cuerpo, maximizar tu energía y alcanzar la figura que siempre has deseado. Es más que un libro de recetas, es tu guía para una vida más saludable y fuerte.</p>
-          </div>
+          <div className="prose dark:prose-invert font-body mb-6" dangerouslySetInnerHTML={{ __html: product.description }} />
           
            <div className="space-y-3 my-6">
               {muscleBitesFeatures.map((feature, index) => (
