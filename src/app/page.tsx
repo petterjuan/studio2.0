@@ -1,7 +1,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle } from 'lucide-react';
+import { ArrowRight, CheckCircle, Zap } from 'lucide-react';
 import placeholderData from '@/lib/placeholder-images.json';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
@@ -18,19 +18,14 @@ function getPlaceholder(id: string) {
 }
 
 const heroImage = getPlaceholder('hero-image');
+const muscleBitesEbookImage = getPlaceholder('product-ebook-muscle-bites');
 
-const coachingFeatures = {
-  common: [
-    "Plan de entrenamiento 100% personalizado",
-    "Seguimiento quincenal para evaluar progreso y hacer ajustes",
-    "Plan de alimentación flexible (macros)",
-    "Acceso a preguntas 24/7 vía chat",
-    "Enfoque en mentalidad, disciplina y confianza",
-  ],
-  twelveWeek: [
-    "Mini Guía de Suplementos y Vitaminas",
-  ]
-};
+const muscleBitesFeatures = [
+    "Descubre 4 secretos para combinar snacks de forma inteligente y mantener tu energía.",
+    "Potencia tus entrenamientos con 10 recetas pre-entreno deliciosas y fáciles de preparar.",
+    "Acelera tu recuperación muscular con 5 recetas post-entreno diseñadas para nutrir tu cuerpo."
+];
+
 
 export default async function Home() {
   const featuredProducts = await getProducts(4);
@@ -65,8 +60,48 @@ export default async function Home() {
           </Button>
         </div>
       </section>
-
+      
+      {/* Muscle Bites E-Book Section */}
       <section className="py-16 md:py-24 bg-secondary/50">
+        <div className="container">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center">
+                <div className="relative aspect-square bg-muted rounded-lg overflow-hidden shadow-lg order-last md:order-first">
+                    <Image
+                        src={muscleBitesEbookImage.imageUrl}
+                        alt="E-book Muscle Bites: Snacks para Ganar Masa Muscular"
+                        data-ai-hint={muscleBitesEbookImage.imageHint}
+                        fill
+                        className="object-cover"
+                    />
+                </div>
+                <div className="flex flex-col justify-center">
+                    <CardDescription className="font-semibold text-primary">E-BOOK MÁS VENDIDO</CardDescription>
+                    <h2 className="text-3xl md:text-4xl font-headline mt-2">Transforma tu Nutrición con Muscle Bites</h2>
+                    <p className="text-2xl font-bold text-primary mt-2 mb-4">$29.00</p>
+                    <p className="text-muted-foreground mb-6">
+                        ¿Lista para dejar de adivinar qué comer? Con este e-book, tendrás el secreto para nutrir tu cuerpo, maximizar tu energía y alcanzar la figura que siempre has deseado. Es más que un libro de recetas, es tu guía para una vida más saludable y fuerte.
+                    </p>
+                    <div className="space-y-3 my-6">
+                        {muscleBitesFeatures.map((feature, index) => (
+                            <div key={index} className="flex items-start gap-3">
+                                <CheckCircle className="h-5 w-5 text-green-500 mt-1 shrink-0" />
+                                <span className="text-muted-foreground">{feature}</span>
+                            </div>
+                        ))}
+                    </div>
+                     <Button size="lg" asChild className="w-full shadow-lg hover:shadow-primary/50 transition-shadow duration-300">
+                        <Link href="/products/muscle-bites-snacks">
+                             <Zap className="mr-2 h-5 w-5" />
+                            ¡Lo Quiero Ahora!
+                        </Link>
+                    </Button>
+                    <p className="text-xs text-center mt-2 text-muted-foreground">Compra segura con Stripe. Acceso instantáneo.</p>
+                </div>
+            </div>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24 bg-background">
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-headline mb-4">Impulsa Tu Grandeza: Nuestros Favoritos</h2>
@@ -103,59 +138,6 @@ export default async function Home() {
             </Button>
           </div>
         </div>
-      </section>
-      
-      {/* Coaching Section */}
-      <section className="py-16 md:py-24 bg-background">
-          <div className="container">
-              <div className="text-center mb-12">
-                  <h2 className="text-3xl md:text-4xl font-headline">Transforma Tu Vida con Mi Coaching Personalizado</h2>
-                  <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
-                      Esto no es solo un plan de fitness, es un compromiso contigo misma. Juntas, crearemos un camino sostenible hacia tus metas, trabajando cuerpo y mente.
-                  </p>
-              </div>
-              <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto items-start">
-                  <Card className="flex flex-col">
-                      <CardHeader>
-                          <CardTitle className="font-headline text-2xl">Plan de 6 Semanas</CardTitle>
-                          <CardDescription className="text-4xl font-bold text-primary">$167</CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex-grow space-y-4">
-                         {coachingFeatures.common.map((feature, i) => (
-                           <div key={i} className="flex items-start gap-3">
-                             <CheckCircle className="h-5 w-5 text-green-500 mt-1 shrink-0" />
-                             <span className="text-sm text-muted-foreground">{feature}</span>
-                           </div>
-                         ))}
-                      </CardContent>
-                      <CardFooter>
-                          <Button className="w-full" size="lg" asChild>
-                              <Link href="/blog">Empezar Mi Transformación</Link>
-                          </Button>
-                      </CardFooter>
-                  </Card>
-                  <Card className="border-primary border-2 flex flex-col relative">
-                       <div className="absolute top-0 right-0 m-4 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">MÁS POPULAR</div>
-                      <CardHeader>
-                          <CardTitle className="font-headline text-2xl">Plan de 12 Semanas</CardTitle>
-                          <CardDescription className="text-4xl font-bold text-primary">$267</CardDescription>
-                      </CardHeader>
-                      <CardContent className="flex-grow space-y-4">
-                         {[...coachingFeatures.common, ...coachingFeatures.twelveWeek].map((feature, i) => (
-                           <div key={i} className="flex items-start gap-3">
-                             <CheckCircle className="h-5 w-5 text-green-500 mt-1 shrink-0" />
-                             <span className="text-sm text-muted-foreground">{feature}</span>
-                           </div>
-                         ))}
-                      </CardContent>
-                      <CardFooter>
-                           <Button className="w-full" size="lg" asChild>
-                              <Link href="/blog">Empezar Mi Transformación</Link>
-                          </Button>
-                      </CardFooter>
-                  </Card>
-              </div>
-          </div>
       </section>
 
       <section className="py-16 md:py-24 bg-secondary/50">
