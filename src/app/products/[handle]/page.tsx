@@ -1,9 +1,9 @@
 
-import { getProductByHandle } from '@/lib/shopify';
+import { getProductByHandle } from '@/lib/products';
 import { notFound } from 'next/navigation';
 import TestimonialCarousel from '@/components/testimonial-carousel';
 import ProductDetails from './product-details';
-import { ShopifyProduct } from '@/lib/definitions';
+import { Product } from '@/lib/definitions';
 
 export const dynamic = 'force-dynamic';
 
@@ -16,7 +16,7 @@ export default async function ProductPage({ params }: { params: { handle: string
 
   return (
     <>
-      <ProductDetails product={product as ShopifyProduct} />
+      <ProductDetails product={product as Product} />
       <section className="py-16 md:py-24 bg-secondary/50">
         <div className="container text-center">
           <h2 className="text-3xl md:text-4xl font-headline mb-4">No Confíes Solo en Nuestra Palabra</h2>

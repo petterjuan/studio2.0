@@ -5,8 +5,4 @@ runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
   maxInstances: 1
-env:
-  - variable: NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN
-    value: valentinamontero.myshopify.com
-  - variable: NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN
-    value: 952c8c0f51a6c2d75bd00b58dbd07a2c
+env: []

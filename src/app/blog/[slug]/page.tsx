@@ -1,5 +1,5 @@
 
-import { getArticleByHandle } from '@/lib/shopify';
+import { getArticleByHandle } from '@/lib/articles';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { format } from 'date-fns';

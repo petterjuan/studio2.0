@@ -4,9 +4,9 @@
 import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import type { ShopifyProduct } from '@/lib/definitions';
+import type { Product } from '@/lib/definitions';
 
-export async function createCheckoutSession(product: ShopifyProduct) {
+export async function createCheckoutSession(product: Product) {
     if (!process.env.STRIPE_SECRET_KEY) {
         throw new Error('STRIPE_SECRET_KEY is not set');
     }

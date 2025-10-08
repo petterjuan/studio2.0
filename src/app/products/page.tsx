@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import { getProducts } from '@/lib/shopify';
+import { getProducts } from '@/lib/products';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import placeholderData from '@/lib/placeholder-images.json';
 import { Heart } from 'lucide-react';
@@ -15,7 +15,7 @@ const productPlaceholders = [
 ];
 
 export default async function ProductsPage() {
-  const products = await getProducts(20);
+  const products = await getProducts();
 
   return (
     <div className="bg-gradient-to-b from-background to-secondary/30">

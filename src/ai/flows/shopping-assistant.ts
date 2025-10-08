@@ -8,7 +8,7 @@
  */
 
 import {ai} from '@/ai/genkit';
-import {getProductByHandle} from '@/lib/shopify';
+import { getProductByHandle } from '@/lib/products';
 import {z} from 'genkit';
 
 const ShoppingAssistantInputSchema = z.object({

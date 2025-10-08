@@ -4,18 +4,18 @@ export interface User extends FirebaseUser {
   isAdmin?: boolean;
 }
 
-export type ShopifyProduct = {
+export type Product = {
   id: string;
   handle: string;
   title: string;
   description: string;
   price: string;
-  rawPrice: number; // Added for Stripe
+  rawPrice: number;
   imageUrl: string;
   tags: string[];
 };
 
-export type ShopifyArticle = {
+export type Article = {
   id: string;
   handle: string;
   title: string;

@@ -1,12 +1,12 @@
 'use client';
 
 import Image from 'next/image';
-import { useState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import placeholderData from '@/lib/placeholder-images.json';
 import { CheckCircle, Zap, Loader2 } from 'lucide-react';
-import { ShopifyProduct } from '@/lib/definitions';
+import { Product } from '@/lib/definitions';
 import { useToast } from '@/hooks/use-toast';
 import { createCheckoutSession } from '../actions';
 
@@ -18,7 +18,7 @@ const muscleBitesFeatures = [
     "Acelera tu recuperación muscular con 5 recetas post-entreno diseñadas para nutrir tu cuerpo."
 ];
 
-export default function ProductDetails({ product }: { product: ShopifyProduct }) {
+export default function ProductDetails({ product }: { product: Product }) {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
 
