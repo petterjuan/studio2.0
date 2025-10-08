@@ -12,7 +12,8 @@ import { VmLogo } from './vm-logo';
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
-  { href: '/blog', label: 'Blog & Coaching' },
+  { href: '/coaching', label: 'Coaching' },
+  { href: '/blog', label: 'Blog' },
   { href: '/products', label: 'Productos' },
 ];
 
