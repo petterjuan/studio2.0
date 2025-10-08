@@ -1,16 +1,8 @@
-import { getProductByHandle, getAllProductHandles } from '@/lib/shopify';
+import { getProductByHandle } from '@/lib/shopify';
 import { notFound } from 'next/navigation';
 import TestimonialCarousel from '@/components/testimonial-carousel';
 import ProductDetails from './product-details';
 import { ShopifyProduct } from '@/lib/definitions';
-
-
-export async function generateStaticParams() {
-  const handles = await getAllProductHandles();
-  return handles.map((handle) => ({
-    handle,
-  }));
-}
 
 export default async function ProductPage({ params }: { params: { handle: string } }) {
   const product = await getProductByHandle(params.handle);

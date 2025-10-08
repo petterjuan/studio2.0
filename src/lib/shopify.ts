@@ -3,14 +3,6 @@ import { ShopifyArticle, ShopifyProduct } from './definitions';
 const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!;
 const storefrontAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
-function areShopifyCredentialsValid() {
-    const isValid = domain && storefrontAccessToken;
-    if (!isValid) {
-      console.warn("ADVERTENCIA: Las credenciales de Shopify no están configuradas en el archivo .env. Los datos de Shopify no se cargarán.");
-    }
-    return isValid;
-}
-
 async function shopifyFetch<T>({
   query,
   variables,
@@ -18,14 +10,10 @@ async function shopifyFetch<T>({
   query: string;
   variables?: Record<string, unknown>;
 }): Promise<{ status: number; body: T } | never> {
-  if (!areShopifyCredentialsValid()) {
-    throw new Error('Las credenciales de la API de Shopify no están configuradas en las variables de entorno.');
-  }
+  const endpoint = `https://${domain}/api/2023-10/graphql.json`;
+  const key = storefrontAccessToken;
 
   try {
-    const endpoint = `https://${domain}/api/2023-10/graphql.json`;
-    const key = storefrontAccessToken;
-
     const result = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -33,7 +21,7 @@ async function shopifyFetch<T>({
         'X-Shopify-Storefront-Access-Token': key,
       },
       body: JSON.stringify({ query, variables }),
-      cache: 'no-store',
+      cache: 'no-store', // Always fetch fresh data
     });
 
     const body = await result.json();
@@ -110,7 +98,6 @@ function reshapeArticle(article: any): ShopifyArticle {
 
 
 export async function getProducts(first: number = 10): Promise<ShopifyProduct[]> {
-    if (!areShopifyCredentialsValid()) return [];
     const query = `
         query getProducts($first: Int!) {
             products(first: $first, sortKey: TITLE, reverse: false) {
@@ -132,7 +119,6 @@ export async function getProducts(first: number = 10): Promise<ShopifyProduct[]>
 }
 
 export async function getProductByHandle(handle: string): Promise<ShopifyProduct | null> {
-    if (!areShopifyCredentialsValid()) return null;
     const query = `
     query getProductByHandle($handle: String!) {
         product(handle: $handle) {
@@ -171,7 +157,6 @@ const ArticleFragment = `
 `;
 
 export async function getArticles(first: number = 10): Promise<ShopifyArticle[]> {
-    if (!areShopifyCredentialsValid()) return [];
     const query = `
         query getArticles($first: Int!) {
             articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
@@ -194,7 +179,6 @@ export async function getArticles(first: number = 10): Promise<ShopifyArticle[]>
 
 
 export async function getArticleByHandle(handle: string): Promise<ShopifyArticle | null> {
-    if (!areShopifyCredentialsValid()) return null;
     const query = `
         query getArticleByHandle($handle: String!) {
             blog(handle: "news") {
@@ -219,7 +203,6 @@ export async function getArticleByHandle(handle: string): Promise<ShopifyArticle
 }
 
 export async function getAllArticleHandles(): Promise<string[]> {
-    if (!areShopifyCredentialsValid()) return [];
     const query = `
         query getAllArticleHandles {
         articles(first: 100) {
@@ -238,7 +221,6 @@ export async function getAllArticleHandles(): Promise<string[]> {
 }
 
 export async function getAllProductHandles(): Promise<string[]> {
-    if (!areShopifyCredentialsValid()) return [];
     const query = `
     query getAllProductHandles {
         products(first: 100) {

@@ -1,4 +1,4 @@
-import { getArticleByHandle, getAllArticleHandles } from '@/lib/shopify';
+import { getArticleByHandle } from '@/lib/shopify';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { format } from 'date-fns';
@@ -6,13 +6,6 @@ import { Calendar, User } from 'lucide-react';
 import placeholderData from '@/lib/placeholder-images.json';
 
 const blogPlaceholder = placeholderData.placeholderImages.find(p => p.id === 'blog-1')!;
-
-export async function generateStaticParams() {
-  const handles = await getAllArticleHandles();
-  return handles.map((handle) => ({
-    slug: handle,
-  }));
-}
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
   const article = await getArticleByHandle(params.slug);
