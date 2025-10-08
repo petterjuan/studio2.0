@@ -42,7 +42,7 @@ export default async function Home() {
             Deja de Adivinar. Transforma Tu Cuerpo con Muscle Bites.
           </h1>
           <p className="mt-4 text-lg md:text-xl max-w-3xl mx-auto font-body">
-            Comidas gourmet, altas en proteínas y diseñadas por Valentina Montero para esculpir tu figura ideal. Entregadas frescas en tu puerta.
+            La guía definitiva de snacks y recetas para potenciar tus entrenamientos y acelerar tus resultados. Acceso instantáneo a tu plan de nutrición.
           </p>
           <Button asChild size="lg" className="mt-8">
             <Link href="/products">
