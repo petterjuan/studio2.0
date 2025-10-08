@@ -34,7 +34,6 @@ export async function login(prevState: LoginState, formData: FormData): Promise<
     // This is a workaround because signInWithEmailAndPassword is client-side.
     // A proper solution involves a client-side call that sends an ID token to the server.
     // For this project's structure, we will assume this action can validate.
-    // A more robust pattern is to sign in on client and post the ID token to a server-side session endpoint.
     
     // We can't directly sign in, but we can verify the user exists as a proxy.
     await adminAuth.getUserByEmail(email);
