@@ -1,10 +1,10 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, CheckCircle } from 'lucide-react';
 import placeholderData from '@/lib/placeholder-images.json';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { getProducts, getArticles } from '@/lib/shopify';
 import TestimonialCarousel from '@/components/testimonial-carousel';
 import { format } from 'date-fns';
@@ -17,6 +17,19 @@ function getPlaceholder(id: string) {
 }
 
 const heroImage = getPlaceholder('hero-image');
+
+const coachingFeatures = {
+  common: [
+    "Plan de entrenamiento 100% personalizado",
+    "Seguimiento quincenal para evaluar progreso y hacer ajustes",
+    "Plan de alimentación flexible (macros)",
+    "Acceso a preguntas 24/7 vía chat",
+    "Enfoque en mentalidad, disciplina y confianza",
+  ],
+  twelveWeek: [
+    "Mini Guía de Suplementos y Vitaminas",
+  ]
+};
 
 export default async function Home() {
   const featuredProducts = await getProducts(4);
@@ -90,8 +103,61 @@ export default async function Home() {
           </div>
         </div>
       </section>
-
+      
+      {/* Coaching Section */}
       <section className="py-16 md:py-24 bg-background">
+          <div className="container">
+              <div className="text-center mb-12">
+                  <h2 className="text-3xl md:text-4xl font-headline">Transforma Tu Vida con Mi Coaching Personalizado</h2>
+                  <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+                      Esto no es solo un plan de fitness, es un compromiso contigo misma. Juntas, crearemos un camino sostenible hacia tus metas, trabajando cuerpo y mente.
+                  </p>
+              </div>
+              <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto items-start">
+                  <Card className="flex flex-col">
+                      <CardHeader>
+                          <CardTitle className="font-headline text-2xl">Plan de 6 Semanas</CardTitle>
+                          <CardDescription className="text-4xl font-bold text-primary">$167</CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex-grow space-y-4">
+                         {coachingFeatures.common.map((feature, i) => (
+                           <div key={i} className="flex items-start gap-3">
+                             <CheckCircle className="h-5 w-5 text-green-500 mt-1 shrink-0" />
+                             <span className="text-sm text-muted-foreground">{feature}</span>
+                           </div>
+                         ))}
+                      </CardContent>
+                      <CardFooter>
+                          <Button className="w-full" size="lg" asChild>
+                              <Link href="/blog">Empezar Mi Transformación</Link>
+                          </Button>
+                      </CardFooter>
+                  </Card>
+                  <Card className="border-primary border-2 flex flex-col relative">
+                       <div className="absolute top-0 right-0 m-4 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">MÁS POPULAR</div>
+                      <CardHeader>
+                          <CardTitle className="font-headline text-2xl">Plan de 12 Semanas</CardTitle>
+                          <CardDescription className="text-4xl font-bold text-primary">$267</CardDescription>
+                      </CardHeader>
+                      <CardContent className="flex-grow space-y-4">
+                         {[...coachingFeatures.common, ...coachingFeatures.twelveWeek].map((feature, i) => (
+                           <div key={i} className="flex items-start gap-3">
+                             <CheckCircle className="h-5 w-5 text-green-500 mt-1 shrink-0" />
+                             <span className="text-sm text-muted-foreground">{feature}</span>
+                           </div>
+                         ))}
+                      </CardContent>
+                      <CardFooter>
+                           <Button className="w-full" size="lg" asChild>
+                              <Link href="/blog">Empezar Mi Transformación</Link>
+                          </Button>
+                      </CardFooter>
+                  </Card>
+              </div>
+          </div>
+      </section>
+
+      <section className="py-16 md:py-24 bg-secondary/50">
         <div className="container text-center">
            <h2 className="text-3xl md:text-4xl font-headline mb-4">Lo que Dicen Nuestras Clientes</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
@@ -101,7 +167,7 @@ export default async function Home() {
         </div>
       </section>
       
-      <section className="py-16 md:py-24 bg-secondary/50">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-headline mb-4">Del Blog de Fitness por Valentina</h2>
