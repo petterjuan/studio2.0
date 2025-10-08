@@ -4,13 +4,11 @@ import Image from 'next/image';
 import { useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import placeholderData from '@/lib/placeholder-images.json';
 import { CheckCircle, Zap, Loader2 } from 'lucide-react';
 import { Product } from '@/lib/definitions';
 import { useToast } from '@/hooks/use-toast';
 import { createCheckoutSession } from '../actions';
-
-const productPlaceholder = placeholderData.placeholderImages.find(p => p.id === 'blog-1')!;
+import { getPlaceholder } from '@/lib/utils';
 
 const muscleBitesFeatures = [
     "Descubre 4 secretos para combinar snacks de forma inteligente y mantener tu energía.",
@@ -41,20 +39,19 @@ export default function ProductDetails({ product }: { product: Product }) {
     });
   }
 
-  const imageUrl = product.imageUrl || productPlaceholder.imageUrl;
-  const imageHint = product.imageUrl ? "product image" : productPlaceholder.imageHint;
+  const image = getPlaceholder(product.imageId);
 
   return (
     <div className="container py-12 md:py-20">
       <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-start">
         <div className="relative aspect-square bg-muted rounded-lg overflow-hidden shadow-lg">
           <Image
-            src={imageUrl}
+            src={image.imageUrl}
             alt={product.title}
-            data-ai-hint={imageHint}
+            data-ai-hint={image.imageHint}
             fill
             className="object-cover"
-            priority={!product.imageUrl}
+            priority
           />
         </div>
         <div className="flex flex-col justify-center">

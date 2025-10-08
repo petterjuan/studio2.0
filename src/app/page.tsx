@@ -2,7 +2,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ArrowRight, CheckCircle, Zap } from 'lucide-react';
-import placeholderData from '@/lib/placeholder-images.json';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { getProducts } from '@/lib/products';
@@ -10,14 +9,8 @@ import { getArticles } from '@/lib/articles';
 import TestimonialCarousel from '@/components/testimonial-carousel';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
+import { getPlaceholder } from '@/lib/utils';
 
-const { placeholderImages } = placeholderData;
-
-function getPlaceholder(id: string) {
-  return placeholderImages.find(p => p.id === id) || placeholderImages[0];
-}
-
-const heroImage = getPlaceholder('hero-image');
 const muscleBitesEbookImage = getPlaceholder('product-ebook-muscle-bites');
 
 const muscleBitesFeatures = [
@@ -29,10 +22,8 @@ const muscleBitesFeatures = [
 
 export default async function Home() {
   const featuredProducts = await getProducts(4);
-  const productPlaceholders = [getPlaceholder('product-1'), getPlaceholder('product-2'), getPlaceholder('product-3'), getPlaceholder('product-4')];
   const articles = await getArticles(3);
-  const blogPlaceholders = [getPlaceholder('blog-1'), getPlaceholder('blog-2'), getPlaceholder('blog-3')];
-
+  const heroImage = getPlaceholder('hero-image');
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -110,15 +101,17 @@ export default async function Home() {
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {featuredProducts.map((product, index) => (
+            {featuredProducts.map((product) => {
+              const image = getPlaceholder(product.imageId);
+              return (
               <Card key={product.id} className="overflow-hidden group text-left">
                  <Link href={`/products/${product.handle}`}>
                   <CardContent className="p-0">
                     <div className="relative aspect-square">
                       <Image
-                        src={product.imageUrl || productPlaceholders[index].imageUrl}
+                        src={image.imageUrl}
                         alt={product.title}
-                        data-ai-hint={productPlaceholders[index].imageHint}
+                        data-ai-hint={image.imageHint}
                         fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
@@ -130,7 +123,7 @@ export default async function Home() {
                   </CardHeader>
                 </Link>
               </Card>
-            ))}
+            )})}
           </div>
           <div className="text-center">
             <Button asChild size="lg" variant="outline" className="mt-12">
@@ -159,14 +152,16 @@ export default async function Home() {
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
-            {articles.map((article, index) => (
+            {articles.map((article) => {
+              const image = getPlaceholder(article.imageId);
+              return (
               <Card key={article.id} className="flex flex-col overflow-hidden text-left">
                 <Link href={`/blog/${article.handle}`} className="block">
                   <div className="relative h-56 w-full">
                     <Image
-                      src={article.imageUrl || blogPlaceholders[index % 3].imageUrl}
+                      src={image.imageUrl}
                       alt={article.title}
-                      data-ai-hint={blogPlaceholders[index % 3].imageHint}
+                      data-ai-hint={image.imageHint}
                       fill
                       className="object-cover transition-transform duration-300 hover:scale-105"
                     />
@@ -187,7 +182,7 @@ export default async function Home() {
                   </Button>
                 </CardFooter>
               </Card>
-            ))}
+            )})}
           </div>
         </div>
       </section>

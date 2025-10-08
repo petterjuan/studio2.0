@@ -1,20 +1,13 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getProducts } from '@/lib/products';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
-import placeholderData from '@/lib/placeholder-images.json';
-import { ArrowRight, Heart, Zap } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Heart, Zap } from 'lucide-react';
 import TestimonialCarousel from '@/components/testimonial-carousel';
 import { Button } from '@/components/ui/button';
+import { getPlaceholder } from '@/lib/utils';
 
 export const revalidate = 3600; // Revalidate every hour
-
-const productPlaceholders = [
-    placeholderData.placeholderImages.find(p => p.id === 'product-1')!,
-    placeholderData.placeholderImages.find(p => p.id === 'product-2')!,
-    placeholderData.placeholderImages.find(p => p.id === 'product-3')!,
-    placeholderData.placeholderImages.find(p => p.id === 'product-4')!,
-];
 
 export default async function ProductsPage() {
   const allProducts = await getProducts();
@@ -42,9 +35,9 @@ export default async function ProductsPage() {
             <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center bg-secondary/50 p-8 rounded-lg shadow-lg">
               <div className="relative aspect-square rounded-lg overflow-hidden">
                 <Image
-                  src={mainProduct.imageUrl || productPlaceholders[0].imageUrl}
+                  src={getPlaceholder(mainProduct.imageId).imageUrl}
                   alt={mainProduct.title}
-                  data-ai-hint={productPlaceholders[0].imageHint}
+                  data-ai-hint={getPlaceholder(mainProduct.imageId).imageHint}
                   fill
                   className="object-cover"
                 />
@@ -76,15 +69,17 @@ export default async function ProductsPage() {
                      <h3 className="text-3xl font-headline">Explora Otros Recursos</h3>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
-                {otherProducts.map((product, index) => (
+                {otherProducts.map((product) => {
+                  const image = getPlaceholder(product.imageId);
+                  return (
                     <Card key={product.id} className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                     <Link href={`/products/${product.handle}`}>
                         <CardContent className="p-0">
                         <div className="relative aspect-[4/5] bg-muted">
                             <Image
-                            src={product.imageUrl || productPlaceholders[(index + 1) % 4].imageUrl}
+                            src={image.imageUrl}
                             alt={product.title}
-                            data-ai-hint={productPlaceholders[(index + 1) % 4].imageHint}
+                            data-ai-hint={image.imageHint}
                             fill
                             className="object-cover transition-transform duration-300 group-hover:scale-105"
                             />
@@ -96,7 +91,7 @@ export default async function ProductsPage() {
                         </CardHeader>
                     </Link>
                     </Card>
-                ))}
+                )})}
                 </div>
             </div>
          </section>

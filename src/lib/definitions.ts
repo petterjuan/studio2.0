@@ -11,7 +11,7 @@ export type Product = {
   description: string;
   price: string;
   rawPrice: number;
-  imageUrl: string;
+  imageId: string;
   tags: string[];
 };
 
@@ -21,7 +21,7 @@ export type Article = {
   title: string;
   contentHtml: string;
   excerpt: string;
-  imageUrl: string;
+  imageId: string;
   publishedAt: string;
 };
 

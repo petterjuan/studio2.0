@@ -5,10 +5,9 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { Calendar, User } from 'lucide-react';
 import placeholderData from '@/lib/placeholder-images.json';
+import { getPlaceholder } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
-
-const blogPlaceholder = placeholderData.placeholderImages.find(p => p.id === 'blog-1')!;
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
   const article = await getArticleByHandle(params.slug);
@@ -16,6 +15,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   if (!article) {
     notFound();
   }
+
+  const image = getPlaceholder(article.imageId);
 
   return (
     <article>
@@ -39,9 +40,9 @@ export default async function ArticlePage({ params }: { params: { slug: string }
 
       <div className="relative w-full h-[30vh] md:h-[50vh] mb-12">
         <Image
-          src={article.imageUrl || blogPlaceholder.imageUrl}
+          src={image.imageUrl}
           alt={article.title}
-          data-ai-hint={blogPlaceholder.imageHint}
+          data-ai-hint={image.imageHint}
           fill
           className="object-cover"
           priority
