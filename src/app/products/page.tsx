@@ -1,9 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { getProducts } from '@/lib/products';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import placeholderData from '@/lib/placeholder-images.json';
-import { Heart } from 'lucide-react';
+import { ArrowRight, Heart, Zap } from 'lucide-react';
+import TestimonialCarousel from '@/components/testimonial-carousel';
+import { Button } from '@/components/ui/button';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -15,45 +17,101 @@ const productPlaceholders = [
 ];
 
 export default async function ProductsPage() {
-  const products = await getProducts();
+  const allProducts = await getProducts();
+  const mainProduct = allProducts.find(p => p.handle === 'muscle-bites-snacks');
+  const otherProducts = allProducts.filter(p => p.handle !== 'muscle-bites-snacks');
 
   return (
-    <div className="bg-gradient-to-b from-background to-secondary/30">
-      <div className="container py-12 md:py-16">
-        <div className="text-center mb-12 md:mb-16">
+    <div className="bg-background">
+      <section className="bg-gradient-to-b from-background to-secondary/30 py-16 md:py-24">
+        <div className="container text-center">
           <Heart className="mx-auto h-12 w-12 text-primary mb-4" />
           <h1 className="text-4xl md:text-5xl font-headline text-foreground">
-            Productos para Tu Bienestar
+            Invierte en Ti: Herramientas para Tu Transformación
           </h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            Despierta tu poder interior con nuestra colección exclusiva de productos. Cada artículo ha sido seleccionado por Valentina Montero y está diseñado para nutrir tu cuerpo, mente y espíritu en tu viaje hacia el bienestar.
+            El camino hacia tu mejor versión requiere las herramientas adecuadas. Aquí encontrarás recursos exclusivos, diseñados por Valentina Montero, para nutrir tu cuerpo, fortalecer tu mente y potenciar tus resultados.
           </p>
         </div>
+      </section>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-          {products.map((product, index) => (
-            <Card key={product.id} className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-              <Link href={`/products/${product.handle}`}>
-                <CardContent className="p-0">
-                  <div className="relative aspect-square bg-muted">
-                    <Image
-                      src={product.imageUrl || productPlaceholders[index % 4].imageUrl}
-                      alt={product.title}
-                      data-ai-hint={productPlaceholders[index % 4].imageHint}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                </CardContent>
-                <CardHeader className="p-4">
-                  <CardTitle className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
-                  <p className="font-semibold text-primary">{product.price}</p>
-                </CardHeader>
-              </Link>
-            </Card>
-          ))}
+      {/* Featured Product: Muscle Bites */}
+      {mainProduct && (
+        <section className="py-16 md:py-24">
+          <div className="container">
+            <div className="grid md:grid-cols-2 gap-8 lg:gap-16 items-center bg-secondary/50 p-8 rounded-lg shadow-lg">
+              <div className="relative aspect-square rounded-lg overflow-hidden">
+                <Image
+                  src={mainProduct.imageUrl || productPlaceholders[0].imageUrl}
+                  alt={mainProduct.title}
+                  data-ai-hint={productPlaceholders[0].imageHint}
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <div className="flex flex-col justify-center">
+                <h2 className="text-3xl md:text-4xl font-headline">{mainProduct.title}</h2>
+                <p className="text-2xl font-bold text-primary mt-2 mb-4">{mainProduct.price}</p>
+                <p className="text-muted-foreground mb-6">
+                  {mainProduct.description}
+                </p>
+                <Button size="lg" asChild className="shadow-lg hover:shadow-primary/50 transition-shadow duration-300">
+                  <Link href={`/products/${mainProduct.handle}`}>
+                    <Zap className="mr-2 h-5 w-5" />
+                    ¡Lo Quiero Ahora!
+                  </Link>
+                </Button>
+                 <p className="text-xs text-center mt-2 text-muted-foreground">Compra segura con Stripe. Acceso instantáneo.</p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* Other Products */}
+      {otherProducts.length > 0 && (
+         <section className="py-16 md:py-24">
+            <div className="container">
+                <div className="text-center mb-12">
+                     <h3 className="text-3xl font-headline">Explora Otros Recursos</h3>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                {otherProducts.map((product, index) => (
+                    <Card key={product.id} className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
+                    <Link href={`/products/${product.handle}`}>
+                        <CardContent className="p-0">
+                        <div className="relative aspect-[4/5] bg-muted">
+                            <Image
+                            src={product.imageUrl || productPlaceholders[(index + 1) % 4].imageUrl}
+                            alt={product.title}
+                            data-ai-hint={productPlaceholders[(index + 1) % 4].imageHint}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            />
+                        </div>
+                        </CardContent>
+                        <CardHeader className="p-4">
+                        <CardTitle className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
+                        <p className="font-semibold text-primary">{product.price}</p>
+                        </CardHeader>
+                    </Link>
+                    </Card>
+                ))}
+                </div>
+            </div>
+         </section>
+      )}
+      
+      {/* Testimonials */}
+      <section className="py-16 md:py-24 bg-secondary/50">
+        <div className="container text-center">
+           <h2 className="text-3xl md:text-4xl font-headline mb-4">Resultados que Inspiran</h2>
+            <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
+                Descubre cómo estas herramientas han ayudado a otras mujeres a transformar sus vidas y alcanzar sus metas.
+            </p>
+            <TestimonialCarousel />
         </div>
-      </div>
+      </section>
     </div>
   );
 }
