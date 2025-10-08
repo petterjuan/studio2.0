@@ -5,6 +5,7 @@ import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import type { Product } from '@/lib/definitions';
+import { getPlaceholder } from '@/lib/utils';
 
 export async function createCheckoutSession(product: Product) {
     if (!process.env.STRIPE_SECRET_KEY) {
@@ -24,6 +25,8 @@ export async function createCheckoutSession(product: Product) {
     const successUrl = `${protocol}://${domain}/muscle-bites-ebook.pdf`;
     const cancelUrl = `${protocol}://${domain}/products/${product.handle}`;
     
+    const image = getPlaceholder(product.imageId);
+
     try {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
@@ -34,7 +37,7 @@ export async function createCheckoutSession(product: Product) {
                         product_data: {
                             name: product.title,
                             description: product.description,
-                            images: product.imageUrl ? [product.imageUrl] : [],
+                            images: image ? [image.imageUrl] : [],
                         },
                         unit_amount: Math.round(product.rawPrice * 100), // Price in cents
                     },

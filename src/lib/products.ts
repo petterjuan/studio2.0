@@ -8,7 +8,6 @@ function formatPrice(amount: number, currencyCode: string = 'USD') {
     }).format(amount);
 }
 
-
 const products: Product[] = [
     {
         id: '1',
