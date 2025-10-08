@@ -18,7 +18,10 @@ export async function createCheckoutSession(product: ShopifyProduct) {
     const headersList = headers();
     const domain = headersList.get('host') || '';
     const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
-    const successUrl = `${protocol}://${domain}/`;
+    
+    // The success URL now points directly to the PDF file in the public folder.
+    // Make sure your PDF is named 'muscle-bites-ebook.pdf' and placed in the /public directory.
+    const successUrl = `${protocol}://${domain}/muscle-bites-ebook.pdf`;
     const cancelUrl = `${protocol}://${domain}/products/${product.handle}`;
     
     try {
