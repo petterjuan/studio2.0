@@ -111,56 +111,46 @@ function reshapeArticle(article: any): ShopifyArticle {
 
 export async function getProducts(first: number = 10): Promise<ShopifyProduct[]> {
     if (!areShopifyCredentialsValid()) return [];
-    try {
-        const query = `
-            query getProducts($first: Int!) {
-                products(first: $first, sortKey: TITLE, reverse: false) {
-                    edges {
-                        node {
-                            ...ProductFragment
-                        }
+    const query = `
+        query getProducts($first: Int!) {
+            products(first: $first, sortKey: TITLE, reverse: false) {
+                edges {
+                    node {
+                        ...ProductFragment
                     }
                 }
             }
-            ${ProductFragment}
-        `;
-        const res = await shopifyFetch<{ data: { products: { edges: { node: any }[] } } }>({
-            query,
-            variables: { first }
-        });
+        }
+        ${ProductFragment}
+    `;
+    const res = await shopifyFetch<{ data: { products: { edges: { node: any }[] } } }>({
+        query,
+        variables: { first }
+    });
 
-        return res.body.data.products.edges.map(edge => reshapeProduct(edge.node));
-    } catch (error) {
-        console.error("Error fetching products:", error);
-        return [];
-    }
+    return res.body.data.products.edges.map(edge => reshapeProduct(edge.node));
 }
 
 export async function getProductByHandle(handle: string): Promise<ShopifyProduct | null> {
     if (!areShopifyCredentialsValid()) return null;
-    try {
-        const query = `
-        query getProductByHandle($handle: String!) {
-            product(handle: $handle) {
-            ...ProductFragment
-            }
+    const query = `
+    query getProductByHandle($handle: String!) {
+        product(handle: $handle) {
+        ...ProductFragment
         }
-        ${ProductFragment}
-        `;
-        const res = await shopifyFetch<{ data: { product: any } }>({
-            query,
-            variables: { handle }
-        });
-
-        if (!res.body.data.product) {
-        return null;
-        }
-        
-        return reshapeProduct(res.body.data.product);
-    } catch (error) {
-        console.error(`Error fetching product by handle ${handle}:`, error);
-        return null;
     }
+    ${ProductFragment}
+    `;
+    const res = await shopifyFetch<{ data: { product: any } }>({
+        query,
+        variables: { handle }
+    });
+
+    if (!res.body.data.product) {
+    return null;
+    }
+    
+    return reshapeProduct(res.body.data.product);
 }
 
 
@@ -182,106 +172,86 @@ const ArticleFragment = `
 
 export async function getArticles(first: number = 10): Promise<ShopifyArticle[]> {
     if (!areShopifyCredentialsValid()) return [];
-    try {
-        const query = `
-            query getArticles($first: Int!) {
-                articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
-                    edges {
-                        node {
-                            ...ArticleFragment
-                        }
+    const query = `
+        query getArticles($first: Int!) {
+            articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
+                edges {
+                    node {
+                        ...ArticleFragment
                     }
                 }
             }
-            ${ArticleFragment}
-        `;
-        const res = await shopifyFetch<{ data: { articles: { edges: { node: any }[] } } }>({
-            query,
-            variables: { first }
-        });
-        
-        return res.body.data.articles.edges.map(edge => reshapeArticle(edge.node));
-    } catch (error) {
-        console.error("Error fetching articles:", error);
-        return [];
-    }
+        }
+        ${ArticleFragment}
+    `;
+    const res = await shopifyFetch<{ data: { articles: { edges: { node: any }[] } } }>({
+        query,
+        variables: { first }
+    });
+    
+    return res.body.data.articles.edges.map(edge => reshapeArticle(edge.node));
 }
 
 
 export async function getArticleByHandle(handle: string): Promise<ShopifyArticle | null> {
     if (!areShopifyCredentialsValid()) return null;
-    try {
-        const query = `
-            query getArticleByHandle($handle: String!) {
-                blog(handle: "news") {
-                    articleByHandle(handle: $handle) {
-                        ...ArticleFragment
-                    }
+    const query = `
+        query getArticleByHandle($handle: String!) {
+            blog(handle: "news") {
+                articleByHandle(handle: $handle) {
+                    ...ArticleFragment
                 }
             }
-            ${ArticleFragment}
-        `;
-
-        const res = await shopifyFetch<{ data: { blog: { articleByHandle: any } } }>({
-            query,
-            variables: { handle }
-        });
-
-        if (!res.body.data.blog?.articleByHandle) {
-            return null;
         }
+        ${ArticleFragment}
+    `;
 
-        return reshapeArticle(res.body.data.blog.articleByHandle);
-    } catch (error) {
-        console.error(`Error fetching article by handle ${handle}:`, error);
+    const res = await shopifyFetch<{ data: { blog: { articleByHandle: any } } }>({
+        query,
+        variables: { handle }
+    });
+
+    if (!res.body.data.blog?.articleByHandle) {
         return null;
     }
+
+    return reshapeArticle(res.body.data.blog.articleByHandle);
 }
 
 export async function getAllArticleHandles(): Promise<string[]> {
     if (!areShopifyCredentialsValid()) return [];
-    try {
-        const query = `
-            query getAllArticleHandles {
-            articles(first: 100) {
-                edges {
-                node {
-                    handle
-                }
-                }
+    const query = `
+        query getAllArticleHandles {
+        articles(first: 100) {
+            edges {
+            node {
+                handle
             }
             }
-        `;
+        }
+        }
+    `;
 
-        const res = await shopifyFetch<{ data: { articles: { edges: { node: { handle: string } }[] } } }>({ query });
+    const res = await shopifyFetch<{ data: { articles: { edges: { node: { handle: string } }[] } } }>({ query });
 
-        return res.body.data.articles.edges.map(edge => edge.node.handle);
-    } catch (error) {
-        console.error("Error fetching all article handles:", error);
-        return [];
-    }
+    return res.body.data.articles.edges.map(edge => edge.node.handle);
 }
 
 export async function getAllProductHandles(): Promise<string[]> {
     if (!areShopifyCredentialsValid()) return [];
-    try {
-        const query = `
-        query getAllProductHandles {
-            products(first: 100) {
-            edges {
-                node {
-                handle
-                }
-            }
+    const query = `
+    query getAllProductHandles {
+        products(first: 100) {
+        edges {
+            node {
+            handle
             }
         }
-        `;
-
-        const res = await shopifyFetch<{ data: { products: { edges: { node: { handle: string } }[] } } }>({ query });
-
-        return res.body.data.products.edges.map(edge => edge.node.handle);
-    } catch (error) {
-        console.error("Error fetching all product handles:", error);
-        return [];
+        }
     }
-  }
+    `;
+
+    const res = await shopifyFetch<{ data: { products: { edges: { node: { handle: string } }[] } } }>({ query });
+
+    return res.body.data.products.edges.map(edge => edge.node.handle);
+}
