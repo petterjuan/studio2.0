@@ -24,3 +24,14 @@ export type Article = {
   imageUrl: string;
   publishedAt: string;
 };
+
+export interface WorkoutPlan {
+  id: string;
+  title: string;
+  summary: string;
+  weeklySchedule: {
+    day: string;
+    description: string;
+  }[];
+  createdAt: string;
+}
