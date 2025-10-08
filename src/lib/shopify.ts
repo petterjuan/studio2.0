@@ -48,8 +48,6 @@ async function shopifyFetch<T>({
     };
   } catch (e: any) {
     console.error('Error al obtener datos de Shopify:', e.message || e);
-    // Relanzar el error para que Next.js pueda capturarlo y mostrar una página de error.
-    // Esto evita el fallo silencioso donde las secciones simplemente aparecen vacías.
     throw new Error(`Error al conectar con Shopify: ${e.message}`);
   }
 }
@@ -112,45 +110,57 @@ function reshapeArticle(article: any): ShopifyArticle {
 
 
 export async function getProducts(first: number = 10): Promise<ShopifyProduct[]> {
-    const query = `
-        query getProducts($first: Int!) {
-            products(first: $first, sortKey: TITLE, reverse: false) {
-                edges {
-                    node {
-                        ...ProductFragment
+    if (!areShopifyCredentialsValid()) return [];
+    try {
+        const query = `
+            query getProducts($first: Int!) {
+                products(first: $first, sortKey: TITLE, reverse: false) {
+                    edges {
+                        node {
+                            ...ProductFragment
+                        }
                     }
                 }
             }
-        }
-        ${ProductFragment}
-    `;
-    const res = await shopifyFetch<{ data: { products: { edges: { node: any }[] } } }>({
-        query,
-        variables: { first }
-    });
+            ${ProductFragment}
+        `;
+        const res = await shopifyFetch<{ data: { products: { edges: { node: any }[] } } }>({
+            query,
+            variables: { first }
+        });
 
-    return res.body.data.products.edges.map(edge => reshapeProduct(edge.node));
+        return res.body.data.products.edges.map(edge => reshapeProduct(edge.node));
+    } catch (error) {
+        console.error("Error fetching products:", error);
+        return [];
+    }
 }
 
 export async function getProductByHandle(handle: string): Promise<ShopifyProduct | null> {
-    const query = `
-      query getProductByHandle($handle: String!) {
-        product(handle: $handle) {
-          ...ProductFragment
+    if (!areShopifyCredentialsValid()) return null;
+    try {
+        const query = `
+        query getProductByHandle($handle: String!) {
+            product(handle: $handle) {
+            ...ProductFragment
+            }
         }
-      }
-      ${ProductFragment}
-    `;
-    const res = await shopifyFetch<{ data: { product: any } }>({
-        query,
-        variables: { handle }
-    });
+        ${ProductFragment}
+        `;
+        const res = await shopifyFetch<{ data: { product: any } }>({
+            query,
+            variables: { handle }
+        });
 
-    if (!res.body.data.product) {
-      return null;
+        if (!res.body.data.product) {
+        return null;
+        }
+        
+        return reshapeProduct(res.body.data.product);
+    } catch (error) {
+        console.error(`Error fetching product by handle ${handle}:`, error);
+        return null;
     }
-    
-    return reshapeProduct(res.body.data.product);
 }
 
 
@@ -171,83 +181,107 @@ const ArticleFragment = `
 `;
 
 export async function getArticles(first: number = 10): Promise<ShopifyArticle[]> {
-    const query = `
-        query getArticles($first: Int!) {
-            articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
-                edges {
-                    node {
-                        ...ArticleFragment
+    if (!areShopifyCredentialsValid()) return [];
+    try {
+        const query = `
+            query getArticles($first: Int!) {
+                articles(first: $first, sortKey: PUBLISHED_AT, reverse: true) {
+                    edges {
+                        node {
+                            ...ArticleFragment
+                        }
                     }
                 }
             }
-        }
-        ${ArticleFragment}
-    `;
-    const res = await shopifyFetch<{ data: { articles: { edges: { node: any }[] } } }>({
-        query,
-        variables: { first }
-    });
-    
-    return res.body.data.articles.edges.map(edge => reshapeArticle(edge.node));
+            ${ArticleFragment}
+        `;
+        const res = await shopifyFetch<{ data: { articles: { edges: { node: any }[] } } }>({
+            query,
+            variables: { first }
+        });
+        
+        return res.body.data.articles.edges.map(edge => reshapeArticle(edge.node));
+    } catch (error) {
+        console.error("Error fetching articles:", error);
+        return [];
+    }
 }
 
 
 export async function getArticleByHandle(handle: string): Promise<ShopifyArticle | null> {
-    const query = `
-        query getArticleByHandle($handle: String!) {
-            blog(handle: "news") {
-                articleByHandle(handle: $handle) {
-                    ...ArticleFragment
+    if (!areShopifyCredentialsValid()) return null;
+    try {
+        const query = `
+            query getArticleByHandle($handle: String!) {
+                blog(handle: "news") {
+                    articleByHandle(handle: $handle) {
+                        ...ArticleFragment
+                    }
                 }
             }
+            ${ArticleFragment}
+        `;
+
+        const res = await shopifyFetch<{ data: { blog: { articleByHandle: any } } }>({
+            query,
+            variables: { handle }
+        });
+
+        if (!res.body.data.blog?.articleByHandle) {
+            return null;
         }
-        ${ArticleFragment}
-    `;
 
-    const res = await shopifyFetch<{ data: { blog: { articleByHandle: any } } }>({
-        query,
-        variables: { handle }
-    });
-
-    if (!res.body.data.blog?.articleByHandle) {
+        return reshapeArticle(res.body.data.blog.articleByHandle);
+    } catch (error) {
+        console.error(`Error fetching article by handle ${handle}:`, error);
         return null;
     }
-
-    return reshapeArticle(res.body.data.blog.articleByHandle);
 }
 
 export async function getAllArticleHandles(): Promise<string[]> {
-    const query = `
-        query getAllArticleHandles {
-        articles(first: 100) {
-            edges {
-            node {
-                handle
+    if (!areShopifyCredentialsValid()) return [];
+    try {
+        const query = `
+            query getAllArticleHandles {
+            articles(first: 100) {
+                edges {
+                node {
+                    handle
+                }
+                }
             }
             }
-        }
-        }
-    `;
+        `;
 
-    const res = await shopifyFetch<{ data: { articles: { edges: { node: { handle: string } }[] } } }>({ query });
+        const res = await shopifyFetch<{ data: { articles: { edges: { node: { handle: string } }[] } } }>({ query });
 
-    return res.body.data.articles.edges.map(edge => edge.node.handle);
+        return res.body.data.articles.edges.map(edge => edge.node.handle);
+    } catch (error) {
+        console.error("Error fetching all article handles:", error);
+        return [];
+    }
 }
 
 export async function getAllProductHandles(): Promise<string[]> {
-    const query = `
-    query getAllProductHandles {
-        products(first: 100) {
-        edges {
-            node {
-            handle
+    if (!areShopifyCredentialsValid()) return [];
+    try {
+        const query = `
+        query getAllProductHandles {
+            products(first: 100) {
+            edges {
+                node {
+                handle
+                }
+            }
             }
         }
-        }
+        `;
+
+        const res = await shopifyFetch<{ data: { products: { edges: { node: { handle: string } }[] } } }>({ query });
+
+        return res.body.data.products.edges.map(edge => edge.node.handle);
+    } catch (error) {
+        console.error("Error fetching all product handles:", error);
+        return [];
     }
-    `;
-
-    const res = await shopifyFetch<{ data: { products: { edges: { node: { handle: string } }[] } } }>({ query });
-
-    return res.body.data.products.edges.map(edge => edge.node.handle);
   }
