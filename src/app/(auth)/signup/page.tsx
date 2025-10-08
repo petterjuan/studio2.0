@@ -1,38 +1,73 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useTransition } from 'react';
 import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useEffect } from 'react';
 import { signup } from './actions';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth, firestore } from '@/firebase/client';
+import { doc, setDoc } from 'firebase/firestore';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Dumbbell, AlertCircle } from 'lucide-react';
+import { Dumbbell, AlertCircle, Loader2 } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { useToast } from '@/hooks/use-toast';
 
 
 function SubmitButton() {
   const { pending } = useFormStatus();
   return (
     <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? 'Creando Cuenta...' : 'Crear Cuenta'}
+      {pending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creando Cuenta...</> : 'Crear Cuenta'}
     </Button>
   );
 }
 
 export default function SignupPage() {
   const router = useRouter();
+  const { toast } = useToast();
   const [state, formAction] = useActionState(signup, { message: '', success: false });
 
-  useEffect(() => {
-    if (state.success) {
-      router.push('/dashboard');
-    }
-  }, [state.success, router]);
+  // This is a workaround because server actions can't sign in a user on the client.
+  // We perform the signup on the client AFTER the server action has successfully created the user.
+  const [isClientLoading, startClientTransition] = useTransition();
+
+  const handleFormSubmit = (formData: FormData) => {
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+    const name = formData.get('name') as string;
+
+    // Use a client-side transition for the full flow
+    startClientTransition(async () => {
+      try {
+        // Step 1: Create user on the client to get them signed in immediately
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, { displayName: name });
+        
+        // Step 2: (Optional but good practice) Inform our backend/server action.
+        // In this case, the server action already creates a user document in Firestore.
+        // We can call it to ensure the Firestore document is created.
+        const serverResult = await signup(state, formData);
+
+        if (serverResult.success) {
+          router.push('/dashboard');
+        } else {
+           toast({ variant: 'destructive', title: 'Error de registro', description: serverResult.message });
+        }
+      } catch (error: any) {
+        let message = 'Ocurrió un error desconocido.';
+        if (error.code === 'auth/email-already-in-use') {
+          message = 'Este correo electrónico ya está registrado.';
+        }
+        toast({ variant: 'destructive', title: 'Error de registro', description: message });
+      }
+    });
+  };
 
   return (
     <Card className="w-full max-w-sm">
@@ -43,7 +78,7 @@ export default function SignupPage() {
         <CardTitle className="text-2xl font-headline">Crear una Cuenta</CardTitle>
         <CardDescription>Únete a VM Fitness Hub para comenzar tu viaje.</CardDescription>
       </CardHeader>
-      <form action={formAction}>
+      <form action={handleFormSubmit}>
         <CardContent className="grid gap-4">
           {state.message && !state.success && (
             <Alert variant="destructive">
@@ -65,7 +100,9 @@ export default function SignupPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <SubmitButton />
+          <Button type="submit" className="w-full" disabled={isClientLoading}>
+            {isClientLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creando Cuenta...</> : 'Crear Cuenta'}
+          </Button>
           <div className="text-sm text-center text-muted-foreground">
             ¿Ya tienes una cuenta?{' '}
             <Link href="/login" className="underline hover:text-primary">

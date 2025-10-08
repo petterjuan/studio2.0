@@ -1,9 +1,7 @@
 'use server';
 
 import { z } from 'zod';
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { doc, setDoc } from 'firebase/firestore';
-import { auth, firestore } from '@/firebase/client';
+import { auth as adminAuth, firestore as adminFirestore } from '@/firebase/server';
 
 const SignupSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres."}),
@@ -33,12 +31,13 @@ export async function signup(prevState: SignupState, formData: FormData): Promis
   const { name, email, password } = validatedFields.data;
 
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-    const user = userCredential.user;
+    const userRecord = await adminAuth.createUser({
+      email,
+      password,
+      displayName: name,
+    });
 
-    await updateProfile(user, { displayName: name });
-
-    await setDoc(doc(firestore, "users", user.uid), {
+    await adminFirestore.collection("users").doc(userRecord.uid).set({
         name: name,
         email: email,
         createdAt: new Date(),
@@ -49,7 +48,7 @@ export async function signup(prevState: SignupState, formData: FormData): Promis
   } catch (error: any) {
     console.error('Error de registro:', error.code);
     let message = 'Ocurrió un error desconocido.';
-    if (error.code === 'auth/email-already-in-use') {
+    if (error.code === 'auth/email-already-exists') {
       message = 'Este correo electrónico ya está registrado.';
     } else {
       message = 'No se pudo crear una cuenta. Por favor, inténtalo de nuevo más tarde.';
