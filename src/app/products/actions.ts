@@ -34,7 +34,7 @@ export async function createCheckoutSession(product: Product) {
                         product_data: {
                             name: product.title,
                             description: product.description,
-                            images: [product.imageUrl],
+                            images: product.imageUrl ? [product.imageUrl] : [],
                         },
                         unit_amount: Math.round(product.rawPrice * 100), // Price in cents
                     },
