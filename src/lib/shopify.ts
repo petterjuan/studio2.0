@@ -4,7 +4,7 @@ const domain = process.env.NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN!;
 const storefrontAccessToken = process.env.NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN!;
 
 function areShopifyCredentialsValid() {
-    const isValid = domain && !domain.startsWith('your-') && storefrontAccessToken && !storefrontAccessToken.startsWith('your-');
+    const isValid = domain && storefrontAccessToken;
     if (!isValid) {
       console.warn("ADVERTENCIA: Las credenciales de Shopify no están configuradas. Los productos y artículos no se cargarán. Por favor, añádelas a tu archivo .env.");
     }
@@ -37,9 +37,8 @@ async function shopifyFetch<T>({
         'X-Shopify-Storefront-Access-Token': key,
       },
       body: JSON.stringify({ query, variables }),
-      // Use force-cache and revalidate to allow for static generation
-      cache: 'force-cache',
-      next: { revalidate: 3600 }, // Revalidate every hour
+      // Change cache strategy to 'no-store' to force re-fetching
+      cache: 'no-store',
     });
 
     const body = await result.json();
