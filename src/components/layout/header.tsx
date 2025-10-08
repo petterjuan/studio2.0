@@ -1,31 +1,24 @@
 'use client';
 
 import Link from 'next/link';
-import { Dumbbell } from 'lucide-react';
 import { usePathname } from 'next/navigation';
-
 import { cn } from '@/lib/utils';
 import { AuthButton } from '@/components/auth-button';
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from '../ui/button';
 import { Menu } from 'lucide-react';
 import { useState } from 'react';
-
+import { VmLogo } from './vm-logo';
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
-  { href: '/blog', label: 'Blog' },
+  { href: '/blog', label: 'Blog & Coaching' },
   { href: '/products', label: 'Productos' },
 ];
 
 export function Header() {
   const pathname = usePathname();
   const [isSheetOpen, setSheetOpen] = useState(false);
-
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (
     <Link
@@ -42,10 +35,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <Link href="/" className="mr-6 flex items-center space-x-2">
-          <Dumbbell className="h-6 w-6 text-primary" />
-          <span className="font-bold font-headline inline-block">VM Fitness Hub</span>
+      <div className="container flex h-16 items-center">
+        <Link href="/" className="mr-6 flex items-center" onClick={() => setSheetOpen(false)}>
+          <VmLogo className="h-10 text-primary" />
         </Link>
         <nav className="hidden md:flex items-center space-x-6 text-sm font-medium">
           {navLinks.map((link) => (
@@ -65,8 +57,7 @@ export function Header() {
               <SheetContent side="left">
                 <div className="flex flex-col space-y-4 p-4">
                     <Link href="/" className="mr-6 flex items-center space-x-2 mb-4" onClick={() => setSheetOpen(false)}>
-                        <Dumbbell className="h-6 w-6 text-primary" />
-                        <span className="font-bold font-headline inline-block">VM Fitness Hub</span>
+                        <VmLogo className="h-10 text-primary" />
                     </Link>
                     {navLinks.map((link) => (
                         <NavLink key={link.href} {...link} />
