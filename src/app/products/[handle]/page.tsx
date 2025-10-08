@@ -1,8 +1,11 @@
+
 import { getProductByHandle } from '@/lib/shopify';
 import { notFound } from 'next/navigation';
 import TestimonialCarousel from '@/components/testimonial-carousel';
 import ProductDetails from './product-details';
 import { ShopifyProduct } from '@/lib/definitions';
+
+export const dynamic = 'force-dynamic';
 
 export default async function ProductPage({ params }: { params: { handle: string } }) {
   const product = await getProductByHandle(params.handle);
