@@ -201,39 +201,3 @@ export async function getArticleByHandle(handle: string): Promise<ShopifyArticle
 
     return reshapeArticle(res.body.data.blog.articleByHandle);
 }
-
-export async function getAllArticleHandles(): Promise<string[]> {
-    const query = `
-        query getAllArticleHandles {
-        articles(first: 100) {
-            edges {
-            node {
-                handle
-            }
-            }
-        }
-        }
-    `;
-
-    const res = await shopifyFetch<{ data: { articles: { edges: { node: { handle: string } }[] } } }>({ query });
-
-    return res.body.data.articles.edges.map(edge => edge.node.handle);
-}
-
-export async function getAllProductHandles(): Promise<string[]> {
-    const query = `
-    query getAllProductHandles {
-        products(first: 100) {
-        edges {
-            node {
-            handle
-            }
-        }
-        }
-    }
-    `;
-
-    const res = await shopifyFetch<{ data: { products: { edges: { node: { handle: string } }[] } } }>({ query });
-
-    return res.body.data.products.edges.map(edge => edge.node.handle);
-}
