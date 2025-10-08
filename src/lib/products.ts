@@ -1,4 +1,3 @@
-
 import type { Product } from './definitions';
 
 function formatPrice(amount: number, currencyCode: string = 'USD') {
@@ -20,16 +19,6 @@ const products: Product[] = [
         price: formatPrice(29.00),
         imageUrl: 'https://picsum.photos/seed/snacks/800/800',
         tags: ['ebook', 'nutrición', 'snacks']
-    },
-    {
-        id: '1',
-        handle: 'muscle-bites-e-book',
-        title: 'E-Book: La Guía Definitiva de Muscle Bites',
-        description: 'Todo lo que necesitas para empezar tu transformación. Este e-book incluye recetas, planes de comida y los secretos de Valentina Montero para un físico de impacto.',
-        rawPrice: 47.00,
-        price: formatPrice(47.00),
-        imageUrl: 'https://picsum.photos/seed/ebook/800/800',
-        tags: ['ebook', 'nutrición']
     },
     {
         id: '2',
