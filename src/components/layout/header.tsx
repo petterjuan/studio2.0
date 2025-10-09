@@ -16,6 +16,7 @@ import { AuthButton } from '../auth-button';
 
 const navLinks = [
   { href: '/', label: 'Inicio' },
+  { href: '/plan-generator', label: 'Crear Plan' },
   { href: '/coaching', label: 'Coaching' },
   { href: '/blog', label: 'Blog' },
   { href: '/products', label: 'Productos' },

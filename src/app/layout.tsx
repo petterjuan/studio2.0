@@ -49,9 +49,7 @@ export default function RootLayout({
         <AuthProvider>
           <div className="relative flex min-h-dvh flex-col bg-background">
             <Header />
-            <PageTransition>
               <main className="flex-1">{children}</main>
-            </PageTransition>
             <Footer />
             <ShoppingAssistantChat />
           </div>
