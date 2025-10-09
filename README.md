@@ -81,6 +81,7 @@ NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
 NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=...
 
 # Stripe (Obtenido desde el Stripe Dashboard -> Desarrolladores -> Claves de API)
+# Si no se proporciona esta clave, el proceso de pago simulará una compra exitosa.
 STRIPE_SECRET_KEY=sk_test_...
 
 # Google AI (Genkit - Obtenido desde Google AI Studio)
@@ -103,7 +104,7 @@ La aplicación estará disponible en `http://localhost:9002`.
 
 ### Firebase
 
-- **Autenticación:** El flujo de autenticación (registro, inicio de sesión, cierre de sesión) se gestiona a través de `firebase/auth`. El estado del usuario se comparte globalmente mediante un `AuthProvider`.
+- **Autenticación:** El flujo de autenticación aprovecha la lógica tanto del lado del cliente como del servidor. La creación de usuarios (`createUserWithEmailAndPassword`) se gestiona en el cliente para una experiencia de inicio de sesión inmediata. Luego, las Server Actions se utilizan para validar datos y crear el documento de usuario correspondiente en Firestore.
 - **Firestore:** Se utiliza para almacenar perfiles de usuario, incluyendo un campo `isAdmin` para el control de acceso al panel de administración.
 - **Server SDK:** El SDK de administración de Firebase (`firebase-admin`) se utiliza en las Server Actions (`src/app/admin/actions.ts`) para realizar operaciones privilegiadas de backend, como la obtención de datos de todos los usuarios.
 
@@ -114,10 +115,11 @@ La aplicación se comunica con la **API de Storefront de Shopify** para obtener 
 ### Stripe
 
 El flujo de pago se gestiona a través de **Stripe Checkout**.
-1.  Un usuario hace clic en el botón de compra en la página de detalles de un producto (`src/app/products/[handle]/product-details.tsx`).
+1.  Un usuario hace clic en el botón de compra en la página de detalles de un producto.
 2.  Se invoca una **Server Action** (`src/app/products/actions.ts`).
-3.  Esta acción crea una `checkout.Session` de Stripe en el lado del servidor, pasando los detalles del producto.
+3.  Esta acción crea una `checkout.Session` de Stripe en el lado del servidor.
 4.  La aplicación redirige al usuario a la URL segura de la pasarela de pago de Stripe.
+5.  **Importante:** Si la clave `STRIPE_SECRET_KEY` no está configurada en tu archivo `.env`, este flujo se **simula**. El usuario será redirigido directamente al producto digital para facilitar el desarrollo y las pruebas locales sin necesidad de claves de Stripe.
 
 ### Genkit (Google AI)
 

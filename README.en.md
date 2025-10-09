@@ -81,6 +81,7 @@ NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
 NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=...
 
 # Stripe (Obtained from Stripe Dashboard -> Developers -> API keys)
+# If this key is not provided, the checkout will simulate a successful purchase.
 STRIPE_SECRET_KEY=sk_test_...
 
 # Google AI (Genkit - Obtained from Google AI Studio)
@@ -103,7 +104,7 @@ The application will be available at `http://localhost:9002`.
 
 ### Firebase
 
-- **Authentication:** The auth flow (signup, login, logout) is managed via `firebase/auth`. User state is shared globally using an `AuthProvider`.
+- **Authentication:** The authentication flow leverages both client-side and server-side logic. User creation (`createUserWithEmailAndPassword`) is handled on the client for an immediate sign-in experience. Server Actions are then used to validate data and create a corresponding user document in Firestore.
 - **Firestore:** Used to store user profiles, including an `isAdmin` field for access control to the admin dashboard.
 - **Server SDK:** The Firebase Admin SDK (`firebase-admin`) is used in Server Actions (`src/app/admin/actions.ts`) to perform privileged backend operations, such as fetching data for all users.
 
@@ -114,10 +115,11 @@ The application communicates with the **Shopify Storefront API** to fetch produc
 ### Stripe
 
 The payment flow is handled via **Stripe Checkout**.
-1.  A user clicks the buy button on a product detail page (`src/app/products/[handle]/product-details.tsx`).
+1.  A user clicks the "Buy Now" button on a product detail page.
 2.  A **Server Action** (`src/app/products/actions.ts`) is invoked.
-3.  This action creates a Stripe `checkout.Session` on the server-side, passing in product details.
+3.  This action creates a Stripe `checkout.Session` on the server-side.
 4.  The application redirects the user to the secure Stripe checkout URL.
+5.  **Important:** If the `STRIPE_SECRET_KEY` is not set in your `.env` file, this flow is **simulated**. The user will be redirected directly to the digital product to allow for local development and testing without requiring Stripe keys.
 
 ### Genkit (Google AI)
 
