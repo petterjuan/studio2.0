@@ -18,13 +18,17 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LayoutDashboard, LogOut, ShieldCheck } from 'lucide-react';
 
 export function AuthButton() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   const handleSignOut = async () => {
     await signOut(auth);
     router.push('/');
   };
+
+  if (loading) {
+    return <Button variant="ghost" className="w-20"><div className="h-4 w-12 rounded-md animate-pulse bg-muted" /></Button>
+  }
 
   if (!user) {
     return (

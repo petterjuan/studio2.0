@@ -1,3 +1,5 @@
+import type { User as FirebaseUser } from 'firebase/auth';
+
 export type Product = {
   id: string;
   handle: string;
@@ -28,4 +30,10 @@ export interface WorkoutPlan {
     description: string;
   }[];
   createdAt: string;
+}
+
+
+// Extend the Firebase User type to include our custom fields
+export interface User extends Partial<FirebaseUser> {
+  isAdmin?: boolean;
 }

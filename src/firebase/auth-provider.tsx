@@ -22,21 +22,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Ensure auth is initialized before subscribing
-    if (!auth?.onAuthStateChanged) {
-        setLoading(false);
-        return;
-    }
-
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
         const userDocRef = doc(firestore, 'users', firebaseUser.uid);
         const userDoc = await getDoc(userDocRef);
-        if (userDoc.exists() && userDoc.data().isAdmin) {
-          setUser({ ...firebaseUser, isAdmin: true, displayName: firebaseUser.displayName, email: firebaseUser.email, uid: firebaseUser.uid });
-        } else {
-          setUser({ ...firebaseUser, displayName: firebaseUser.displayName, email: firebaseUser.email, uid: firebaseUser.uid });
+        
+        let appUser: User = {
+          uid: firebaseUser.uid,
+          email: firebaseUser.email,
+          displayName: firebaseUser.displayName,
+          photoURL: firebaseUser.photoURL,
+          isAdmin: false, // default value
+        };
+
+        if (userDoc.exists()) {
+          appUser.isAdmin = userDoc.data()?.isAdmin === true;
         }
+        
+        setUser(appUser);
+
       } else {
         setUser(null);
       }

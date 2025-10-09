@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 import ShoppingAssistantChat from '@/components/shopping-assistant-chat';
 import { PageTransition } from '@/components/page-transition';
+import { AuthProvider } from '@/firebase/auth-provider';
 
 const fontBody = Alegreya({
   subsets: ['latin'],
@@ -45,6 +46,7 @@ export default function RootLayout({
         fontHeadline.variable,
         fontCode.variable
       )}>
+        <AuthProvider>
           <div className="relative flex min-h-dvh flex-col bg-background">
             <Header />
             <PageTransition>
@@ -54,6 +56,7 @@ export default function RootLayout({
             <ShoppingAssistantChat />
           </div>
           <Toaster />
+        </AuthProvider>
       </body>
     </html>
   );
