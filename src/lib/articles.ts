@@ -5,7 +5,7 @@ const articles: Article[] = [
     {
         id: '4',
         handle: 'magnesio-para-recuperacion-muscular',
-        title: '¿Calambres y Agotamiento? El Magnesio es Tu Arma Secreta para una Recuperación de Élite',
+        title: 'Magnesio para la Recuperación Muscular: Cómo Funciona y Cómo Utilizarlo',
         contentHtml: `
             <p class="lead text-lg text-muted-foreground">Si alguna vez has terminado una sesión intensa y has sentido que tus músculos simplemente no se recuperan, o si los calambres nocturnos interrumpen tu descanso, no estás sola. Estos son signos clásicos de que tu cuerpo podría estar pidiendo a gritos un mineral esencial: el <strong>magnesio</strong>.</p>
             
