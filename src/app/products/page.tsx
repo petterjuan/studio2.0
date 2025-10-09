@@ -1,13 +1,22 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { getProducts } from '@/lib/products';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Heart, Zap } from 'lucide-react';
-import TestimonialCarousel from '@/components/testimonial-carousel';
+import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { getPlaceholder } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export const revalidate = 3600; // Revalidate every hour
+
+const TestimonialCarousel = dynamic(
+  () => import('@/components/testimonial-carousel'),
+  { 
+    loading: () => <Skeleton className="h-[250px] w-full" />
+  }
+);
 
 export default async function ProductsPage() {
   const allProducts = await getProducts();

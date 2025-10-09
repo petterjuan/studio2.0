@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { getProducts } from '@/lib/products';
 import { getArticles } from '@/lib/articles';
-import TestimonialCarousel from '@/components/testimonial-carousel';
+import dynamic from 'next/dynamic';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { getPlaceholder } from '@/lib/utils';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const muscleBitesEbookImage = getPlaceholder('product-ebook-muscle-bites');
 
@@ -18,6 +19,13 @@ const muscleBitesFeatures = [
     "Potencia tus entrenamientos con 10 recetas pre-entreno deliciosas y fáciles de preparar.",
     "Acelera tu recuperación muscular con 5 recetas post-entreno diseñadas para nutrir tu cuerpo."
 ];
+
+const TestimonialCarousel = dynamic(
+  () => import('@/components/testimonial-carousel'),
+  { 
+    loading: () => <Skeleton className="h-[250px] w-full" />
+  }
+);
 
 
 export default async function Home() {
@@ -45,8 +53,8 @@ export default async function Home() {
             La guía definitiva de snacks y recetas para potenciar tus entrenamientos y acelerar tus resultados. Acceso instantáneo a tu plan de nutrición.
           </p>
           <Button asChild size="lg" className="mt-8">
-            <Link href="/products">
-              Ver Menú y Planes <ArrowRight className="ml-2 h-5 w-5" />
+            <Link href="/products/muscle-bites-snacks">
+              ¡Lo Quiero Ahora! <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
         </div>
