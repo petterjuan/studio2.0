@@ -49,14 +49,15 @@ export default function ShoppingAssistantChat() {
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = { role: 'user', content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setInput('');
     setIsLoading(true);
 
     try {
         const assistantInput: ShoppingAssistantInput = {
             query: input,
-            history: messages,
+            history: messages, // Send the history *before* the new user message
         };
         const result = await shoppingAssistant(assistantInput);
         const assistantMessage: Message = { role: 'assistant', content: result.response };
@@ -101,6 +102,14 @@ export default function ShoppingAssistantChat() {
               <CardContent className="flex-grow overflow-hidden p-0">
                 <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
                   <div className="space-y-4">
+                    {isLoading && messages.length === 0 && (
+                        <div className="flex items-start gap-3">
+                            <AvatarIcon className="bg-primary text-primary-foreground" />
+                            <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted flex items-center">
+                                <Loader className="h-5 w-5 animate-spin text-muted-foreground" />
+                            </div>
+                        </div>
+                    )}
                     {messages.map((message, index) => (
                       <div
                         key={index}
@@ -123,7 +132,7 @@ export default function ShoppingAssistantChat() {
                         {message.role === 'user' && <User className="h-8 w-8 rounded-full p-1 bg-muted text-muted-foreground" />}
                       </div>
                     ))}
-                    {isLoading && (
+                    {isLoading && messages.length > 0 && (
                        <div className="flex items-start gap-3">
                          <AvatarIcon className="bg-primary text-primary-foreground" />
                          <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted flex items-center">

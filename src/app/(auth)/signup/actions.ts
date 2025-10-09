@@ -28,41 +28,29 @@ export async function signup(prevState: SignupState, formData: FormData): Promis
     };
   }
 
-  const { name, email, password } = validatedFields.data;
+  const { name, email } = validatedFields.data;
 
   try {
-    // Check if user already exists
-    try {
-        await adminAuth.getUserByEmail(email);
-        return { message: 'Este correo electrónico ya está registrado.', success: false };
-    } catch (error: any) {
-        if (error.code !== 'auth/user-not-found') {
-            throw error; // Re-throw other errors
-        }
-        // If user not found, continue to create user.
-    }
+    // This action no longer creates the Auth user. It only validates data
+    // and creates the Firestore document after client-side creation.
+    // We get the user by email to find the UID.
+    const userRecord = await adminAuth.getUserByEmail(email);
 
-    const userRecord = await adminAuth.createUser({
-      email,
-      password,
-      displayName: name,
-    });
-
+    // Create the user document in Firestore.
     await adminFirestore.collection("users").doc(userRecord.uid).set({
         name: name,
         email: email,
         createdAt: new Date(),
         isAdmin: false, // Default role
-    });
+    }, { merge: true }); // Use merge to avoid overwriting if it somehow already exists
 
     return { message: '¡Registro exitoso! Bienvenido.', success: true };
   } catch (error: any) {
-    console.error('Error de registro:', error.code);
-    let message = 'Ocurrió un error desconocido.';
-    if (error.code === 'auth/email-already-exists') {
-      message = 'Este correo electrónico ya está registrado.';
-    } else {
-      message = 'No se pudo crear una cuenta. Por favor, inténtalo de nuevo más tarde.';
+    console.error('Error de registro en la acción del servidor:', error);
+    // This error is more likely to be a Firestore or lookup error now.
+    let message = 'No se pudo guardar la información del usuario.';
+    if (error.code === 'auth/user-not-found') {
+        message = 'El usuario no pudo ser encontrado después de la creación. Por favor, contacta a soporte.'
     }
     return { message, success: false };
   }
