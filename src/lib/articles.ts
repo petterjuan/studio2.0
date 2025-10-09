@@ -7,39 +7,52 @@ const articles: Article[] = [
         handle: 'magnesio-para-recuperacion-muscular',
         title: '¿Calambres y Agotamiento? El Magnesio es Tu Arma Secreta para una Recuperación de Élite',
         contentHtml: `
-            <p>Si alguna vez has terminado una sesión intensa y has sentido que tus músculos simplemente no se recuperan, o si los calambres nocturnos interrumpen tu descanso, no estás sola. Estos son signos clásicos de que tu cuerpo podría estar pidiendo a gritos un mineral esencial: el <strong>magnesio</strong>.</p>
+            <p class="lead text-lg text-muted-foreground">Si alguna vez has terminado una sesión intensa y has sentido que tus músculos simplemente no se recuperan, o si los calambres nocturnos interrumpen tu descanso, no estás sola. Estos son signos clásicos de que tu cuerpo podría estar pidiendo a gritos un mineral esencial: el <strong>magnesio</strong>.</p>
             
-            <h2>¿Qué es el Magnesio y Por Qué es Crucial para Tu Rendimiento?</h2>
+            <h2 class="text-2xl font-headline mt-8 mb-4">¿Qué es el Magnesio y Por Qué es Crucial para Tu Rendimiento?</h2>
             <p>El magnesio es un mineral involucrado en más de 300 reacciones bioquímicas en el cuerpo. Para las mujeres activas, es especialmente vital. Juega un papel clave en:</p>
-            <ul>
-                <li><strong>La producción de energía (ATP):</strong> Sin magnesio, la energía que necesitas para esa última repetición simplemente no estaría disponible.</li>
-                <li><strong>La síntesis de proteínas:</strong> Fundamental para reparar y construir la masa muscular que tanto te esfuerzas por ganar.</li>
-                <li><strong>La función muscular y nerviosa:</strong> Ayuda a regular las contracciones musculares, previniendo calambres y espasmos.</li>
-                <li><strong>El control del azúcar en sangre y la presión arterial.</strong></li>
+            <ul class="list-disc list-inside space-y-2 my-4">
+                <li><strong>Producción de energía (ATP):</strong> Sin magnesio, la energía que necesitas para esa última repetición simplemente no estaría disponible.</li>
+                <li><strong>Síntesis de proteínas:</strong> Fundamental para reparar y construir la masa muscular que tanto te esfuerzas por ganar.</li>
+                <li><strong>Función muscular y nerviosa:</strong> Ayuda a regular las contracciones musculares, previniendo calambres y espasmos.</li>
+                <li><strong>Control del azúcar en sangre y la presión arterial.</strong></li>
             </ul>
 
-            <h2>Señales de que Podrías Necesitar Más Magnesio</h2>
+            <h2 class="text-2xl font-headline mt-8 mb-4">Señales de que Podrías Necesitar Más Magnesio</h2>
             <p>Tu cuerpo es inteligente y te envía señales. Algunas de las más comunes en personas que entrenan duro incluyen:</p>
-            <ul>
-                <li>Calambres o espasmos musculares, especialmente en las piernas.</li>
-                <li>Fatiga o debilidad general que no se corresponde con tu esfuerzo.</li>
-                <li>Dificultad para dormir o insomnio.</li>
-                <li>Antojos de azúcar o chocolate (el cacao es rico en magnesio).</li>
+            <ul class="list-disc list-inside space-y-2 my-4">
+                <li><strong>Calambres</strong> o espasmos musculares, especialmente en las piernas por la noche.</li>
+                <li><strong>Fatiga o debilidad</strong> general que no se corresponde con tu esfuerzo.</li>
+                <li>Dificultad para dormir o <strong>insomnio</strong>.</li>
+                <li>Antojos de azúcar o <strong>chocolate</strong> (el cacao es rico en magnesio).</li>
+                <li>Dolores de cabeza o migrañas frecuentes.</li>
             </ul>
 
-            <h2>Cómo Incorporar Más Magnesio en Tu Dieta</h2>
+            <h2 class="text-2xl font-headline mt-8 mb-4">Cómo Incorporar Más Magnesio en Tu Dieta</h2>
             <p>La suplementación puede ser una opción, pero siempre es mejor empezar por la comida real. Aquí tienes algunas fuentes excelentes de magnesio:</p>
-            <ul>
+            <ul class="list-disc list-inside space-y-2 my-4">
                 <li><strong>Verduras de hoja verde:</strong> Espinacas, acelgas.</li>
                 <li><strong>Frutos secos y semillas:</strong> Almendras, semillas de calabaza, semillas de chía.</li>
                 <li><strong>Legumbres:</strong> Frijoles negros, lentejas.</li>
-                <li><strong>Aguacates y plátanos.</strong></li>
-                <li><strong>Chocolate negro (¡sí, chocolate!).</strong></li>
+                <li><strong>Frutas:</strong> Aguacates y plátanos.</li>
+                <li><strong>Chocolate negro</strong> (¡sí, chocolate con más de 70% de cacao!).</li>
             </ul>
+
+            <div class="my-8 p-6 bg-secondary/50 rounded-lg">
+                 <h3 class="text-xl font-headline mb-2">Potencia Tu Recuperación Ahora</h3>
+                 <p class="text-muted-foreground mb-4">Entender el papel del magnesio es solo el comienzo. Una nutrición inteligente es la clave para desbloquear todo tu potencial. Si estás lista para llevar tus resultados al siguiente nivel con recetas deliciosas y planes de snacks que realmente funcionan, mi e-book "Muscle Bites: Snacks para Ganar Masa Muscular" es la herramienta perfecta para ti.</p>
+                 <a href="/products/muscle-bites-snacks" class="font-bold text-primary hover:underline">Descubre cómo nutrir tu cuerpo de forma inteligente →</a>
+            </div>
             
-            <h2>El Siguiente Paso en Tu Viaje de Nutrición</h2>
-            <p>Entender el papel del magnesio es solo el comienzo. Una nutrición inteligente es la clave para desbloquear todo tu potencial. Si estás lista para llevar tus resultados al siguiente nivel con recetas deliciosas y planes de snacks que realmente funcionan, mi e-book <strong>"Muscle Bites: Snacks para Ganar Masa Muscular"</strong> es la herramienta perfecta para ti.</p>
-            <p>En él, no solo encontrarás recetas ricas en nutrientes esenciales como el magnesio, sino que aprenderás a estructurar tu alimentación para maximizar la energía y acelerar la recuperación. ¡Es hora de dejar de adivinar y empezar a nutrir tu cuerpo de forma inteligente!</p>
+            <h2 class="text-2xl font-headline mt-8 mb-4">Suplementación con Magnesio: ¿Qué Debes Saber?</h2>
+            <p>Si tu dieta no es suficiente, un suplemento puede ser de gran ayuda. Los tipos más recomendados para deportistas por su alta absorción son el <strong>citrato de magnesio</strong> y el <strong>glicinato de magnesio</strong>. El citrato es excelente para la función muscular general, mientras que el glicinato es ideal para mejorar la calidad del sueño y la relajación.</p>
+            <h3 class="text-xl font-headline mt-4 mb-2">Consejos para una suplementación segura:</h3>
+             <ul class="list-disc list-inside space-y-2 my-4">
+                <li>Comienza con una dosis baja (200-300 mg al día).</li>
+                <li>Tómalo después de entrenar o antes de dormir.</li>
+                <li>Consulta a un profesional de la salud antes de empezar cualquier suplemento.</li>
+            </ul>
+
         `,
         excerpt: '¿Sufres de calambres o fatiga post-entreno? Descubre cómo el magnesio, un mineral esencial, puede ser el secreto para una recuperación muscular más rápida y un rendimiento superior. Aprende a identificar las señales de deficiencia y a incorporarlo en tu dieta para maximizar tus resultados.',
         imageId: 'blog-magnesium',
