@@ -2,27 +2,32 @@ import { initializeApp, getApps, App, cert } from 'firebase-admin/app';
 import { getAuth, Auth } from 'firebase-admin/auth';
 import { getFirestore, Firestore } from 'firebase-admin/firestore';
 
-const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_KEY
-  ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_KEY)
-  : undefined;
+const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
 let app: App;
 let auth: Auth;
 let firestore: Firestore;
 
-if (serviceAccount) {
-    app = getApps().length
-        ? getApps()[0]
-        : initializeApp({ credential: cert(serviceAccount) });
-    
-    auth = getAuth(app);
-    firestore = getFirestore(app);
+if (getApps().length === 0) {
+  if (serviceAccountKey) {
+    const serviceAccount = JSON.parse(serviceAccountKey);
+    app = initializeApp({
+      credential: cert(serviceAccount),
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    });
+  } else {
+    // This is for local development without service account key
+    // It will use Application Default Credentials
+    app = initializeApp({
+      projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID,
+    });
+  }
 } else {
-    console.warn("Firebase Admin SDK not initialized. FIREBASE_SERVICE_ACCOUNT_KEY is missing.");
-    // Provide mock/empty objects if not initialized
-    app = {} as App;
-    auth = {} as Auth;
-    firestore = {} as Firestore;
+  app = getApps()[0];
 }
+
+auth = getAuth(app);
+firestore = getFirestore(app);
+
 
 export { app, auth, firestore };

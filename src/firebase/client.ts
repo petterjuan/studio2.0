@@ -18,16 +18,13 @@ let auth: Auth;
 let firestore: Firestore;
 
 if (typeof window !== 'undefined' && firebaseConfig.apiKey) {
-    // Ensure Firebase is initialized only on the client side
     app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
     auth = getAuth(app);
     firestore = getFirestore(app);
 } else {
-    // Provide placeholder objects on the server or if config is missing
     app = {} as FirebaseApp;
     auth = {} as Auth;
     firestore = {} as Firestore;
 }
-
 
 export { app, auth, firestore };
