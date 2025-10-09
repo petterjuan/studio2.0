@@ -7,52 +7,45 @@ const articles: Article[] = [
         handle: 'magnesio-para-recuperacion-muscular',
         title: 'Magnesio para la Recuperación Muscular: Cómo Funciona y Cómo Utilizarlo',
         contentHtml: `
-            <p class="lead text-lg text-muted-foreground">Si alguna vez has terminado una sesión intensa y has sentido que tus músculos simplemente no se recuperan, o si los calambres nocturnos interrumpen tu descanso, no estás sola. Estos son signos clásicos de que tu cuerpo podría estar pidiendo a gritos un mineral esencial: el <strong>magnesio</strong>.</p>
-            
-            <h2 class="text-2xl font-headline mt-8 mb-4">¿Qué es el Magnesio y Por Qué es Crucial para Tu Rendimiento?</h2>
-            <p>El magnesio es un mineral involucrado en más de 300 reacciones bioquímicas en el cuerpo. Para las mujeres activas, es especialmente vital. Juega un papel clave en:</p>
+            <h2 class="text-2xl font-headline mt-8 mb-4">El Papel del Magnesio en la Recuperación Muscular</h2>
+            <p>El magnesio (Mg) es un nutriente que tiene muchos beneficios saludables. Uno de los que puede ser más importante para sus clientes es la forma en que apoya la función muscular saludable. Funciona, al bloquear la absorción de calcio. Esto ayuda a que los músculos se relajen mejor después de contraerse durante un entrenamiento intenso.</p>
+            <p>Imagínese cómo sería su recuperación del entrenamiento si sus músculos permanecieran contraídos. No sólo sería difícil funcionar en la vida cotidiana, sino que también probablemente sentiría algo de dolor.</p>
+            <p>Las investigaciones revelan que tener niveles adecuados de magnesio puede incluso mejorar el rendimiento en el ejercicio. Estas mejoras generalmente se manifiestan a través de una mayor fuerza y potencia. También pueden incluir mejoras relacionadas con la extensión, flexión, rotación y salto.</p>
+            <p>Otro beneficio notable del magnesio en la recuperación muscular es el impacto que tiene sobre otros nutrientes. Por ejemplo, el magnesio activa la vitamina D. Los niveles bajos de vitamina D pueden provocar debilidad muscular y dolor. Si estos niveles bajos permanecen, la masa muscular puede disminuir, junto con el rendimiento del atleta.</p>
+            <p>De esta manera, tener niveles adecuados de magnesio favorece niveles más saludables de otras vitaminas. Esto asegura que el cuerpo tenga los nutrientes que necesita. Esto mejora aún más la función muscular y la recuperación.</p>
+
+            <h2 class="text-2xl font-headline mt-8 mb-4">Señales de Niveles Bajos de Magnesio</h2>
+            <p>¿Cómo puede saber si su nivel de magnesio es lo suficientemente bajo como para que pueda ser un problema? Algunos de los signos más comunes, que van de menos a más graves, incluyen:</p>
             <ul class="list-disc list-inside space-y-2 my-4">
-                <li><strong>Producción de energía (ATP):</strong> Sin magnesio, la energía que necesitas para esa última repetición simplemente no estaría disponible.</li>
-                <li><strong>Síntesis de proteínas:</strong> Fundamental para reparar y construir la masa muscular que tanto te esfuerzas por ganar.</li>
-                <li><strong>Función muscular y nerviosa:</strong> Ayuda a regular las contracciones musculares, previniendo calambres y espasmos.</li>
-                <li><strong>Control del azúcar en sangre y la presión arterial.</strong></li>
+                <li>Apetito reducido</li>
+                <li>Náuseas o vómitos</li>
+                <li>Fatiga o debilidad general</li>
+                <li>Entumecimiento u hormigueo</li>
+                <li>Calambres musculares</li>
+                <li>Dolor muscular</li>
+                <li>Convulsiones</li>
+                <li>Arritmia</li>
             </ul>
+            <p>En casos graves, la deficiencia de magnesio también puede provocar niveles bajos de otros nutrientes. El calcio y el potasio son dos. Esto altera aún más el equilibrio del cuerpo y puede causar problemas adicionales. El cuerpo no obtiene lo que necesita para funcionar eficazmente.</p>
 
-            <h2 class="text-2xl font-headline mt-8 mb-4">Señales de que Podrías Necesitar Más Magnesio</h2>
-            <p>Tu cuerpo es inteligente y te envía señales. Algunas de las más comunes en personas que entrenan duro incluyen:</p>
-            <ul class="list-disc list-inside space-y-2 my-4">
-                <li><strong>Calambres</strong> o espasmos musculares, especialmente en las piernas por la noche.</li>
-                <li><strong>Fatiga o debilidad</strong> general que no se corresponde con tu esfuerzo.</li>
-                <li>Dificultad para dormir o <strong>insomnio</strong>.</li>
-                <li>Antojos de azúcar o <strong>chocolate</strong> (el cacao es rico en magnesio).</li>
-                <li>Dolores de cabeza o migrañas frecuentes.</li>
-            </ul>
+            <h2 class="text-2xl font-headline mt-8 mb-4">Aumento del Magnesio para Mejorar la Recuperación Muscular</h2>
+            <p>Un análisis de sangre puede ayudar a revelar niveles bajos de magnesio. Esto a menudo se denomina prueba de magnesio sérico total. Puede ser parte de un examen físico anual o un médico puede solicitarlo por su cuenta.</p>
+            <p>Una vez que se encuentran niveles bajos, la forma más fácil de aumentar el consumo de magnesio es con la dieta. Los alimentos ricos en magnesio incluyen las semillas de calabaza y las espinacas. Los frutos secos como las almendras, los anacardos (este nombre puede variar dependiendo del país) y los cacahuetes también son ricos en este nutriente.</p>
 
-            <h2 class="text-2xl font-headline mt-8 mb-4">Cómo Incorporar Más Magnesio en Tu Dieta</h2>
-            <p>La suplementación puede ser una opción, pero siempre es mejor empezar por la comida real. Aquí tienes algunas fuentes excelentes de magnesio:</p>
-            <ul class="list-disc list-inside space-y-2 my-4">
-                <li><strong>Verduras de hoja verde:</strong> Espinacas, acelgas.</li>
-                <li><strong>Frutos secos y semillas:</strong> Almendras, semillas de calabaza, semillas de chía.</li>
-                <li><strong>Legumbres:</strong> Frijoles negros, lentejas.</li>
-                <li><strong>Frutas:</strong> Aguacates y plátanos.</li>
-                <li><strong>Chocolate negro</strong> (¡sí, chocolate con más de 70% de cacao!).</li>
-            </ul>
+            <h2 class="text-2xl font-headline mt-8 mb-4">Los Mejores Tipos de Magnesio para Aliviar la Tensión Muscular</h2>
+            <p>Cuando aprendemos sobre los nutrientes que nuestro cuerpo necesita, a menudo nos hablan del magnesio. Lo que generalmente no nos dicen es que hay muchos tipos diferentes. Esto hace que la cuestión de tomar un suplemento de magnesio sea un poco más compleja. Entonces, ¿cuáles son las opciones disponibles y, de ellas, ¿cuál puede ser mejor para la recuperación muscular? Hay tres.</p>
+            <h3 class="text-xl font-headline mt-4 mb-2">Sulfato de magnesio</h3>
+            <p>Este es el rey del magnesio para la recuperación muscular. De hecho, un estudio informa que incluso detiene la respuesta natural de escalofríos del cuerpo al salir de la anestesia. Así de bien funciona.</p>
+            <h3 class="text-xl font-headline mt-4 mb-2">Cloruro de magnesio</h3>
+            <p>Uno de los beneficios del cloruro de magnesio es que es la forma más fácil de encontrar. Como nota interesante, un estudio del 2008 encontró que el cloruro de magnesio incluso relaja las ostras de roca. (Si alguna vez has intentado pelar ostras, ¡sabes lo fuertes que pueden ser sus contracciones!)</p>
+            <h3 class="text-xl font-headline mt-4 mb-2">Citrato de magnesio</h3>
+            <p>Esta forma de magnesio se digiere más fácilmente. Eso lo hace preferible si sus niveles son bajos debido a problemas de absorción.</p>
 
-            <div class="my-8 p-6 bg-secondary/50 rounded-lg">
-                 <h3 class="text-xl font-headline mb-2">Potencia Tu Recuperación Ahora</h3>
-                 <p class="text-muted-foreground mb-4">Entender el papel del magnesio es solo el comienzo. Una nutrición inteligente es la clave para desbloquear todo tu potencial. Si estás lista para llevar tus resultados al siguiente nivel con recetas deliciosas y planes de snacks que realmente funcionan, mi e-book "Muscle Bites: Snacks para Ganar Masa Muscular" es la herramienta perfecta para ti.</p>
-                 <a href="/products/muscle-bites-snacks" class="font-bold text-primary hover:underline">Descubre cómo nutrir tu cuerpo de forma inteligente →</a>
-            </div>
-            
-            <h2 class="text-2xl font-headline mt-8 mb-4">Suplementación con Magnesio: ¿Qué Debes Saber?</h2>
-            <p>Si tu dieta no es suficiente, un suplemento puede ser de gran ayuda. Los tipos más recomendados para deportistas por su alta absorción son el <strong>citrato de magnesio</strong> y el <strong>glicinato de magnesio</strong>. El citrato es excelente para la función muscular general, mientras que el glicinato es ideal para mejorar la calidad del sueño y la relajación.</p>
-            <h3 class="text-xl font-headline mt-4 mb-2">Consejos para una suplementación segura:</h3>
-             <ul class="list-disc list-inside space-y-2 my-4">
-                <li>Comienza con una dosis baja (200-300 mg al día).</li>
-                <li>Tómalo después de entrenar o antes de dormir.</li>
-                <li>Consulta a un profesional de la salud antes de empezar cualquier suplemento.</li>
-            </ul>
-
+            <h2 class="text-2xl font-headline mt-8 mb-4">Consejos para una Suplementación de Magnesio Segura</h2>
+            <p>La suplementación de magnesio segura implica seguir algunas guías básicas.</p>
+            <p>En primer lugar, manténgase alejado de productos que proporcionen una dosis de magnesio superior a la necesaria. La ODS indica que, al tomar un suplemento de magnesio, no se deben exceder los 350 mg. Tomar más que esto aumenta el riesgo de sufrir diarrea, náuseas y calambres abdominales.</p>
+            <p>Además, es más probable que ciertos tipos de magnesio produzcan efectos negativos. Estos son: el carbonato de magnesio, cloruro de magnesio, gluconato de magnesio y óxido de magnesio.</p>
+            <p>Si está tomando otros medicamentos, consulte con su médico antes de tomar suplementos de magnesio. Esto ayuda a garantizar que no interfiera con otros tratamientos médicos. Su médico también puede ofrecerle sugerencias sobre la cantidad de magnesio que debe tomar. Esto puede variar según su salud y sus niveles actuales de magnesio.</p>
         `,
         excerpt: '¿Sufres de calambres o fatiga post-entreno? Descubre cómo el magnesio, un mineral esencial, puede ser el secreto para una recuperación muscular más rápida y un rendimiento superior. Aprende a identificar las señales de deficiencia y a incorporarlo en tu dieta para maximizar tus resultados.',
         imageId: 'blog-magnesium',
