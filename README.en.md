@@ -4,7 +4,7 @@
 
 ## Project Summary
 
-**VM Fitness Hub** is a modern, high-performance web application built with Next.js that serves as the frontend for a headless e-commerce and content experience. The application provides users with a polished UI to browse products, read blog articles, and interact with an AI shopping assistant, all while content and inventory are managed through a Shopify backend. User authentication, profile data, and admin features are handled via Firebase. Payments are securely processed through Stripe.
+**VM Fitness Hub** is a modern, high-performance web application built with Next.js that serves as a frontend for an e-commerce and content experience. The application provides users with a polished UI to browse products, read blog articles, and interact with an AI shopping assistant. User authentication, profile data, and admin features are handled via Firebase. Payments are securely processed through Stripe.
 
 This project is designed to be deployed on **Firebase App Hosting**, providing a scalable and fully-managed solution.
 
@@ -14,12 +14,11 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 
 - **Modern Framework:** Built with **Next.js 15 (App Router)** for optimal performance and Server-Side Rendering (SSR).
 - **Responsive Design:** Sleek and fully responsive user interface built with **Tailwind CSS** and **ShadCN UI**.
-- **Headless E-commerce:** Products are dynamically fetched from a **Shopify** store via the Storefront API.
-- **Content Blog:** Blog articles are also managed in Shopify and rendered in the Next.js app.
+- **Static Products & Content:** Products and blog articles are managed statically within the application code for simplicity and performance.
 - **Secure Authentication:** Complete user registration and login system with roles (including an admin panel) using **Firebase Authentication**.
 - **Firestore Database:** User profiles and roles are stored in **Cloud Firestore**.
 - **Payment Processing:** Secure payment integration with **Stripe Checkout**.
-- **AI Assistant:** A shopping concierge chatbot powered by **Google AI (Genkit)** that can provide product information using tools.
+- **AI Assistant:** A shopping concierge chatbot powered by **Google AI (Genkit)** that can provide product information.
 - **Deployment-Optimized:** Configured for seamless deployment on **Firebase App Hosting**.
 
 ---
@@ -32,7 +31,6 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components:** [ShadCN UI](https://ui.shadcn.com/)
 - **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
-- **Headless E-commerce:** [Shopify Storefront API](https://shopify.dev/docs/api/storefront)
 - **Payments:** [Stripe](https://stripe.com/)
 - **Artificial Intelligence:** [Genkit (Google AI)](https://firebase.google.com/docs/genkit)
 - **Form Management:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
@@ -76,10 +74,6 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=1:...
 
-# Shopify (Obtained from Shopify Dashboard -> Apps -> Develop apps)
-NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
-NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=...
-
 # Stripe (Obtained from Stripe Dashboard -> Developers -> API keys)
 # If this key is not provided, the checkout will simulate a successful purchase.
 STRIPE_SECRET_KEY=sk_test_...
@@ -108,10 +102,6 @@ The application will be available at `http://localhost:9002`.
 - **Firestore:** Used to store user profiles, including an `isAdmin` field for access control to the admin dashboard.
 - **Server SDK:** The Firebase Admin SDK (`firebase-admin`) is used in Server Actions (`src/app/admin/actions.ts`) to perform privileged backend operations, such as fetching data for all users.
 
-### Shopify
-
-The application communicates with the **Shopify Storefront API** to fetch products and blog articles. The data fetching logic is located in `src/lib/shopify.ts`. A `force-cache` strategy with revalidation is used to enable Static Site Generation (SSG) and improve performance.
-
 ### Stripe
 
 The payment flow is handled via **Stripe Checkout**.
@@ -125,7 +115,7 @@ The payment flow is handled via **Stripe Checkout**.
 
 The shopping assistant is implemented using a **Genkit flow** defined in `src/ai/flows/shopping-assistant.ts`.
 - **Flow:** `shoppingAssistantFlow` processes the user's query and chat history.
-- **Tools:** It uses `getProductInfo` as a tool to allow the AI model to dynamically fetch up-to-date product information from the Shopify API during a conversation.
+- **Tools:** It can be extended with tools to allow the AI model to dynamically fetch up-to-date product information from internal or external APIs.
 
 ---
 

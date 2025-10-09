@@ -4,7 +4,7 @@
 
 ## Resumen del Proyecto
 
-**VM Fitness Hub** es una aplicación web moderna y de alto rendimiento construida con Next.js que sirve como la fachada (frontend) para una experiencia de e-commerce y contenido headless. La aplicación ofrece a los usuarios una interfaz de usuario pulida para explorar productos, leer artículos de blog e interactuar con un asistente de compras de IA, todo mientras se gestiona el contenido y el inventario a través de un backend de Shopify. La autenticación de usuarios, los datos de perfil y las funciones de administrador se gestionan a través de Firebase. Los pagos se procesan de forma segura a través de Stripe.
+**VM Fitness Hub** es una aplicación web moderna y de alto rendimiento construida con Next.js que sirve como la fachada (frontend) para una experiencia de e-commerce y contenido. La aplicación ofrece a los usuarios una interfaz de usuario pulida para explorar productos, leer artículos de blog e interactuar con un asistente de compras de IA. La autenticación de usuarios, los datos de perfil y las funciones de administrador se gestionan a través de Firebase. Los pagos se procesan de forma segura a través de Stripe.
 
 Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, proporcionando una solución escalable y totalmente gestionada.
 
@@ -14,12 +14,11 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 
 - **Framework Moderno:** Construido con **Next.js 15 (App Router)** para un rendimiento óptimo y Server-Side Rendering (SSR).
 - **Diseño Responsivo:** Interfaz de usuario elegante y totalmente responsiva construida con **Tailwind CSS** y **ShadCN UI**.
-- **E-commerce Headless:** Los productos se obtienen dinámicamente desde una tienda **Shopify** a través de la API de Storefront.
-- **Blog de Contenido:** Los artículos del blog también se gestionan en Shopify y se renderizan en la aplicación Next.js.
+- **Contenido y Productos Estáticos:** Los productos y artículos del blog se gestionan de forma estática dentro del código de la aplicación para mayor simplicidad y rendimiento.
 - **Autenticación Segura:** Sistema completo de registro e inicio de sesión de usuarios con roles (incluyendo un panel de administrador) utilizando **Firebase Authentication**.
 - **Base de Datos Firestore:** Los perfiles de usuario y los roles se almacenan en **Cloud Firestore**.
 - **Procesamiento de Pagos:** Integración segura de pagos con **Stripe Checkout**.
-- **Asistente de IA:** Un chatbot de conserje de compras impulsado por **Google AI (Genkit)** que puede proporcionar información sobre productos utilizando herramientas.
+- **Asistente de IA:** Un chatbot de conserje de compras impulsado por **Google AI (Genkit)** que puede proporcionar información sobre productos.
 - **Optimización de Despliegue:** Configurado para un despliegue sin problemas en **Firebase App Hosting**.
 
 ---
@@ -32,7 +31,6 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
 - **Componentes UI:** [ShadCN UI](https://ui.shadcn.com/)
 - **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
-- **E-commerce Headless:** [Shopify Storefront API](https://shopify.dev/docs/api/storefront)
 - **Pagos:** [Stripe](https://stripe.com/)
 - **Inteligencia Artificial:** [Genkit (Google AI)](https://firebase.google.com/docs/genkit)
 - **Gestión de Formularios:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
@@ -76,10 +74,6 @@ NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=1:...
 
-# Shopify (Obtenido desde el panel de Shopify -> Apps -> Desarrollar apps)
-NEXT_PUBLIC_SHOPIFY_STORE_DOMAIN=your-store.myshopify.com
-NEXT_PUBLIC_SHOPIFY_STOREFRONT_ACCESS_TOKEN=...
-
 # Stripe (Obtenido desde el Stripe Dashboard -> Desarrolladores -> Claves de API)
 # Si no se proporciona esta clave, el proceso de pago simulará una compra exitosa.
 STRIPE_SECRET_KEY=sk_test_...
@@ -108,10 +102,6 @@ La aplicación estará disponible en `http://localhost:9002`.
 - **Firestore:** Se utiliza para almacenar perfiles de usuario, incluyendo un campo `isAdmin` para el control de acceso al panel de administración.
 - **Server SDK:** El SDK de administración de Firebase (`firebase-admin`) se utiliza en las Server Actions (`src/app/admin/actions.ts`) para realizar operaciones privilegiadas de backend, como la obtención de datos de todos los usuarios.
 
-### Shopify
-
-La aplicación se comunica con la **API de Storefront de Shopify** para obtener productos y artículos de blog. La lógica de obtención de datos se encuentra en `src/lib/shopify.ts`. Se utiliza la estrategia de caché `force-cache` con revalidación para permitir la generación de páginas estáticas (SSG) y mejorar el rendimiento.
-
 ### Stripe
 
 El flujo de pago se gestiona a través de **Stripe Checkout**.
@@ -125,7 +115,7 @@ El flujo de pago se gestiona a través de **Stripe Checkout**.
 
 El asistente de compras se implementa utilizando un **flujo de Genkit** definido en `src/ai/flows/shopping-assistant.ts`.
 - **Flujo:** `shoppingAssistantFlow` procesa la consulta del usuario y el historial de chat.
-- **Herramientas (Tools):** Utiliza `getProductInfo` como una herramienta para permitir que el modelo de IA obtenga dinámicamente información actualizada sobre productos desde la API de Shopify durante una conversación.
+- **Herramientas (Tools):** Puede ser extendido con herramientas para permitir que el modelo de IA obtenga dinámicamente información actualizada sobre productos desde APIs internas o externas.
 
 ---
 
