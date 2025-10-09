@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { format } from 'date-fns';
 import { Calendar, User } from 'lucide-react';
-import placeholderData from '@/lib/placeholder-images.json';
 import { getPlaceholder } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
