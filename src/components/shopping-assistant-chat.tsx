@@ -20,6 +20,7 @@ export default function ShoppingAssistantChat() {
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
 
   useEffect(() => {
@@ -42,6 +43,14 @@ export default function ShoppingAssistantChat() {
         }
     }
   }, [messages]);
+
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 100); // Short delay to ensure the input is rendered
+    }
+  }, [isOpen]);
   
 
   const handleSendMessage = async (e: React.FormEvent) => {
@@ -146,6 +155,7 @@ export default function ShoppingAssistantChat() {
               <CardFooter>
                 <form onSubmit={handleSendMessage} className="flex w-full items-center space-x-2">
                   <Input
+                    ref={inputRef}
                     id="message"
                     placeholder="Describe tus metas..."
                     className="flex-1"

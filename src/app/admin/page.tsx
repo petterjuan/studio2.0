@@ -60,7 +60,11 @@ export default function AdminPage() {
         </CardHeader>
         <CardContent>
           {isLoadingPlans ? (
-            <Skeleton className="h-96 w-full" />
+            <div className="space-y-4">
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+              <Skeleton className="h-12 w-full" />
+            </div>
           ) : (
             <Table>
               <TableHeader>
