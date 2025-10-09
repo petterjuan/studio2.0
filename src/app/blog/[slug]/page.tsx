@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { Calendar, User } from 'lucide-react';
 import { getPlaceholder } from '@/lib/utils';
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 
 export const dynamic = 'force-dynamic';
 

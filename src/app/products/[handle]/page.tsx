@@ -1,14 +1,14 @@
 
 import { getProductByHandle } from '@/lib/products';
 import { notFound } from 'next/navigation';
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 import ProductDetails from './product-details';
 import { Product } from '@/lib/definitions';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export const dynamic = 'force-dynamic';
 
-const TestimonialCarousel = dynamic(
+const TestimonialCarousel = dynamicComponent(
   () => import('@/components/testimonial-carousel'),
   { 
     loading: () => <Skeleton className="h-[250px] w-full" />
