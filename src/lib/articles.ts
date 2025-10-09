@@ -32,13 +32,13 @@ const articles: Article[] = [
             <p>Un análisis de sangre puede ayudar a revelar niveles bajos de magnesio. Esto a menudo se denomina prueba de magnesio sérico total. Puede ser parte de un examen físico anual o un médico puede solicitarlo por su cuenta.</p>
             <p>Una vez que se encuentran niveles bajos, la forma más fácil de aumentar el consumo de magnesio es con la dieta. Los alimentos ricos en magnesio incluyen las semillas de calabaza y las espinacas. Los frutos secos como las almendras, los anacardos (este nombre puede variar dependiendo del país) y los cacahuetes también son ricos en este nutriente.</p>
 
-            <h2 class="text-2xl font-headline mt-8 mb-4">Los Mejores Tipos de Magnesio para Aliviar la Tensión Muscular</h2>
+            <h3 class="text-xl font-headline mt-4 mb-2">Los Mejores Tipos de Magnesio para Aliviar la Tensión Muscular</h3>
             <p>Cuando aprendemos sobre los nutrientes que nuestro cuerpo necesita, a menudo nos hablan del magnesio. Lo que generalmente no nos dicen es que hay muchos tipos diferentes. Esto hace que la cuestión de tomar un suplemento de magnesio sea un poco más compleja. Entonces, ¿cuáles son las opciones disponibles y, de ellas, ¿cuál puede ser mejor para la recuperación muscular? Hay tres.</p>
-            <h3 class="text-xl font-headline mt-4 mb-2">Sulfato de magnesio</h3>
+            <h4 class="text-lg font-headline mt-4 mb-2">Sulfato de magnesio.</h4>
             <p>Este es el rey del magnesio para la recuperación muscular. De hecho, un estudio informa que incluso detiene la respuesta natural de escalofríos del cuerpo al salir de la anestesia. Así de bien funciona.</p>
-            <h3 class="text-xl font-headline mt-4 mb-2">Cloruro de magnesio</h3>
+            <h4 class="text-lg font-headline mt-4 mb-2">Cloruro de magnesio.</h4>
             <p>Uno de los beneficios del cloruro de magnesio es que es la forma más fácil de encontrar. Como nota interesante, un estudio del 2008 encontró que el cloruro de magnesio incluso relaja las ostras de roca. (Si alguna vez has intentado pelar ostras, ¡sabes lo fuertes que pueden ser sus contracciones!)</p>
-            <h3 class="text-xl font-headline mt-4 mb-2">Citrato de magnesio</h3>
+            <h4 class="text-lg font-headline mt-4 mb-2">Citrato de magnesio.</h4>
             <p>Esta forma de magnesio se digiere más fácilmente. Eso lo hace preferible si sus niveles son bajos debido a problemas de absorción.</p>
 
             <h2 class="text-2xl font-headline mt-8 mb-4">Consejos para una Suplementación de Magnesio Segura</h2>
