@@ -8,14 +8,6 @@ import type { Product } from '@/lib/definitions';
 import { getPlaceholder } from '@/lib/utils';
 
 export async function createCheckoutSession(product: Product) {
-    if (!process.env.STRIPE_SECRET_KEY) {
-        throw new Error('STRIPE_SECRET_KEY is not set');
-    }
-
-    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
-        apiVersion: '2024-06-20',
-    });
-
     const headersList = headers();
     const domain = headersList.get('host') || '';
     const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
@@ -23,6 +15,18 @@ export async function createCheckoutSession(product: Product) {
     // The success URL now points directly to the PDF file in the public folder.
     // Make sure your PDF is named 'muscle-bites-ebook.pdf' and placed in the /public directory.
     const successUrl = `${protocol}://${domain}/muscle-bites-ebook.pdf`;
+
+    // When STRIPE_SECRET_KEY is available, the original logic will be used.
+    // For now, we simulate a successful purchase by redirecting directly to the product.
+    if (!process.env.STRIPE_SECRET_KEY) {
+        console.log("STRIPE_SECRET_KEY not set. Simulating purchase and redirecting to success URL.");
+        redirect(successUrl);
+    }
+    
+    const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+        apiVersion: '2024-06-20',
+    });
+
     const cancelUrl = `${protocol}://${domain}/products/${product.handle}`;
     
     const image = getPlaceholder(product.imageId);
