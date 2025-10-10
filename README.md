@@ -4,7 +4,7 @@
 
 ## Resumen del Proyecto
 
-**VM Fitness Hub** es una aplicación web moderna y de alto rendimiento construida con Next.js que sirve como la fachada (frontend) para una experiencia de e-commerce y contenido. La aplicación ofrece a los usuarios una interfaz de usuario pulida para explorar productos, leer artículos de blog e interactuar con un asistente de compras de IA. La autenticación de usuarios, los datos de perfil y las funciones de administrador se gestionan a través de Firebase. Los pagos se procesan de forma segura a través de Stripe.
+**VM Fitness Hub** es una aplicación web moderna y de alto rendimiento construida con Next.js que sirve como la fachada (frontend) para una experiencia de e-commerce y contenido. La aplicación ofrece a los usuarios una interfaz de usuario pulida para explorar productos, leer artículos de blog, interactuar con un asistente de compras de IA y generar planes de entrenamiento personalizados. La autenticación de usuarios, los datos de perfil y las funciones de administrador se gestionan a través de Firebase. Los pagos se procesan de forma segura a través de Stripe.
 
 Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, proporcionando una solución escalable y totalmente gestionada.
 
@@ -16,9 +16,11 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 - **Diseño Responsivo:** Interfaz de usuario elegante y totalmente responsiva construida con **Tailwind CSS** y **ShadCN UI**.
 - **Contenido y Productos Estáticos:** Los productos y artículos del blog se gestionan de forma estática dentro del código de la aplicación para mayor simplicidad y rendimiento.
 - **Autenticación Segura:** Sistema completo de registro e inicio de sesión de usuarios con roles (incluyendo un panel de administrador) utilizando **Firebase Authentication**.
-- **Base de Datos Firestore:** Los perfiles de usuario y los roles se almacenan en **Cloud Firestore**.
+- **Base de Datos Firestore:** Los perfiles de usuario, roles y planes de entrenamiento se almacenan en **Cloud Firestore**.
 - **Procesamiento de Pagos:** Integración segura de pagos con **Stripe Checkout**.
-- **Asistente de IA:** Un chatbot de conserje de compras impulsado por **Google AI (Genkit)** que puede proporcionar información sobre productos.
+- **Funcionalidades con IA (Genkit):**
+    - **Generador de Planes de Entrenamiento:** Una herramienta de IA que crea planes de entrenamiento semanales personalizados.
+    - **Asistente de Compras:** Un chatbot de conserje de compras impulsado por **Google AI (Genkit)**.
 - **Optimización de Despliegue:** Configurado para un despliegue sin problemas en **Firebase App Hosting**.
 
 ---
@@ -63,7 +65,7 @@ npm install
 
 ### 4. Configurar Variables de Entorno
 
-Crea un archivo `.env` en la raíz del proyecto copiando el archivo `.env.example` (si existe) o creándolo desde cero. Luego, rellena las siguientes variables:
+Crea un archivo `.env` en la raíz del proyecto y rellena las siguientes variables:
 
 ```plaintext
 # Firebase (Obtenido desde la consola de Firebase)
@@ -73,6 +75,11 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
 NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=1:...
+
+# Firebase Admin (Clave de cuenta de servicio para el backend)
+# Genera esto desde la configuración de tu proyecto en Firebase > Cuentas de servicio
+# Pega todo el contenido del archivo JSON como una sola línea.
+FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
 
 # Stripe (Obtenido desde el Stripe Dashboard -> Desarrolladores -> Claves de API)
 # Si no se proporciona esta clave, el proceso de pago simulará una compra exitosa.
@@ -99,8 +106,8 @@ La aplicación estará disponible en `http://localhost:9002`.
 ### Firebase
 
 - **Autenticación:** El flujo de autenticación aprovecha la lógica tanto del lado del cliente como del servidor. La creación de usuarios (`createUserWithEmailAndPassword`) se gestiona en el cliente para una experiencia de inicio de sesión inmediata. Luego, las Server Actions se utilizan para validar datos y crear el documento de usuario correspondiente en Firestore.
-- **Firestore:** Se utiliza para almacenar perfiles de usuario, incluyendo un campo `isAdmin` para el control de acceso al panel de administración.
-- **Server SDK:** El SDK de administración de Firebase (`firebase-admin`) se utiliza en las Server Actions (`src/app/admin/actions.ts`) para realizar operaciones privilegiadas de backend, como la obtención de datos de todos los usuarios.
+- **Firestore:** Se utiliza para almacenar perfiles de usuario, incluyendo un campo `isAdmin` para el control de acceso, así como los planes de entrenamiento generados por los usuarios.
+- **Server SDK:** El SDK de administración de Firebase (`firebase-admin`) se utiliza en las Server Actions para realizar operaciones privilegiadas de backend, como la obtención de datos de todos los usuarios.
 
 ### Stripe
 
@@ -113,9 +120,8 @@ El flujo de pago se gestiona a través de **Stripe Checkout**.
 
 ### Genkit (Google AI)
 
-El asistente de compras se implementa utilizando un **flujo de Genkit** definido en `src/ai/flows/shopping-assistant.ts`.
-- **Flujo:** `shoppingAssistantFlow` procesa la consulta del usuario y el historial de chat.
-- **Herramientas (Tools):** Puede ser extendido con herramientas para permitir que el modelo de IA obtenga dinámicamente información actualizada sobre productos desde APIs internas o externas.
+- **Generador de Planes:** El flujo `workoutPlanGeneratorFlow` (`src/ai/flows/workout-plan-generator.ts`) crea planes de entrenamiento semanales basados en las entradas del usuario.
+- **Asistente de Compras:** El flujo `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) procesa la consulta del usuario y el historial de chat. Puede ser extendido con herramientas para permitir que el modelo de IA obtenga dinámicamente información actualizada sobre productos.
 
 ---
 

@@ -4,7 +4,7 @@
 
 ## Project Summary
 
-**VM Fitness Hub** is a modern, high-performance web application built with Next.js that serves as a frontend for an e-commerce and content experience. The application provides users with a polished UI to browse products, read blog articles, and interact with an AI shopping assistant. User authentication, profile data, and admin features are handled via Firebase. Payments are securely processed through Stripe.
+**VM Fitness Hub** is a modern, high-performance web application built with Next.js that serves as a frontend for an e-commerce and content experience. The application provides users with a polished UI to browse products, read blog articles, interact with an AI shopping assistant, and generate personalized workout plans. User authentication, profile data, and admin features are handled via Firebase. Payments are securely processed through Stripe.
 
 This project is designed to be deployed on **Firebase App Hosting**, providing a scalable and fully-managed solution.
 
@@ -16,9 +16,11 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 - **Responsive Design:** Sleek and fully responsive user interface built with **Tailwind CSS** and **ShadCN UI**.
 - **Static Products & Content:** Products and blog articles are managed statically within the application code for simplicity and performance.
 - **Secure Authentication:** Complete user registration and login system with roles (including an admin panel) using **Firebase Authentication**.
-- **Firestore Database:** User profiles and roles are stored in **Cloud Firestore**.
+- **Firestore Database:** User profiles, roles, and workout plans are stored in **Cloud Firestore**.
 - **Payment Processing:** Secure payment integration with **Stripe Checkout**.
-- **AI Assistant:** A shopping concierge chatbot powered by **Google AI (Genkit)** that can provide product information.
+- **AI-Powered Features (Genkit):**
+    - **Workout Plan Generator:** An AI tool that creates custom weekly workout plans.
+    - **Shopping Assistant:** A shopping concierge chatbot powered by **Google AI (Genkit)**.
 - **Deployment-Optimized:** Configured for seamless deployment on **Firebase App Hosting**.
 
 ---
@@ -63,7 +65,7 @@ npm install
 
 ### 4. Configure Environment Variables
 
-Create a `.env` file in the root of the project by copying the `.env.example` file (if it exists) or creating it from scratch. Then, fill in the following variables:
+Create a `.env` file in the root of the project and fill in the following variables:
 
 ```plaintext
 # Firebase (Obtained from Firebase Console)
@@ -73,6 +75,11 @@ NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
 NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
 NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=1:...
+
+# Firebase Admin (Service account key for the backend)
+# Generate this from your Firebase Project Settings > Service accounts
+# Paste the entire content of the JSON file on a single line.
+FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
 
 # Stripe (Obtained from Stripe Dashboard -> Developers -> API keys)
 # If this key is not provided, the checkout will simulate a successful purchase.
@@ -99,8 +106,8 @@ The application will be available at `http://localhost:9002`.
 ### Firebase
 
 - **Authentication:** The authentication flow leverages both client-side and server-side logic. User creation (`createUserWithEmailAndPassword`) is handled on the client for an immediate sign-in experience. Server Actions are then used to validate data and create a corresponding user document in Firestore.
-- **Firestore:** Used to store user profiles, including an `isAdmin` field for access control to the admin dashboard.
-- **Server SDK:** The Firebase Admin SDK (`firebase-admin`) is used in Server Actions (`src/app/admin/actions.ts`) to perform privileged backend operations, such as fetching data for all users.
+- **Firestore:** Used to store user profiles (including an `isAdmin` field for access control) and user-generated workout plans.
+- **Server SDK:** The Firebase Admin SDK (`firebase-admin`) is used in Server Actions to perform privileged backend operations, such as fetching data for all users.
 
 ### Stripe
 
@@ -113,9 +120,8 @@ The payment flow is handled via **Stripe Checkout**.
 
 ### Genkit (Google AI)
 
-The shopping assistant is implemented using a **Genkit flow** defined in `src/ai/flows/shopping-assistant.ts`.
-- **Flow:** `shoppingAssistantFlow` processes the user's query and chat history.
-- **Tools:** It can be extended with tools to allow the AI model to dynamically fetch up-to-date product information from internal or external APIs.
+- **Plan Generator:** The `workoutPlanGeneratorFlow` (`src/ai/flows/workout-plan-generator.ts`) creates weekly workout plans based on user inputs.
+- **Shopping Assistant:** The `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) processes the user's query and chat history. It can be extended with tools to allow the AI model to dynamically fetch up-to-date product information.
 
 ---
 
