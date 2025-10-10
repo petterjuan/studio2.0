@@ -2,7 +2,7 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "VM Fitness Hub Backend Data Model",
   "description": "This document defines the data structures for User Profiles and their associated Workout Plans stored in Firestore.",
-  "definitions": {
+  "entities": {
     "userProfile": {
       "type": "object",
       "title": "User Profile",
@@ -67,6 +67,20 @@
         }
       },
       "required": ["title", "summary", "weeklySchedule", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": {
+        "$ref": "#/entities/userProfile"
+      },
+      "description": "Stores individual user profile data. The document ID is the Firebase Auth UID."
+    },
+    "/users/{userId}/workoutPlans/{planId}": {
+      "schema": {
+        "$ref": "#/entities/workoutPlan"
+      },
+      "description": "A subcollection storing all workout plans generated and saved by a specific user."
     }
   }
 }

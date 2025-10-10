@@ -69,7 +69,8 @@ export default async function Home() {
                         src={muscleBitesEbookImage.imageUrl}
                         alt="E-book Muscle Bites: Snacks para Ganar Masa Muscular"
                         data-ai-hint={muscleBitesEbookImage.imageHint}
-                        fill
+                        width={600}
+                        height={600}
                         className="object-cover"
                     />
                 </div>
@@ -120,7 +121,8 @@ export default async function Home() {
                         src={image.imageUrl}
                         alt={product.title}
                         data-ai-hint={image.imageHint}
-                        fill
+                        width={600}
+                        height={600}
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
@@ -165,7 +167,7 @@ export default async function Home() {
               return (
               <Card key={article.id} className="flex flex-col overflow-hidden text-left">
                 <Link href={`/blog/${article.handle}`} className="block">
-                  <div className="relative h-56 w-full">
+                  <div className="relative aspect-[4/3]">
                     <Image
                       src={image.imageUrl}
                       alt={article.title}

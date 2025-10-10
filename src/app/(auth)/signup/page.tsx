@@ -1,29 +1,27 @@
 'use client';
 
-import { useActionState, useTransition } from 'react';
+import { useTransition } from 'react';
 import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect } from 'react';
 import { signup } from './actions';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import { auth, firestore } from '@/firebase/client';
-import { doc, setDoc } from 'firebase/firestore';
+import { auth } from '@/firebase/client';
+import { useToast } from '@/hooks/use-toast';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Dumbbell, AlertCircle, Loader2 } from 'lucide-react';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { useToast } from '@/hooks/use-toast';
+import { Dumbbell, Loader2 } from 'lucide-react';
 
 
-function SubmitButton() {
+function SubmitButton({ isClientLoading }: { isClientLoading: boolean }) {
   const { pending } = useFormStatus();
+  const isLoading = pending || isClientLoading;
   return (
-    <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creando Cuenta...</> : 'Crear Cuenta'}
+    <Button type="submit" className="w-full" disabled={isLoading}>
+      {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creando Cuenta...</> : 'Crear Cuenta'}
     </Button>
   );
 }
@@ -31,10 +29,6 @@ function SubmitButton() {
 export default function SignupPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [state, formAction] = useActionState(signup, { message: '', success: false });
-
-  // This is a workaround because server actions can't sign in a user on the client.
-  // We perform the signup on the client AFTER the server action has successfully created the user.
   const [isClientLoading, startClientTransition] = useTransition();
 
   const handleFormSubmit = (formData: FormData) => {
@@ -42,19 +36,24 @@ export default function SignupPage() {
     const password = formData.get('password') as string;
     const name = formData.get('name') as string;
 
-    // Use a client-side transition for the full flow
+    if (!email || !password || !name) {
+        toast({ variant: 'destructive', title: 'Error de registro', description: "Por favor completa todos los campos." });
+        return;
+    }
+
     startClientTransition(async () => {
       try {
-        // Step 1: Create user on the client to get them signed in immediately
+        // Step 1: Create user on the client for immediate sign-in
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        await updateProfile(userCredential.user, { displayName: name });
         
-        // Step 2: (Optional but good practice) Inform our backend/server action.
-        // In this case, the server action already creates a user document in Firestore.
-        // We can call it to ensure the Firestore document is created.
-        const serverResult = await signup(state, formData);
+        // Step 2: Update the user's profile with their name
+        await updateProfile(userCredential.user, { displayName: name });
+
+        // Step 3: Call the server action to create the Firestore document
+        const serverResult = await signup(undefined, formData);
 
         if (serverResult.success) {
+          toast({ title: '¡Bienvenido!', description: 'Tu cuenta ha sido creada exitosamente.' });
           router.push('/dashboard');
         } else {
            toast({ variant: 'destructive', title: 'Error de registro', description: serverResult.message });
@@ -63,6 +62,8 @@ export default function SignupPage() {
         let message = 'Ocurrió un error desconocido.';
         if (error.code === 'auth/email-already-in-use') {
           message = 'Este correo electrónico ya está registrado.';
+        } else if (error.code === 'auth/weak-password') {
+            message = 'La contraseña es demasiado débil. Debe tener al menos 6 caracteres.'
         }
         toast({ variant: 'destructive', title: 'Error de registro', description: message });
       }
@@ -80,12 +81,6 @@ export default function SignupPage() {
       </CardHeader>
       <form action={handleFormSubmit}>
         <CardContent className="grid gap-4">
-          {state.message && !state.success && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{state.message}</AlertDescription>
-            </Alert>
-          )}
           <div className="grid gap-2">
             <Label htmlFor="name">Nombre</Label>
             <Input id="name" name="name" placeholder="Valentina Montero" required />
@@ -96,13 +91,11 @@ export default function SignupPage() {
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Contraseña</Label>
-            <Input id="password" name="password" type="password" required />
+            <Input id="password" name="password" type="password" required minLength={6} />
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <Button type="submit" className="w-full" disabled={isClientLoading}>
-            {isClientLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creando Cuenta...</> : 'Crear Cuenta'}
-          </Button>
+          <SubmitButton isClientLoading={isClientLoading} />
           <div className="text-sm text-center text-muted-foreground">
             ¿Ya tienes una cuenta?{' '}
             <Link href="/login" className="underline hover:text-primary">

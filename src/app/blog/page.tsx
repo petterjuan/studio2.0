@@ -30,13 +30,13 @@ export default async function BlogPage() {
               return (
                 <Card key={article.id} className="flex flex-col overflow-hidden">
                     <Link href={`/blog/${article.handle}`} className="block">
-                    <div className="relative h-56 w-full">
+                    <div className="relative aspect-[4/3]">
                         <Image
-                        src={image.imageUrl}
-                        alt={article.title}
-                        data-ai-hint={image.imageHint}
-                        fill
-                        className="object-cover transition-transform duration-300 hover:scale-105"
+                          src={image.imageUrl}
+                          alt={article.title}
+                          data-ai-hint={image.imageHint}
+                          fill
+                          className="object-cover transition-transform duration-300 hover:scale-105"
                         />
                     </div>
                     </Link>

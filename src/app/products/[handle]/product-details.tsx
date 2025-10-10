@@ -49,7 +49,8 @@ export default function ProductDetails({ product }: { product: Product }) {
             src={image.imageUrl}
             alt={product.title}
             data-ai-hint={image.imageHint}
-            fill
+            width={600}
+            height={600}
             className="object-cover"
             priority
           />

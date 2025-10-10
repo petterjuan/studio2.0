@@ -47,7 +47,8 @@ export default async function ProductsPage() {
                   src={getPlaceholder(mainProduct.imageId).imageUrl}
                   alt={mainProduct.title}
                   data-ai-hint={getPlaceholder(mainProduct.imageId).imageHint}
-                  fill
+                  width={600}
+                  height={600}
                   className="object-cover"
                 />
               </div>
@@ -84,12 +85,13 @@ export default async function ProductsPage() {
                     <Card key={product.id} className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                     <Link href={`/products/${product.handle}`}>
                         <CardContent className="p-0">
-                        <div className="relative aspect-[4/5] bg-muted">
+                        <div className="relative aspect-square bg-muted">
                             <Image
                             src={image.imageUrl}
                             alt={product.title}
                             data-ai-hint={image.imageHint}
-                            fill
+                            width={600}
+                            height={600}
                             className="object-cover transition-transform duration-300 group-hover:scale-105"
                             />
                         </div>

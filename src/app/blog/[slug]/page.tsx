@@ -38,13 +38,13 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         </div>
       </header>
 
-      <div className="relative w-full h-[30vh] md:h-[50vh] mb-12">
+      <div className="container relative w-full h-[30vh] md:h-[50vh] mb-12">
         <Image
           src={image.imageUrl}
           alt={article.title}
           data-ai-hint={image.imageHint}
           fill
-          className="object-cover"
+          className="object-cover rounded-lg"
           priority
         />
       </div>
