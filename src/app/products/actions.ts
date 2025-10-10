@@ -4,13 +4,18 @@
 import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import type { Product } from '@/lib/definitions';
 import { getPlaceholder } from '@/lib/utils';
+import { getProductById } from '@/lib/products';
 
-export async function createCheckoutSession(product: Product) {
+export async function createCheckoutSession(productId: string) {
     const headersList = headers();
     const domain = headersList.get('host') || '';
     const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
+
+    const product = await getProductById(productId);
+    if (!product) {
+        throw new Error('Producto no encontrado.');
+    }
     
     // The success URL now points directly to the PDF file in the public folder.
     // Make sure your PDF is named 'muscle-bites-ebook.pdf' and placed in the /public directory.

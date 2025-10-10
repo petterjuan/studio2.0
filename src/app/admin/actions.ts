@@ -7,7 +7,7 @@ import type { WorkoutPlan } from '@/lib/definitions';
 type UserWorkoutPlan = WorkoutPlan & { userName: string; userEmail: string; };
 
 export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
-  if (!adminFirestore?.collectionGroup) {
+  if (!adminFirestore) {
     console.warn("Firestore Admin SDK not initialized. Skipping getAllWorkoutPlans.");
     return [];
   }
@@ -23,18 +23,17 @@ export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
     
     if (userRef) {
         const userDoc = await getDoc(userRef);
-        if (userDoc.exists()) {
-            const userData = userDoc.data() as DocumentData;
-            plans.push({
-                id: docSnapshot.id,
-                title: data.title,
-                summary: data.summary,
-                weeklySchedule: data.weeklySchedule,
-                createdAt: data.createdAt.toDate().toISOString(),
-                userName: userData?.name || 'Usuario Desconocido',
-                userEmail: userData?.email || 'Sin correo',
-            });
-        }
+        const userData = userDoc.data() as DocumentData | undefined;
+        
+        plans.push({
+            id: docSnapshot.id,
+            title: data.title,
+            summary: data.summary,
+            weeklySchedule: data.weeklySchedule,
+            createdAt: data.createdAt.toDate().toISOString(),
+            userName: userData?.name || 'Usuario Desconocido',
+            userEmail: userData?.email || 'Sin correo',
+        });
     }
   }
 

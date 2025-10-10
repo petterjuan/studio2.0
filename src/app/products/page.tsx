@@ -13,6 +13,7 @@ import { useEffect, useState } from 'react';
 import { Product } from '@/lib/definitions';
 import { useToast } from '@/hooks/use-toast';
 import { motion } from 'framer-motion';
+import { cn } from '@/lib/utils';
 
 
 const TestimonialCarousel = dynamic(
@@ -29,11 +30,12 @@ export default function ProductsPage() {
   const { toast } = useToast();
 
   useEffect(() => {
-    getProducts()
-      .then((products) => {
+    async function fetchProducts() {
+        const products = await getProducts();
         setAllProducts(products);
         setLoading(false);
-      });
+    }
+    fetchProducts();
   }, []);
 
   const handleLikeClick = () => {
@@ -98,9 +100,7 @@ export default function ProductsPage() {
               <div className="flex flex-col justify-center">
                 <h2 className="text-3xl md:text-4xl font-headline">{mainProduct.title}</h2>
                 <p className="text-2xl font-bold text-primary mt-2 mb-4">{mainProduct.price}</p>
-                <p className="text-muted-foreground mb-6">
-                  {mainProduct.description}
-                </p>
+                <p className="text-muted-foreground mb-6" dangerouslySetInnerHTML={{ __html: mainProduct.description }} />
                 <Button size="lg" asChild className="shadow-lg hover:shadow-primary/50 transition-shadow duration-300">
                   <Link href={`/products/${mainProduct.handle}`}>
                     <Zap className="mr-2 h-5 w-5" />

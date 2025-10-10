@@ -27,7 +27,7 @@ export default function ProductDetails({ product }: { product: Product }) {
   const handleBuyNow = async () => {
     startTransition(async () => {
       try {
-        await createCheckoutSession(product);
+        await createCheckoutSession(product.id);
       } catch (error) {
         console.error(error);
         toast({

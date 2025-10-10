@@ -45,12 +45,13 @@ export default function SignupPage() {
       try {
         // Step 1: Create user on the client for immediate sign-in
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
         
         // Step 2: Update the user's profile with their name
-        await updateProfile(userCredential.user, { displayName: name });
+        await updateProfile(user, { displayName: name });
 
-        // Step 3: Call the server action to create the Firestore document
-        const serverResult = await signup(undefined, formData);
+        // Step 3: Call the server action to create the Firestore document, passing the new UID
+        const serverResult = await signup(user.uid, formData);
 
         if (serverResult.success) {
           toast({ title: '¡Bienvenido!', description: 'Tu cuenta ha sido creada exitosamente.' });

@@ -13,7 +13,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Sparkles, Save, CheckCircle, BrainCircuit } from 'lucide-react';
 import { WorkoutPlanGeneratorInput, generateWorkoutPlan } from '@/ai/flows/workout-plan-generator';
 import type { WorkoutPlan } from '@/lib/definitions';
-import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/firebase/auth-provider';
 import { saveWorkoutPlan } from './actions';
 import { useToast } from '@/hooks/use-toast';
 import Link from 'next/link';

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, User, CornerDownLeft, X, Loader, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -21,10 +21,12 @@ export default function ShoppingAssistantChat() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
+  const hasInitialized = useRef(false);
 
   useEffect(() => {
-    if (isOpen && messages.length === 0 && !isLoading) {
+    // Only show welcome message once when the chat is opened for the first time
+    if (isOpen && !hasInitialized.current) {
+        hasInitialized.current = true;
         setIsLoading(true);
         setTimeout(() => {
             setMessages([
@@ -33,18 +35,18 @@ export default function ShoppingAssistantChat() {
             setIsLoading(false);
         }, 1000)
     }
-  }, [isOpen, messages.length, isLoading]);
+  }, [isOpen]);
 
   useEffect(() => {
-    if (scrollAreaRef.current) {
-        const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]');
-        if(viewport) {
-            viewport.scrollTop = viewport.scrollHeight;
-        }
+    // Auto-scroll to the bottom of the messages
+    const viewport = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
+    if (viewport) {
+      viewport.scrollTop = viewport.scrollHeight;
     }
-  }, [messages]);
+  }, [messages, isLoading]);
 
   useEffect(() => {
+    // Auto-focus the input when the chat is opened
     if (isOpen) {
       setTimeout(() => {
         inputRef.current?.focus();
@@ -53,13 +55,12 @@ export default function ShoppingAssistantChat() {
   }, [isOpen]);
   
 
-  const handleSendMessage = async (e: React.FormEvent) => {
+  const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = { role: 'user', content: input };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
+    setMessages((prev) => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
@@ -111,14 +112,6 @@ export default function ShoppingAssistantChat() {
               <CardContent className="flex-grow overflow-hidden p-0">
                 <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
                   <div className="space-y-4">
-                    {isLoading && messages.length === 0 && (
-                        <div className="flex items-start gap-3">
-                            <AvatarIcon className="bg-primary text-primary-foreground" />
-                            <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted flex items-center">
-                                <Loader className="h-5 w-5 animate-spin text-muted-foreground" />
-                            </div>
-                        </div>
-                    )}
                     {messages.map((message, index) => (
                       <div
                         key={index}
@@ -141,7 +134,7 @@ export default function ShoppingAssistantChat() {
                         {message.role === 'user' && <User className="h-8 w-8 rounded-full p-1 bg-muted text-muted-foreground" />}
                       </div>
                     ))}
-                    {isLoading && messages.length > 0 && (
+                    {isLoading && (
                        <div className="flex items-start gap-3">
                          <AvatarIcon className="bg-primary text-primary-foreground" />
                          <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted flex items-center">
@@ -180,7 +173,7 @@ export default function ShoppingAssistantChat() {
 
 function AvatarIcon({ className }: { className?: string }) {
   return (
-    <div className={`flex h-8 w-8 items-center justify-center rounded-full ${className}`}>
+    <div className={`flex h-8 w-8 items-center justify-center rounded-full shrink-0 ${className}`}>
       <Bot className="h-5 w-5" />
     </div>
   );

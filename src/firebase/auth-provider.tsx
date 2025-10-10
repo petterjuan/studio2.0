@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useEffect, useState, ReactNode } from 'react';
+import { createContext, useEffect, useState, ReactNode, useContext } from 'react';
 import { onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc } from 'firebase/firestore';
 import { auth, firestore } from '@/firebase/client';
@@ -16,6 +16,11 @@ export const AuthContext = createContext<AuthContextType>({
   user: null,
   loading: true,
 });
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -36,7 +41,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         };
 
         if (userDoc.exists()) {
-          appUser.isAdmin = userDoc.data()?.isAdmin === true;
+          const userData = userDoc.data();
+          appUser.isAdmin = userData?.isAdmin === true;
+          // Ensure displayName is synced from Firestore if available
+          if (userData?.name) {
+            appUser.displayName = userData.name;
+          }
         }
         
         setUser(appUser);

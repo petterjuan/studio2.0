@@ -63,3 +63,8 @@ export async function getProductByHandle(handle: string): Promise<Product | null
     const product = products.find(p => p.handle === handle);
     return product || null;
 }
+
+export async function getProductById(id: string): Promise<Product | null> {
+    const product = products.find(p => p.id === id);
+    return product || null;
+}

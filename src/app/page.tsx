@@ -172,7 +172,8 @@ export default async function Home() {
                       src={image.imageUrl}
                       alt={article.title}
                       data-ai-hint={image.imageHint}
-                      fill
+                      width={1080}
+                      height={720}
                       className="object-cover transition-transform duration-300 hover:scale-105"
                     />
                   </div>
