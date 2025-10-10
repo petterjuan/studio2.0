@@ -1,12 +1,10 @@
 
-import { getProductByHandle } from '@/lib/products';
+import { getProductByHandle, getProducts } from '@/lib/products';
 import { notFound } from 'next/navigation';
 import dynamicComponent from 'next/dynamic';
 import ProductDetails from './product-details';
 import { Product } from '@/lib/definitions';
 import { Skeleton } from '@/components/ui/skeleton';
-
-export const dynamic = 'force-dynamic';
 
 const TestimonialCarousel = dynamicComponent(
   () => import('@/components/testimonial-carousel'),
@@ -14,6 +12,13 @@ const TestimonialCarousel = dynamicComponent(
     loading: () => <Skeleton className="h-[250px] w-full" />
   }
 );
+
+export async function generateStaticParams() {
+    const products = await getProducts();
+    return products.map((product) => ({
+      handle: product.handle,
+    }));
+}
 
 export default async function ProductPage({ params }: { params: { handle: string } }) {
   const product = await getProductByHandle(params.handle);

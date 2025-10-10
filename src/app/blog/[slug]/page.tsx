@@ -1,5 +1,5 @@
 
-import { getArticleByHandle } from '@/lib/articles';
+import { getArticleByHandle, getArticles } from '@/lib/articles';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { format } from 'date-fns';
@@ -7,7 +7,12 @@ import { Calendar, User } from 'lucide-react';
 import { getPlaceholder } from '@/lib/utils';
 import dynamicComponent from 'next/dynamic';
 
-export const dynamic = 'force-dynamic';
+export async function generateStaticParams() {
+  const articles = await getArticles();
+  return articles.map((article) => ({
+    slug: article.handle,
+  }));
+}
 
 export default async function ArticlePage({ params }: { params: { slug: string } }) {
   const article = await getArticleByHandle(params.slug);

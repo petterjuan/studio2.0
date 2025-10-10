@@ -1,3 +1,4 @@
+'use client';
 
 import Image from 'next/image';
 import Link from 'next/link';
@@ -8,8 +9,11 @@ import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { getPlaceholder } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useEffect, useState } from 'react';
+import { Product } from '@/lib/definitions';
+import { useToast } from '@/hooks/use-toast';
+import { motion } from 'framer-motion';
 
-export const revalidate = 3600; // Revalidate every hour
 
 const TestimonialCarousel = dynamic(
   () => import('@/components/testimonial-carousel'),
@@ -18,17 +22,56 @@ const TestimonialCarousel = dynamic(
   }
 );
 
-export default async function ProductsPage() {
-  const allProducts = await getProducts();
+export default function ProductsPage() {
+  const [allProducts, setAllProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [isLiked, setIsLiked] = useState(false);
+  const { toast } = useToast();
+
+  useEffect(() => {
+    getProducts()
+      .then((products) => {
+        setAllProducts(products);
+        setLoading(false);
+      });
+  }, []);
+
+  const handleLikeClick = () => {
+    setIsLiked(!isLiked);
+    if (!isLiked) {
+      toast({
+        title: '¡Gracias por tu apoyo!',
+        description: 'Nos alegra que te guste nuestra misión.',
+      });
+    }
+  };
+
   const mainProduct = allProducts.find(p => p.handle === 'muscle-bites-snacks');
   const otherProducts = allProducts.filter(p => p.handle !== 'muscle-bites-snacks');
+
+  if (loading) {
+      return (
+          <div className="container py-12">
+              <Skeleton className="h-10 w-1/2 mb-8" />
+              <Skeleton className="h-48 w-full" />
+              <Skeleton className="h-64 w-full mt-8" />
+          </div>
+      );
+  }
 
   return (
     <div className="bg-background">
       <section className="bg-gradient-to-b from-background to-secondary/30 py-16 md:py-24">
         <div className="container text-center">
-          <Heart className="mx-auto h-12 w-12 text-primary mb-4" />
-          <h1 className="text-4xl md:text-5xl font-headline text-foreground">
+          <motion.div
+            whileTap={{ scale: 1.5 }}
+            className="inline-block cursor-pointer"
+            onClick={handleLikeClick}
+          >
+            <Heart className={cn("mx-auto h-12 w-12 text-primary transition-colors", isLiked && "fill-primary")} />
+          </motion.div>
+
+          <h1 className="text-4xl md:text-5xl font-headline text-foreground mt-4">
             Invierte en Ti: Herramientas para Tu Transformación
           </h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
