@@ -31,12 +31,12 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 
 - **Framework:** [Next.js](https://nextjs.org/) 14.2.33
 - **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
-- **UI Framework:** [React](https://reactjs.org/) 18.3
+- **UI Framework:** [React](https://reactjs.org/) 18.3.1
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
 - **Componentes UI:** [ShadCN UI](https://ui.shadcn.com/)
 - **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
 - **Pagos:** [Stripe](https://stripe.com/)
-- **Inteligencia Artificial:** [Genkit](https://firebase.google.com/docs/genkit) (con Google AI) 0.5.0
+- **Inteligencia Artificial:** [Genkit](https://firebase.google.com/docs/genkit) (con Google AI) 1.0.0
 - **Gestión de Formularios:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
 
 ---
