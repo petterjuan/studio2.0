@@ -14,13 +14,15 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 
 - **Framework Moderno:** Construido con **Next.js 14 (App Router)** para un rendimiento óptimo y Server-Side Rendering (SSR).
 - **Diseño Responsivo:** Interfaz de usuario elegante y totalmente responsiva construida con **Tailwind CSS** y **ShadCN UI**.
-- **Contenido y Productos Estáticos:** Los productos y artículos del blog se gestionan de forma estática dentro del código de la aplicación para mayor simplicidad y rendimiento.
+- **Tienda E-commerce:** Navegación de productos y páginas de detalle. La pasarela de pago se integra con **Stripe Checkout** (o simula la compra si la clave no está configurada).
+- **Contenido de Blog:** Un blog dinámico con artículos gestionados estáticamente para un rendimiento excepcional.
 - **Autenticación Segura:** Sistema completo de registro e inicio de sesión de usuarios con roles (incluyendo un panel de administrador) utilizando **Firebase Authentication**.
 - **Base de Datos Firestore:** Los perfiles de usuario, roles y planes de entrenamiento se almacenan en **Cloud Firestore**.
-- **Procesamiento de Pagos:** Integración segura de pagos con **Stripe Checkout**.
+- **Panel de Usuario:** Un dashboard para que los usuarios vean sus planes de entrenamiento guardados.
 - **Funcionalidades con IA (Genkit):**
-    - **Generador de Planes de Entrenamiento:** Una herramienta de IA que crea planes de entrenamiento semanales personalizados.
-    - **Asistente de Compras:** Un chatbot de conserje de compras impulsado por **Google AI (Genkit)**.
+    - **Generador de Planes de Entrenamiento:** Una herramienta de IA que crea planes de entrenamiento semanales personalizados basados en las metas y experiencia del usuario.
+    - **Asistente de Compras:** Un chatbot de conserje de compras impulsado por **Google AI (Genkit)** que ayuda a los usuarios a encontrar productos y responde a sus preguntas.
+- **Panel de Administrador:** Una sección protegida para que los administradores vean todos los planes de entrenamiento generados por los usuarios.
 - **Optimización de Despliegue:** Configurado para un despliegue sin problemas en **Firebase App Hosting**.
 
 ---
@@ -34,7 +36,7 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 - **Componentes UI:** [ShadCN UI](https://ui.shadcn.com/)
 - **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
 - **Pagos:** [Stripe](https://stripe.com/)
-- **Inteligencia Artificial:** [Genkit (Google AI)](https://firebase.google.com/docs/genkit)
+- **Inteligencia Artificial:** [Genkit](https://firebase.google.com/docs/genkit) (con Google AI) 0.5.0
 - **Gestión de Formularios:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
 
 ---
@@ -91,7 +93,7 @@ GEMINI_API_KEY=AIza...
 
 ### 5. Ejecutar el Servidor de Desarrollo
 
-Inicia el servidor de desarrollo de Next.js. Turbopack está habilitado para un rendimiento más rápido.
+Inicia el servidor de desarrollo de Next.js. Turbopack está habilitado por defecto.
 
 ```bash
 npm run dev
@@ -121,7 +123,7 @@ El flujo de pago se gestiona a través de **Stripe Checkout**.
 ### Genkit (Google AI)
 
 - **Generador de Planes:** El flujo `workoutPlanGeneratorFlow` (`src/ai/flows/workout-plan-generator.ts`) crea planes de entrenamiento semanales basados en las entradas del usuario.
-- **Asistente de Compras:** El flujo `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) procesa la consulta del usuario y el historial de chat. Puede ser extendido con herramientas para permitir que el modelo de IA obtenga dinámicamente información actualizada sobre productos.
+- **Asistente de Compras:** El flujo `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) procesa la consulta del usuario y el historial de chat. Utiliza una herramienta (`searchProductsTool`) para permitir que el modelo de IA busque dinámicamente en el catálogo de productos y ofrezca recomendaciones.
 
 ---
 

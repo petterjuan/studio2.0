@@ -14,13 +14,15 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 
 - **Modern Framework:** Built with **Next.js 14 (App Router)** for optimal performance and Server-Side Rendering (SSR).
 - **Responsive Design:** Sleek and fully responsive user interface built with **Tailwind CSS** and **ShadCN UI**.
-- **Static Products & Content:** Products and blog articles are managed statically within the application code for simplicity and performance.
+- **E-commerce Store:** Product browsing and detail pages. The payment gateway integrates with **Stripe Checkout** (or simulates the purchase if the key is not set).
+- **Blog Content:** A dynamic blog with statically managed articles for exceptional performance.
 - **Secure Authentication:** Complete user registration and login system with roles (including an admin panel) using **Firebase Authentication**.
 - **Firestore Database:** User profiles, roles, and workout plans are stored in **Cloud Firestore**.
-- **Payment Processing:** Secure payment integration with **Stripe Checkout**.
+- **User Dashboard:** A dashboard for users to view their saved workout plans.
 - **AI-Powered Features (Genkit):**
-    - **Workout Plan Generator:** An AI tool that creates custom weekly workout plans.
-    - **Shopping Assistant:** A shopping concierge chatbot powered by **Google AI (Genkit)**.
+    - **Workout Plan Generator:** An AI tool that creates custom weekly workout plans based on user goals and experience.
+    - **Shopping Assistant:** A shopping concierge chatbot powered by **Google AI (Genkit)** that helps users find products and answers their questions.
+- **Admin Panel:** A protected section for administrators to view all user-generated workout plans.
 - **Deployment-Optimized:** Configured for seamless deployment on **Firebase App Hosting**.
 
 ---
@@ -34,7 +36,7 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 - **UI Components:** [ShadCN UI](https://ui.shadcn.com/)
 - **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
 - **Payments:** [Stripe](https://stripe.com/)
-- **Artificial Intelligence:** [Genkit (Google AI)](https://firebase.google.com/docs/genkit)
+- **Artificial Intelligence:** [Genkit](https://firebase.google.com/docs/genkit) (with Google AI) 0.5.0
 - **Form Management:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
 
 ---
@@ -91,7 +93,7 @@ GEMINI_API_KEY=AIza...
 
 ### 5. Run the Development Server
 
-Start the Next.js development server. Turbopack is enabled for faster performance.
+Start the Next.js development server. Turbopack is enabled by default.
 
 ```bash
 npm run dev
@@ -121,7 +123,7 @@ The payment flow is handled via **Stripe Checkout**.
 ### Genkit (Google AI)
 
 - **Plan Generator:** The `workoutPlanGeneratorFlow` (`src/ai/flows/workout-plan-generator.ts`) creates weekly workout plans based on user inputs.
-- **Shopping Assistant:** The `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) processes the user's query and chat history. It can be extended with tools to allow the AI model to dynamically fetch up-to-date product information.
+- **Shopping Assistant:** The `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) processes the user's query and chat history. It uses a `searchProductsTool` to allow the AI model to dynamically search the product catalog and provide recommendations.
 
 ---
 
