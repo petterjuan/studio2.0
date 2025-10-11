@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { useTransition } from 'react';
+import { useTransition, useState } from 'react';
 import { CheckCircle, Loader2, Award, ListChecks, Smile, HeartHandshake } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';

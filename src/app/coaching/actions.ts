@@ -3,7 +3,6 @@
 import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
-import { getProductById } from '@/lib/products';
 
 type PlanDetails = {
     name: string;
