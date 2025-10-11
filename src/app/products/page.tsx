@@ -125,26 +125,34 @@ export default function ProductsPage() {
                 {otherProducts.map((product) => {
                   const image = getPlaceholder(product.imageId);
                   return (
-                    <Card key={product.id} className="overflow-hidden group transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-                    <Link href={`/products/${product.handle}`}>
-                        <CardContent className="p-0">
-                        <div className="relative aspect-square bg-muted">
-                            <Image
-                            src={image.imageUrl}
-                            alt={product.title}
-                            data-ai-hint={image.imageHint}
-                            width={600}
-                            height={600}
-                            className="object-cover transition-transform duration-300 group-hover:scale-105"
-                            />
-                        </div>
-                        </CardContent>
-                        <CardHeader className="p-4">
-                        <CardTitle className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
-                        <p className="font-semibold text-primary">{product.price}</p>
-                        </CardHeader>
-                    </Link>
-                    </Card>
+                    <motion.div
+                      key={product.id}
+                      whileHover={{ y: -5, scale: 1.02 }}
+                      transition={{ type: 'spring', stiffness: 300 }}
+                    >
+                      <Card className="overflow-hidden group transition-all duration-300 hover:shadow-xl h-full">
+                        <Link href={`/products/${product.handle}`} className="flex flex-col h-full">
+                            <CardContent className="p-0">
+                              <div className="relative aspect-square bg-muted">
+                                  <Image
+                                    src={image.imageUrl}
+                                    alt={product.title}
+                                    data-ai-hint={image.imageHint}
+                                    width={600}
+                                    height={600}
+                                    className="object-cover transition-transform duration-300 group-hover:scale-105"
+                                  />
+                              </div>
+                            </CardContent>
+                            <CardHeader className="p-4 flex-grow">
+                              <CardTitle className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
+                            </CardHeader>
+                            <div className="p-4 pt-0">
+                              <p className="font-semibold text-primary">{product.price}</p>
+                            </div>
+                        </Link>
+                      </Card>
+                    </motion.div>
                 )})}
                 </div>
             </div>
