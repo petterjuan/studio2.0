@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { getProducts } from '@/lib/products';
 import { getArticles } from '@/lib/articles';
-import dynamic from 'next/dynamic';
+import dynamicComponent from 'next/dynamic';
 import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { getPlaceholder } from '@/lib/utils';
@@ -20,7 +20,7 @@ const muscleBitesFeatures = [
     "Acelera tu recuperación muscular con 5 recetas post-entreno diseñadas para nutrir tu cuerpo."
 ];
 
-const TestimonialCarousel = dynamic(
+const TestimonialCarousel = dynamicComponent(
   () => import('@/components/testimonial-carousel'),
   { 
     loading: () => <Skeleton className="h-[250px] w-full" />
