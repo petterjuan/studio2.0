@@ -84,7 +84,7 @@ export default function DashboardPage() {
                         <div className="text-center py-12 border-2 border-dashed rounded-lg flex flex-col items-center justify-center">
                             <h3 className="text-xl font-semibold">Aún no tienes planes guardados</h3>
                             <p className="text-muted-foreground mt-2 mb-4 max-w-xs">
-                                ¡Crea tu primer plan de entrenamiento personalizado con nuestra IA!
+                                ¡Crea tu primer plan de entrenamiento con nuestro motor de personalización!
                             </p>
                             <Button asChild>
                                 <Link href="/plan-generator">

@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview AI shopping assistant flow that helps users find fitness and nutrition products.
+ * @fileOverview Smart shopping assistant flow that helps users find fitness and nutrition products.
  *
  * - shoppingAssistant - A function that handles the shopping assistant conversation.
  * - ShoppingAssistantInput - The input type for the shoppingAssistant function.
@@ -23,7 +23,7 @@ const ShoppingAssistantInputSchema = z.object({
 export type ShoppingAssistantInput = z.infer<typeof ShoppingAssistantInputSchema>;
 
 const ShoppingAssistantOutputSchema = z.object({
-  response: z.string().describe('La respuesta del asistente de compras de IA.'),
+  response: z.string().describe('La respuesta del asistente de compras inteligente.'),
 });
 export type ShoppingAssistantOutput = z.infer<typeof ShoppingAssistantOutputSchema>;
 

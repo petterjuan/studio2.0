@@ -1,6 +1,6 @@
 'use server';
 /**
- * @fileOverview An AI flow to generate personalized workout plans.
+ * @fileOverview A flow to generate personalized workout plans.
  *
  * - generateWorkoutPlan - A function that creates a weekly workout schedule based on user inputs.
  * - WorkoutPlanGeneratorInput - The input type for the plan generation.

@@ -4,7 +4,7 @@
 
 ## Project Summary
 
-**VM Fitness Hub** is a modern, high-performance web application built with Next.js that serves as a frontend for an e-commerce and content experience. The application provides users with a polished UI to browse products, read blog articles, interact with an AI shopping assistant, and generate personalized workout plans. User authentication, profile data, and admin features are handled via Firebase. Payments are securely processed through Stripe.
+**VM Fitness Hub** is a modern, high-performance web application built with Next.js that serves as a frontend for a premium e-commerce and content experience. The application provides users with a polished UI to browse exclusive products, read insightful blog articles, interact with a smart shopping assistant, and generate personalized workout plans. User authentication, profile data, and admin features are seamlessly handled via Firebase, with secure payments processed through Stripe.
 
 This project is designed to be deployed on **Firebase App Hosting**, providing a scalable and fully-managed solution.
 
@@ -12,18 +12,18 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 
 ## ✨ Key Features
 
-- **Modern Framework:** Built with **Next.js 14 (App Router)** for optimal performance and Server-Side Rendering (SSR).
-- **Responsive Design:** Sleek and fully responsive user interface built with **Tailwind CSS** and **ShadCN UI**.
-- **E-commerce Store:** Product browsing and detail pages. The payment gateway integrates with **Stripe Checkout** (or simulates the purchase if the key is not set).
-- **Blog Content:** A dynamic blog with statically managed articles for exceptional performance.
-- **Secure Authentication:** Complete user registration and login system with roles (including an admin panel) using **Firebase Authentication**.
-- **Firestore Database:** User profiles, roles, and workout plans are stored in **Cloud Firestore**.
-- **User Dashboard:** A dashboard for users to view their saved workout plans.
-- **AI-Powered Features (Genkit):**
-    - **Workout Plan Generator:** An AI tool that creates custom weekly workout plans based on user goals and experience.
-    - **Shopping Assistant:** A shopping concierge chatbot powered by **Google AI (Genkit)** that helps users find products and answers their questions.
-- **Admin Panel:** A protected section for administrators to view all user-generated workout plans.
-- **Deployment-Optimized:** Configured for seamless deployment on **Firebase App Hosting**.
+- **Modern Framework:** Built with **Next.js 14** (App Router) for optimal performance, Server-Side Rendering (SSR), and a seamless user experience.
+- **Elegant & Responsive Design:** A sleek and fully responsive user interface built with **Tailwind CSS** and **ShadCN UI**. The aesthetic is defined by a sophisticated brown and beige color palette, with distinct themes for light and dark modes.
+- **E-commerce Store:** A curated shopping experience for browsing and purchasing exclusive digital products. The payment gateway integrates with **Stripe Checkout** for secure transactions (or simulates the purchase if keys are not provided).
+- **Content Hub:** A dynamic blog featuring articles by Valentina Montero, statically generated for exceptional performance and SEO.
+- **Secure Authentication:** A complete user registration and login system with role-based access control (including an admin panel) using **Firebase Authentication**.
+- **Firestore Database:** User profiles, roles, and personalized workout plans are securely stored in **Cloud Firestore**.
+- **User Dashboard:** A private, authenticated space for users to view and manage their saved workout plans and access purchased content.
+- **Advanced Personalized Features:**
+    - **Workout Plan Generator:** A proprietary engine that creates custom weekly workout plans based on the user's specific goals, experience level, and preferences.
+    - **Shopping Assistant:** A smart shopping concierge chatbot that helps users find products and answers their questions with context-aware responses.
+- **Admin Panel:** A protected, role-based section for administrators to view all user-generated workout plans.
+- **Deployment-Ready:** Fully configured for seamless, automated deployment on **Firebase App Hosting**.
 
 ---
 
@@ -36,19 +36,21 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 - **UI Components:** [ShadCN UI](https://ui.shadcn.com/)
 - **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
 - **Payments:** [Stripe](https://stripe.com/)
-- **Artificial Intelligence:** [Genkit](https://firebase.google.com/docs/genkit) (with Google AI) 1.0.0
+- **Personalization Engine:** [Genkit](https://firebase.google.com/docs/genkit) (with Google's Gemini) 1.0.0
 - **Form Management:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
 
 ---
 
 ## 🛠️ Setup and Local Development
 
-Follow these steps to get the project up and running on your local machine.
+Follow these steps to get the project up and running on your local machine. This is a crucial step to ensure all services, including Firebase and Stripe, are properly connected.
 
 ### 1. Prerequisites
 
 - Node.js (v20 or higher recommended)
 - npm (or pnpm/yarn)
+- A Firebase project (you can create one for free at [firebase.google.com](https://firebase.google.com/))
+- A Stripe account (for payment processing)
 
 ### 2. Clone the Repository (if applicable)
 
@@ -59,7 +61,7 @@ cd [REPOSITORY_NAME]
 
 ### 3. Install Dependencies
 
-Install all project dependencies.
+Install all project dependencies. This may take a few minutes.
 
 ```bash
 npm install
@@ -67,10 +69,15 @@ npm install
 
 ### 4. Configure Environment Variables
 
-Create a `.env` file in the root of the project and fill in the following variables:
+This is the most critical step for launching the application. All secret keys and configuration values are managed in a single `.env` file, which you must create in the root of the project.
+
+**Never commit the `.env` file to version control.**
+
+Create a file named `.env` in the project root and add the following variables, replacing the placeholder values with your actual keys.
 
 ```plaintext
-# Firebase (Obtained from Firebase Console)
+# Firebase (Obtained from your Firebase Project Settings > General)
+# Go to your Firebase project, click the gear icon -> Project settings, and under "Your apps", select or create a Web app.
 NEXT_PUBLIC_FIREBASE_API_KEY=AIza...
 NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
 NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
@@ -79,21 +86,23 @@ NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
 NEXT_PUBLIC_FIREBASE_APP_ID=1:...
 
 # Firebase Admin (Service account key for the backend)
-# Generate this from your Firebase Project Settings > Service accounts
-# Paste the entire content of the JSON file on a single line.
+# In your Firebase project, click the gear icon -> Project settings -> Service accounts.
+# Click "Generate new private key" and a JSON file will be downloaded.
+# IMPORTANT: Copy the entire content of the JSON file and paste it on a single line.
 FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
 
 # Stripe (Obtained from Stripe Dashboard -> Developers -> API keys)
-# If this key is not provided, the checkout will simulate a successful purchase.
+# Find your "Secret key" here. If this key is not provided, the checkout will simulate a successful purchase for development purposes.
 STRIPE_SECRET_KEY=sk_test_...
 
-# Google AI (Genkit - Obtained from Google AI Studio)
+# Google AI (Genkit - Obtain from Google AI Studio)
+# Go to https://aistudio.google.com/app/apikey and create a new API key.
 GEMINI_API_KEY=AIza...
 ```
 
 ### 5. Run the Development Server
 
-Start the Next.js development server. Turbopack is enabled by default.
+Once the environment variables are set, you can start the Next.js development server.
 
 ```bash
 npm run dev
@@ -109,21 +118,21 @@ The application will be available at `http://localhost:9000`.
 
 - **Authentication:** The authentication flow leverages both client-side and server-side logic. User creation (`createUserWithEmailAndPassword`) is handled on the client for an immediate sign-in experience. Server Actions are then used to validate data and create a corresponding user document in Firestore.
 - **Firestore:** Used to store user profiles (including an `isAdmin` field for access control) and user-generated workout plans.
-- **Server SDK:** The Firebase Admin SDK (`firebase-admin`) is used in Server Actions to perform privileged backend operations, such as fetching data for all users.
+- **Server SDK:** The Firebase Admin SDK (`firebase-admin`) is used in Server Actions to perform privileged backend operations, such as fetching data for all users in the admin panel.
 
 ### Stripe
 
 The payment flow is handled via **Stripe Checkout**.
-1.  A user clicks the "Buy Now" button on a product detail page.
-2.  A **Server Action** (`src/app/products/actions.ts`) is invoked.
-3.  This action creates a Stripe `checkout.Session` on the server-side.
-4.  The application redirects the user to the secure Stripe checkout URL.
-5.  **Important:** If the `STRIPE_SECRET_KEY` is not set in your `.env` file, this flow is **simulated**. The user will be redirected directly to the digital product to allow for local development and testing without requiring Stripe keys.
+1.  A user clicks the "Buy Now" button on a product or coaching page.
+2.  A **Server Action** is invoked.
+3.  This action securely creates a Stripe `checkout.Session` on the server-side.
+4.  The application redirects the user to the secure Stripe checkout URL to complete the purchase.
+5.  **Important:** If the `STRIPE_SECRET_KEY` is not set in your `.env` file, this flow is **simulated**. The user will be redirected directly to the digital product or success page to allow for local development and testing without requiring Stripe keys.
 
-### Genkit (Google AI)
+### Personalization Engine (Genkit)
 
-- **Plan Generator:** The `workoutPlanGeneratorFlow` (`src/ai/flows/workout-plan-generator.ts`) creates weekly workout plans based on user inputs.
-- **Shopping Assistant:** The `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) processes the user's query and chat history. It uses a `searchProductsTool` to allow the AI model to dynamically search the product catalog and provide recommendations.
+- **Plan Generator:** The `workoutPlanGeneratorFlow` (`src/ai/flows/workout-plan-generator.ts`) uses a structured prompt to create high-quality, personalized weekly workout plans based on user inputs.
+- **Shopping Assistant:** The `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) processes the user's query and chat history. It uses a `searchProductsTool` to allow the model to dynamically search the product catalog and provide intelligent recommendations.
 
 ---
 

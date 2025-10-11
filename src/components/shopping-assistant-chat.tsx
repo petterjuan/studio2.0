@@ -73,7 +73,7 @@ export default function ShoppingAssistantChat() {
         const assistantMessage: Message = { role: 'assistant', content: result.response };
         setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-        console.error("Error al llamar al asistente de compras:", error);
+        console.error("Error llamando al asistente de compras:", error);
         const errorMessage: Message = { role: 'assistant', content: "Lo siento, estoy teniendo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde." };
         setMessages((prev) => [...prev, errorMessage]);
     } finally {
@@ -106,7 +106,7 @@ export default function ShoppingAssistantChat() {
               <CardHeader className="flex flex-row items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Bot className="h-6 w-6 text-primary" />
-                  <CardTitle className="text-lg font-headline">Asistente de Valentina</CardTitle>
+                  <CardTitle className="text-lg font-headline">Asistente Inteligente</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="flex-grow overflow-hidden p-0">

@@ -29,7 +29,7 @@ const fontCode = Source_Code_Pro({
 
 export const metadata: Metadata = {
   title: 'VM Fitness Hub | Nutrición Premium y Coaching',
-  description: 'Impulsa tu grandeza con Muscle Bites, la solución definitiva de preparación de comidas de Valentina Montero. Coaching personalizado y productos premium para tu viaje de fitness.',
+  description: 'Eleva tu potencial con los recursos de fitness y nutrición de Valentina Montero. Coaching personalizado y productos premium para tu viaje de transformación.',
 };
 
 export default function RootLayout({

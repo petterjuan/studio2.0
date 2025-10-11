@@ -113,7 +113,7 @@ export default function PlanGeneratorPage() {
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-headline flex items-center justify-center gap-4">
           <BrainCircuit className="w-10 h-10 text-primary" />
-          <span>Tu Plan de Entrenamiento Personalizado</span>
+          <span>Tu Motor de Planes Personalizados</span>
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
           Responde unas pocas preguntas y deja que nuestro sistema, entrenado por Valentina Montero, cree un plan de entrenamiento único solo para ti.
