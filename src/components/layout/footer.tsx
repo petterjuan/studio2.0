@@ -1,8 +1,11 @@
 import { VmLogo } from './vm-logo';
 import { Instagram, Facebook } from 'lucide-react';
 import Link from 'next/link';
+import { FaWhatsapp } from 'react-icons/fa';
 
 export function Footer() {
+  const whatsappLink = "https://wa.me/15129794797?text=Hola%2C%20Valentina.%20Tengo%20una%20pregunta.";
+
   return (
     <footer className="border-t">
       <div className="container flex flex-col items-center justify-between gap-6 py-10 md:h-24 md:flex-row md:py-0">
@@ -15,6 +18,9 @@ export function Footer() {
           </Link>
           <Link href="#" aria-label="Facebook">
             <Facebook className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
+          </Link>
+          <Link href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+            <FaWhatsapp className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
           </Link>
         </div>
       </div>

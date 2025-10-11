@@ -4,13 +4,14 @@ import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useTransition, useState } from 'react';
-import { CheckCircle, Loader2, Award, ListChecks, Smile, HeartHandshake } from 'lucide-react';
+import { CheckCircle, Loader2, Award, ListChecks, Smile, HeartHandshake, BadgePercent, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPlaceholder } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { createCoachingCheckoutSession } from './actions';
+import { FaWhatsapp } from 'react-icons/fa';
 
 const TestimonialCarousel = dynamic(
   () => import('@/components/testimonial-carousel'),
@@ -61,6 +62,7 @@ export default function CoachingPage() {
   const [submittingPlan, setSubmittingPlan] = useState<string | null>(null);
 
   const valentinaImage = getPlaceholder('valentina-coach');
+  const whatsappLink = "https://wa.me/15129794797?text=Hola%20Valentina%2C%20tengo%20una%20pregunta%20sobre%20el%20coaching.";
 
   const handleCheckout = (planId: string) => {
     setSubmittingPlan(planId);
@@ -154,7 +156,9 @@ export default function CoachingPage() {
 
           {/* 12-Week Plan */}
           <Card className="border-primary border-2 flex flex-col relative">
-            <div className="absolute top-0 right-0 m-4 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full">MÁS POPULAR</div>
+            <div className="absolute top-0 right-0 m-4 bg-primary text-primary-foreground text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+              <Star className="h-3 w-3" /> MÁS POPULAR
+            </div>
               <CardHeader>
                   <CardTitle className="font-headline text-2xl">Plan de 12 Semanas</CardTitle>
                   <CardDescription className="text-4xl font-bold text-primary">$267</CardDescription>
@@ -211,10 +215,18 @@ export default function CoachingPage() {
       </section>
 
       <div className="container text-center pb-12 md:pb-16">
-        <p className="text-muted-foreground">¿Tienes preguntas antes de empezar? No dudes en contactarme.</p>
-        <Button variant="link" asChild>
-          <Link href="/#contact">Hablemos</Link>
+        <h3 className="text-2xl font-headline">¿Tienes preguntas antes de empezar?</h3>
+        <p className="text-muted-foreground mt-2 mb-4">¡Contáctame directamente! Estaré feliz de ayudarte a decidir si este es el camino correcto para ti.</p>
+        <Button asChild size="lg">
+          <Link href={whatsappLink} target="_blank">
+            <FaWhatsapp className="mr-2 h-5 w-5" />
+            Hablemos por WhatsApp
+          </Link>
         </Button>
+        <div className="mt-4 text-sm text-green-600 font-bold flex items-center justify-center gap-2">
+            <BadgePercent className="h-4 w-4" />
+            <span>¡Oferta por tiempo limitado! 10% de descuento al mencionar esta página.</span>
+        </div>
       </div>
     </>
   );
