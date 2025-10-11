@@ -65,7 +65,7 @@ export default function PlanGeneratorPage() {
       toast({
         variant: 'destructive',
         title: 'Error al generar el plan',
-        description: 'Hubo un problema con la IA. Por favor, intenta de nuevo.',
+        description: 'Hubo un problema con nuestro sistema. Por favor, intenta de nuevo.',
       });
     } finally {
       setIsLoading(false);
@@ -87,7 +87,7 @@ export default function PlanGeneratorPage() {
       setIsSaved(true);
       toast({
         title: '¡Plan guardado!',
-        description: 'Puedes ver tu plan en tu panel de control (dashboard).',
+        description: 'Puedes ver tu plan en tu panel de control.',
         action: (
           <Link href="/dashboard">
             <Button variant="outline" size="sm">
@@ -113,10 +113,10 @@ export default function PlanGeneratorPage() {
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-headline flex items-center justify-center gap-4">
           <BrainCircuit className="w-10 h-10 text-primary" />
-          <span>Generador de Planes con IA</span>
+          <span>Tu Plan de Entrenamiento Personalizado</span>
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-          Responde unas pocas preguntas y deja que nuestra IA, entrenada por Valentina Montero, cree un plan de entrenamiento personalizado solo para ti.
+          Responde unas pocas preguntas y deja que nuestro sistema, entrenado por Valentina Montero, cree un plan de entrenamiento único solo para ti.
         </p>
       </div>
 
@@ -124,7 +124,7 @@ export default function PlanGeneratorPage() {
         <Card className="shadow-lg">
           <CardHeader>
             <CardTitle>Crea Tu Plan Personalizado</CardTitle>
-            <CardDescription>Completa el formulario para que la IA diseñe tu rutina.</CardDescription>
+            <CardDescription>Completa el formulario para que el sistema diseñe tu rutina.</CardDescription>
           </CardHeader>
           <CardContent>
             <FormProvider {...form}>
@@ -240,7 +240,7 @@ export default function PlanGeneratorPage() {
           {isLoading ? (
             <div className="flex-grow flex flex-col items-center justify-center text-center">
               <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-              <p className="text-muted-foreground">La IA está creando tu rutina. ¡Un momento!</p>
+              <p className="text-muted-foreground">Nuestro sistema está creando tu rutina. ¡Un momento!</p>
             </div>
           ) : generatedPlan ? (
             <div className="flex-grow flex flex-col">
@@ -258,7 +258,7 @@ export default function PlanGeneratorPage() {
                   ))}
                 </CardContent>
               </Card>
-              {user && (
+              {user ? (
                 <Button onClick={handleSavePlan} disabled={isSaving || isSaved} className="w-full mt-4" size="lg">
                   {isSaving ? (
                     <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Guardando...</>
@@ -268,12 +268,22 @@ export default function PlanGeneratorPage() {
                     <><Save className="mr-2 h-5 w-5" /> Guardar Plan en mi Perfil</>
                   )}
                 </Button>
-              )}
-               {!user && (
+              ) : (
                  <Card className="mt-4 text-center p-4">
-                    <CardDescription>
-                        <Link href="/login" className="text-primary underline font-semibold">Inicia sesión</Link> o <Link href="/signup" className="text-primary underline font-semibold">créate una cuenta</Link> para guardar tus planes.
-                    </CardDescription>
+                    <CardHeader>
+                      <CardTitle>Guarda Tu Progreso</CardTitle>
+                      <CardDescription>
+                          Crea una cuenta o inicia sesión para guardar este plan y acceder a él en cualquier momento.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent className="flex flex-col sm:flex-row gap-2">
+                        <Button asChild className="flex-1">
+                          <Link href="/signup">Crear Cuenta</Link>
+                        </Button>
+                        <Button asChild variant="secondary" className="flex-1">
+                          <Link href="/login">Iniciar Sesión</Link>
+                        </Button>
+                    </CardContent>
                  </Card>
                )}
             </div>
