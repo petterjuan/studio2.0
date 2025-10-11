@@ -12,7 +12,7 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 
 ## ✨ Características Principales
 
-- **Framework Moderno:** Construido con **Next.js 15 (App Router)** para un rendimiento óptimo y Server-Side Rendering (SSR).
+- **Framework Moderno:** Construido con **Next.js 14 (App Router)** para un rendimiento óptimo y Server-Side Rendering (SSR).
 - **Diseño Responsivo:** Interfaz de usuario elegante y totalmente responsiva construida con **Tailwind CSS** y **ShadCN UI**.
 - **Contenido y Productos Estáticos:** Los productos y artículos del blog se gestionan de forma estática dentro del código de la aplicación para mayor simplicidad y rendimiento.
 - **Autenticación Segura:** Sistema completo de registro e inicio de sesión de usuarios con roles (incluyendo un panel de administrador) utilizando **Firebase Authentication**.
@@ -27,7 +27,7 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 
 ## 🚀 Pila Tecnológica
 
-- **Framework:** [Next.js](https://nextjs.org/) 15.3.3
+- **Framework:** [Next.js](https://nextjs.org/) 14.2.33
 - **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
 - **UI Framework:** [React](https://reactjs.org/) 18.3
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
@@ -97,7 +97,7 @@ Inicia el servidor de desarrollo de Next.js. Turbopack está habilitado para un 
 npm run dev
 ```
 
-La aplicación estará disponible en `http://localhost:9002`.
+La aplicación estará disponible en `http://localhost:9000`.
 
 ---
 

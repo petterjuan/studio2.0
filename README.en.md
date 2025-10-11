@@ -12,7 +12,7 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 
 ## ✨ Key Features
 
-- **Modern Framework:** Built with **Next.js 15 (App Router)** for optimal performance and Server-Side Rendering (SSR).
+- **Modern Framework:** Built with **Next.js 14 (App Router)** for optimal performance and Server-Side Rendering (SSR).
 - **Responsive Design:** Sleek and fully responsive user interface built with **Tailwind CSS** and **ShadCN UI**.
 - **Static Products & Content:** Products and blog articles are managed statically within the application code for simplicity and performance.
 - **Secure Authentication:** Complete user registration and login system with roles (including an admin panel) using **Firebase Authentication**.
@@ -27,7 +27,7 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 
 ## 🚀 Tech Stack
 
-- **Framework:** [Next.js](https://nextjs.org/) 15.3.3
+- **Framework:** [Next.js](https://nextjs.org/) 14.2.33
 - **Language:** [TypeScript](https://www.typescriptlang.org/)
 - **UI Framework:** [React](https://reactjs.org/) 18.3
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
@@ -97,7 +97,7 @@ Start the Next.js development server. Turbopack is enabled for faster performanc
 npm run dev
 ```
 
-The application will be available at `http://localhost:9002`.
+The application will be available at `http://localhost:9000`.
 
 ---
 
