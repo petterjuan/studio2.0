@@ -7,6 +7,12 @@
       "imageHint": "woman gym workout"
     },
     {
+      "id": "valentina-coach",
+      "description": "Un retrato profesional de Valentina Montero, sonriendo con confianza en un entorno de fitness.",
+      "imageUrl": "https://picsum.photos/seed/valentina/600/750",
+      "imageHint": "fitness coach portrait"
+    },
+    {
       "id": "blog-macros",
       "description": "Una mujer sonriendo mientras prepara una ensalada saludable en una cocina luminosa.",
       "imageUrl": "https://picsum.photos/seed/macros/1080/720",
