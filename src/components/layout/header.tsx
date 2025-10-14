@@ -8,7 +8,6 @@ import { Button } from '../ui/button';
 import { Menu, Zap } from 'lucide-react';
 import { useState } from 'react';
 import { VmLogo } from './vm-logo';
-import { createCheckoutSession } from '@/app/products/actions';
 import { AuthButton } from '../auth-button';
 
 const navLinks = [
@@ -22,11 +21,6 @@ const navLinks = [
 export function Header() {
   const pathname = usePathname();
   const [isSheetOpen, setSheetOpen] = useState(false);
-
-  const handleBuyNow = async () => {
-    // This server action handles the redirect, no need for transition logic here.
-    await createCheckoutSession('1');
-  }
 
   const NavLink = ({ href, label }: { href: string; label: string }) => (
     <Link
@@ -60,9 +54,11 @@ export function Header() {
                     {navLinks.map((link) => (
                         <NavLink key={link.href} {...link} />
                     ))}
-                    <Button onClick={handleBuyNow}>
+                    <Button asChild>
+                      <Link href="/products/muscle-bites-snacks" onClick={() => setSheetOpen(false)}>
                         <Zap className="mr-2 h-4 w-4" />
                         ¡Lo Quiero Ahora!
+                      </Link>
                     </Button>
                 </div>
               </SheetContent>
@@ -77,9 +73,11 @@ export function Header() {
           ))}
         </nav>
         <div className="flex flex-1 items-center justify-end space-x-4">
-           <Button onClick={handleBuyNow} className="hidden sm:inline-flex shadow-sm hover:shadow-primary/40">
-                <Zap className="mr-2 h-4 w-4" />
-                ¡Lo Quiero Ahora!
+           <Button asChild className="hidden sm:inline-flex shadow-sm hover:shadow-primary/40">
+                <Link href="/products/muscle-bites-snacks">
+                  <Zap className="mr-2 h-4 w-4" />
+                  ¡Lo Quiero Ahora!
+                </Link>
             </Button>
            <AuthButton />
         </div>

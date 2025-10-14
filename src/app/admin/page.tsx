@@ -83,7 +83,7 @@ export default function AdminPage() {
                         <div>{plan.userName}</div>
                         <div className="text-xs text-muted-foreground">{plan.userEmail}</div>
                     </TableCell>
-                    <TableCell>{plan.createdAt && format(new Date(plan.createdAt), 'd MMM, yyyy')}</TableCell>
+                    <TableCell>{plan.createdAt ? format(new Date(plan.createdAt), 'd MMM, yyyy') : 'N/A'}</TableCell>
                     <TableCell>{plan.weeklySchedule.length}</TableCell>
                   </TableRow>
                 )) : (

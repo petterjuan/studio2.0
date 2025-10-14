@@ -1,9 +1,8 @@
 'use client';
 
-import { useActionState, useTransition } from 'react';
+import { useActionState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { useEffect } from 'react';
 import { login } from './actions';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase/client';
@@ -19,47 +18,39 @@ import { SubmitButton } from '@/components/submit-button';
 export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
-  const [isClientLoading, startClientTransition] = useTransition();
-
-  // Server-side validation state
-  const [state, formAction] = useActionState(login, { message: '', success: false });
-
-  const handleFormSubmit = (formData: FormData) => {
-    formAction(formData); // Perform server-side validation
-  };
+  
+  const [state, formAction, isPending] = useActionState(login, { message: '', success: false });
 
   useEffect(() => {
-    // This effect handles the client-side sign-in attempt AFTER server validation succeeds.
-    if (state.success && !isClientLoading) {
+    if (state.success) {
       const email = (document.getElementById('email') as HTMLInputElement)?.value;
       const password = (document.getElementById('password') as HTMLInputElement)?.value;
       
       if (!email || !password) return;
       
-      startClientTransition(async () => {
-        try {
-          await signInWithEmailAndPassword(auth, email, password);
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
           router.push('/dashboard');
-        } catch (error: any) {
+        })
+        .catch((error: any) => {
            let message = 'An unknown error occurred.';
             switch (error.code) {
               case 'auth/user-not-found':
               case 'auth/wrong-password':
               case 'auth/invalid-credential':
-                message = 'Invalid email or password.';
+                message = 'El correo electrónico o la contraseña son incorrectos.';
                 break;
               case 'auth/invalid-email':
-                message = 'Please enter a valid email address.';
+                message = 'Por favor, introduce una dirección de correo electrónico válida.';
                 break;
               default:
-                message = 'Failed to log in. Please try again later.';
+                message = 'No se pudo iniciar sesión. Por favor, inténtalo de nuevo más tarde.';
                 break;
             }
           toast({ variant: 'destructive', title: 'Error de inicio de sesión', description: message });
-        }
-      });
+        });
     }
-  }, [state.success, router, toast, isClientLoading]);
+  }, [state.success, router, toast]);
 
   return (
     <Card className="w-full max-w-sm">
@@ -70,7 +61,7 @@ export default function LoginPage() {
         <CardTitle className="text-2xl font-headline">Bienvenido de Nuevo</CardTitle>
         <CardDescription>Ingresa tus credenciales para acceder a tu cuenta.</CardDescription>
       </CardHeader>
-      <form action={handleFormSubmit}>
+      <form action={formAction}>
         <CardContent className="grid gap-4">
           {state.message && !state.success && (
             <Alert variant="destructive">
@@ -88,7 +79,7 @@ export default function LoginPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <SubmitButton loadingText="Iniciando sesión...">
+          <SubmitButton isClientLoading={isPending} loadingText="Iniciando sesión...">
             Iniciar Sesión
           </SubmitButton>
           <div className="text-sm text-center text-muted-foreground">
