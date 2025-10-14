@@ -54,8 +54,8 @@ export default function TestimonialCarousel() {
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious className="hidden sm:flex" />
-      <CarouselNext className="hidden sm:flex" />
+      <CarouselPrevious type="button" className="hidden sm:flex" />
+      <CarouselNext type="button" className="hidden sm:flex" />
     </Carousel>
   );
 }

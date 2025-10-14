@@ -2,6 +2,7 @@
 
 import { z } from 'zod';
 import { firestore as adminFirestore } from '@/firebase/server';
+import { FieldValue } from 'firebase-admin/firestore';
 
 const SignupSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres."}),
@@ -40,7 +41,7 @@ export async function signup(uid: string, formData: FormData): Promise<SignupSta
     await adminFirestore.collection("users").doc(uid).set({
         name: name,
         email: email,
-        createdAt: new Date(),
+        createdAt: FieldValue.serverTimestamp(), // Use server timestamp for accuracy
         isAdmin: false, // Default role
     });
 

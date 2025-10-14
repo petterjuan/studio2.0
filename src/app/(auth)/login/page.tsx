@@ -32,25 +32,13 @@ export default function LoginPage() {
         .then(() => {
           router.push('/dashboard');
         })
-        .catch((error: any) => {
-           let message = 'An unknown error occurred.';
-            switch (error.code) {
-              case 'auth/user-not-found':
-              case 'auth/wrong-password':
-              case 'auth/invalid-credential':
-                message = 'El correo electrónico o la contraseña son incorrectos.';
-                break;
-              case 'auth/invalid-email':
-                message = 'Por favor, introduce una dirección de correo electrónico válida.';
-                break;
-              default:
-                message = 'No se pudo iniciar sesión. Por favor, inténtalo de nuevo más tarde.';
-                break;
-            }
-          toast({ variant: 'destructive', title: 'Error de inicio de sesión', description: message });
+        .catch(() => {
+          // The server action now provides the error, so we can just display it.
+          // This avoids duplicating error mapping logic on the client.
+          toast({ variant: 'destructive', title: 'Error de inicio de sesión', description: state.message });
         });
     }
-  }, [state.success, router, toast]);
+  }, [state.success, state.message, router, toast]);
 
   return (
     <Card className="w-full max-w-sm">
