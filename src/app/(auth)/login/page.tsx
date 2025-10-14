@@ -1,7 +1,6 @@
 'use client';
 
 import { useActionState, useTransition } from 'react';
-import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { useEffect } from 'react';
@@ -10,21 +9,12 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/firebase/client';
 import { useToast } from '@/hooks/use-toast';
 
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Dumbbell, AlertCircle, Loader2 } from 'lucide-react';
+import { Dumbbell, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" className="w-full" disabled={pending}>
-      {pending ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Iniciando sesión...</> : 'Iniciar Sesión'}
-    </Button>
-  );
-}
+import { SubmitButton } from '@/components/submit-button';
 
 export default function LoginPage() {
   const router = useRouter();
@@ -98,7 +88,9 @@ export default function LoginPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <SubmitButton />
+          <SubmitButton loadingText="Iniciando sesión...">
+            Iniciar Sesión
+          </SubmitButton>
           <div className="text-sm text-center text-muted-foreground">
             ¿No tienes una cuenta?{' '}
             <Link href="/signup" className="underline hover:text-primary">

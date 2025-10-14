@@ -5,7 +5,7 @@ import { firestore as adminFirestore } from '@/firebase/server';
 
 const SignupSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres."}),
-  email: z.string().email({ message: "Dirección de correo electrónico inválida." }),
+  email: z.string().email({ message: "Por favor, introduce una dirección de correo electrónico válida." }),
 });
 
 type SignupState = {

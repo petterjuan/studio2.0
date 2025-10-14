@@ -1,7 +1,6 @@
 'use client';
 
 import { useTransition } from 'react';
-import { useFormStatus } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signup } from './actions';
@@ -9,22 +8,11 @@ import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { auth } from '@/firebase/client';
 import { useToast } from '@/hooks/use-toast';
 
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Dumbbell, Loader2 } from 'lucide-react';
-
-
-function SubmitButton({ isClientLoading }: { isClientLoading: boolean }) {
-  const { pending } = useFormStatus();
-  const isLoading = pending || isClientLoading;
-  return (
-    <Button type="submit" className="w-full" disabled={isLoading}>
-      {isLoading ? <><Loader2 className="mr-2 h-4 w-4 animate-spin" /> Creando Cuenta...</> : 'Crear Cuenta'}
-    </Button>
-  );
-}
+import { Dumbbell } from 'lucide-react';
+import { SubmitButton } from '@/components/submit-button';
 
 export default function SignupPage() {
   const router = useRouter();
@@ -96,7 +84,9 @@ export default function SignupPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col gap-4">
-          <SubmitButton isClientLoading={isClientLoading} />
+          <SubmitButton isClientLoading={isClientLoading} loadingText="Creando Cuenta...">
+            Crear Cuenta
+          </SubmitButton>
           <div className="text-sm text-center text-muted-foreground">
             ¿Ya tienes una cuenta?{' '}
             <Link href="/login" className="underline hover:text-primary">
