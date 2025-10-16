@@ -13,13 +13,13 @@ export function Footer() {
           <VmLogo className="h-12 text-primary" />
         </div>
         <div className="flex items-center gap-4">
-          <Link href="https://www.instagram.com/valentmontero" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+          <Link href="https://www.instagram.com/valentmontero" target="_blank" rel="noopener noreferrer" aria-label="Visita nuestro Instagram">
             <Instagram className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
           </Link>
-          <Link href="#" aria-label="Facebook">
+          <Link href="#" aria-label="Visita nuestro Facebook">
             <Facebook className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
           </Link>
-          <Link href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+          <Link href={whatsappLink} target="_blank" rel="noopener noreferrer" aria-label="Contáctanos por WhatsApp">
             <FaWhatsapp className="h-5 w-5 text-muted-foreground transition-colors hover:text-primary" />
           </Link>
         </div>

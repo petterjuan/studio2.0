@@ -30,7 +30,7 @@ export default function TestimonialCarousel() {
                 <CardContent className="p-6 text-left">
                   <div className="flex items-center mb-4">
                     {[...Array(testimonial.rating)].map((_, i) => (
-                       <Star key={i} className="h-5 w-5 text-accent fill-accent" />
+                       <Star key={i} className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                     ))}
                   </div>
                   <p className="font-body italic text-muted-foreground">

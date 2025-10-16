@@ -16,14 +16,17 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LayoutDashboard, LogOut, ShieldCheck } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 export function AuthButton() {
   const { user, loading } = useAuth();
   const router = useRouter();
+  const { toast } = useToast();
 
   const handleSignOut = async () => {
     await signOut(auth);
-    router.push('/');
+    toast({ title: 'Cierre de Sesión Exitoso', description: 'Has cerrado sesión exitosamente.' });
+    setTimeout(() => router.push('/'), 500);
   };
 
   if (loading) {

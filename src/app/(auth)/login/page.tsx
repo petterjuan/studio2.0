@@ -23,22 +23,15 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (state.success) {
-      const email = (document.getElementById('email') as HTMLInputElement)?.value;
-      const password = (document.getElementById('password') as HTMLInputElement)?.value;
-      
-      if (!email || !password) return;
-      
-      signInWithEmailAndPassword(auth, email, password)
-        .then(() => {
-          router.push('/dashboard');
-        })
-        .catch(() => {
-          // The server action now provides the error, so we can just display it.
-          // This avoids duplicating error mapping logic on the client.
-          toast({ variant: 'destructive', title: 'Error de inicio de sesión', description: 'El correo electrónico o la contraseña son incorrectos.' });
-        });
+      toast({ title: '¡Éxito!', description: 'Has iniciado sesión correctamente.' });
+      router.push('/dashboard');
     } else if (state.message) {
-        toast({ variant: 'destructive', title: 'Error de validación', description: state.message });
+      const isValidationError = state.message.includes('válida') || state.message.includes('caracteres');
+      toast({ 
+        variant: 'destructive', 
+        title: isValidationError ? 'Error de validación' : 'Error de inicio de sesión', 
+        description: state.message 
+      });
     }
   }, [state, router, toast]);
 
@@ -53,12 +46,6 @@ export default function LoginPage() {
       </CardHeader>
       <form action={formAction}>
         <CardContent className="grid gap-4">
-          {state.message && !state.success && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{state.message}</AlertDescription>
-            </Alert>
-          )}
           <div className="grid gap-2">
             <Label htmlFor="email">Correo Electrónico</Label>
             <Input id="email" name="email" type="email" placeholder="m@ejemplo.com" required />
