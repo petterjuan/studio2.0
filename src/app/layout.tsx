@@ -6,6 +6,7 @@ import { Header } from '@/components/layout/header';
 import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/firebase/auth-provider';
+import { DynamicShoppingAssistantChat } from '@/components/layout/client-components';
 
 const fontBody = Alegreya({
   subsets: ['latin'],
@@ -51,6 +52,7 @@ export default function RootLayout({
             <Footer />
           </div>
           <Toaster />
+          <DynamicShoppingAssistantChat />
         </AuthProvider>
       </body>
     </html>
