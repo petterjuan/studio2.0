@@ -11,6 +11,20 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 
 ---
 
+## 🚀 Pila Tecnológica
+
+- **Framework:** [Next.js](https://nextjs.org/) 14.2.33
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **UI Framework:** [React](https://reactjs.org/) 18.3.1
+- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
+- **Componentes UI:** [ShadCN UI](https://ui.shadcn.com/)
+- **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
+- **Pagos:** [Stripe](https://stripe.com/)
+- **Motor de Personalización:** [Genkit](https://firebase.google.com/docs/genkit) (con Gemini de Google) 1.0.0
+- **Gestión de Formularios:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
+
+---
+
 ## ✨ Características Principales
 
 - **Framework Moderno:** Construido con **Next.js 14 (App Router)** para un rendimiento óptimo, Server-Side Rendering (SSR) y una experiencia de usuario fluida.
@@ -25,20 +39,6 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
     - **Asistente de Compras:** Un chatbot de conserjería inteligente que ayuda a los usuarios a encontrar productos y responde a sus preguntas con respuestas contextuales.
 - **Panel de Administrador:** Una sección protegida basada en roles para que los administradores vean todos los planes de entrenamiento generados por los usuarios.
 - **Optimización para Despliegue:** Totalmente configurado para un despliegue automatizado y sin interrupciones en **Firebase App Hosting**.
-
----
-
-## 🚀 Pila Tecnológica
-
-- **Framework:** [Next.js](https://nextjs.org/) 14.2.33
-- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
-- **UI Framework:** [React](https://reactjs.org/) 18.3.1
-- **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
-- **Componentes UI:** [ShadCN UI](https://ui.shadcn.com/)
-- **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
-- **Pagos:** [Stripe](https://stripe.com/)
-- **Motor de Personalización:** [Genkit](https://firebase.google.com/docs/genkit) (con Gemini de Google) 1.0.0
-- **Gestión de Formularios:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
 
 ---
 

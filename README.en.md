@@ -11,6 +11,20 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 
 ---
 
+## 🚀 Tech Stack
+
+- **Framework:** [Next.js](https://nextjs.org/) 14.2.33
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **UI Framework:** [React](https://reactjs.org/) 18.3.1
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **UI Components:** [ShadCN UI](https://ui.shadcn.com/)
+- **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
+- **Payments:** [Stripe](https://stripe.com/)
+- **Personalization Engine:** [Genkit](https://firebase.google.com/docs/genkit) (with Google's Gemini) 1.0.0
+- **Form Management:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
+
+---
+
 ## ✨ Key Features
 
 - **Modern Framework:** Built with **Next.js 14** (App Router) for optimal performance, Server-Side Rendering (SSR), and a seamless user experience.
@@ -25,20 +39,6 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
     - **Shopping Assistant:** A smart shopping concierge chatbot that helps users find products and answers their questions with context-aware responses.
 - **Admin Panel:** A protected, role-based section for administrators to view all user-generated workout plans.
 - **Deployment-Ready:** Fully configured for seamless, automated deployment on **Firebase App Hosting**.
-
----
-
-## 🚀 Tech Stack
-
-- **Framework:** [Next.js](https://nextjs.org/) 14.2.33
-- **Language:** [TypeScript](https://www.typescriptlang.org/)
-- **UI Framework:** [React](https://reactjs.org/) 18.3.1
-- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
-- **UI Components:** [ShadCN UI](https://ui.shadcn.com/)
-- **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
-- **Payments:** [Stripe](https://stripe.com/)
-- **Personalization Engine:** [Genkit](https://firebase.google.com/docs/genkit) (with Google's Gemini) 1.0.0
-- **Form Management:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
 
 ---
 
