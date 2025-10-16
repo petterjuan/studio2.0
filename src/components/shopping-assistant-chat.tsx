@@ -106,7 +106,7 @@ export default function ShoppingAssistantChat() {
               <CardHeader className="flex flex-row items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <Bot className="h-6 w-6 text-primary" />
-                  <CardTitle className="text-lg font-headline">Asistente de Compras</CardTitle>
+                  <CardTitle as="h2" className="text-lg font-headline">Asistente de Compras</CardTitle>
                 </div>
               </CardHeader>
               <CardContent className="flex-grow overflow-hidden p-0">

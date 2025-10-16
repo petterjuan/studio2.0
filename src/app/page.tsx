@@ -128,7 +128,7 @@ export default async function Home() {
                     </div>
                   </CardContent>
                   <CardHeader className="p-4">
-                    <CardTitle className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
+                    <CardTitle as="h3" className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
                     <p className="font-semibold text-primary">{product.price}</p>
                   </CardHeader>
                 </Link>
@@ -179,7 +179,7 @@ export default async function Home() {
                   </div>
                 </Link>
                 <CardHeader>
-                  <CardTitle className="font-headline text-xl h-16 overflow-hidden">
+                  <CardTitle as="h3" className="font-headline text-xl h-16 overflow-hidden">
                     <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
                   </CardTitle>
                 </CardHeader>

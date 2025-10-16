@@ -123,7 +123,7 @@ export default function PlanGeneratorPage() {
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle>Crea Tu Plan Personalizado</CardTitle>
+            <CardTitle as="h2">Crea Tu Plan Personalizado</CardTitle>
             <CardDescription>Completa el formulario para que el sistema diseñe tu rutina.</CardDescription>
           </CardHeader>
           <CardContent>
@@ -246,7 +246,7 @@ export default function PlanGeneratorPage() {
             <div className="flex-grow flex flex-col">
               <Card className="flex-grow">
                 <CardHeader>
-                  <CardTitle>{generatedPlan.title}</CardTitle>
+                  <CardTitle as="h3">{generatedPlan.title}</CardTitle>
                   <CardDescription>{generatedPlan.summary}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
@@ -271,7 +271,7 @@ export default function PlanGeneratorPage() {
               ) : (
                  <Card className="mt-4 text-center p-4">
                     <CardHeader>
-                      <CardTitle>Guarda Tu Progreso</CardTitle>
+                      <CardTitle as="h3">Guarda Tu Progreso</CardTitle>
                       <CardDescription>
                           Crea una cuenta o inicia sesión para guardar este plan y acceder a él en cualquier momento.
                       </CardDescription>

@@ -55,7 +55,7 @@ export default function DashboardPage() {
         <div className="lg:col-span-2">
             <Card>
                 <CardHeader>
-                    <CardTitle className="flex items-center gap-2">
+                    <CardTitle as="h2" className="flex items-center gap-2">
                         <CalendarCheck className="h-6 w-6 text-primary" />
                         <span>Mis Planes de Entrenamiento Guardados</span>
                     </CardTitle>

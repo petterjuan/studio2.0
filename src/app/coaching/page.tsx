@@ -138,8 +138,8 @@ export default function CoachingPage() {
           {/* 6-Week Plan */}
           <Card className="flex flex-col">
               <CardHeader>
-                  <CardTitle className="font-headline text-2xl">Plan de 6 Semanas</CardTitle>
-                  <CardDescription className="text-4xl font-bold text-primary">$167</CardDescription>
+                  <CardTitle as="h2" className="font-headline text-2xl">Plan de 6 Semanas</CardTitle>
+                  <CardDescription as="p" className="text-4xl font-bold text-primary">$167</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow space-y-4">
                 {coachingFeatures.common.map((feature, i) => (
@@ -160,8 +160,8 @@ export default function CoachingPage() {
               <Star className="h-3 w-3" /> MÁS POPULAR
             </div>
               <CardHeader>
-                  <CardTitle className="font-headline text-2xl">Plan de 12 Semanas</CardTitle>
-                  <CardDescription className="text-4xl font-bold text-primary">$267</CardDescription>
+                  <CardTitle as="h2" className="font-headline text-2xl">Plan de 12 Semanas</CardTitle>
+                  <CardDescription as="p" className="text-4xl font-bold text-primary">$267</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow space-y-4">
                 {[...coachingFeatures.common, ...coachingFeatures.twelveWeek].map((feature, i) => (

@@ -53,7 +53,7 @@ export default function AdminPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Todos los Planes de Entrenamiento de Usuarios</CardTitle>
+          <CardTitle as="h2">Todos los Planes de Entrenamiento de Usuarios</CardTitle>
           <CardDescription>
             Una lista de todos los planes de entrenamiento guardados por usuarios en la plataforma.
           </CardDescription>

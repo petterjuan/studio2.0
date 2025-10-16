@@ -100,7 +100,7 @@ export default function ProductsPage() {
               <div className="flex flex-col justify-center">
                 <h2 className="text-3xl md:text-4xl font-headline">{mainProduct.title}</h2>
                 <p className="text-2xl font-bold text-primary mt-2 mb-4">{mainProduct.price}</p>
-                <p className="text-muted-foreground mb-6" dangerouslySetInnerHTML={{ __html: mainProduct.description }} />
+                <div className="text-muted-foreground mb-6" dangerouslySetInnerHTML={{ __html: mainProduct.description }} />
                 <Button size="lg" asChild className="shadow-lg hover:shadow-primary/50 transition-shadow duration-300">
                   <Link href={`/products/${mainProduct.handle}`}>
                     <Zap className="mr-2 h-5 w-5" />
@@ -145,7 +145,7 @@ export default function ProductsPage() {
                               </div>
                             </CardContent>
                             <CardHeader className="p-4 flex-grow">
-                              <CardTitle className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
+                              <CardTitle as="h4" className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
                             </CardHeader>
                             <div className="p-4 pt-0">
                               <p className="font-semibold text-primary">{product.price}</p>

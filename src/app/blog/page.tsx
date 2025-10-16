@@ -42,7 +42,7 @@ export default async function BlogPage() {
                     </div>
                     </Link>
                     <CardHeader>
-                    <CardTitle className="font-headline text-2xl h-16 overflow-hidden">
+                    <CardTitle as="h2" className="font-headline text-2xl h-16 overflow-hidden">
                         <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
                     </CardTitle>
                     <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>

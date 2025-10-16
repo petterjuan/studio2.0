@@ -65,7 +65,7 @@ export default function SignupPage() {
         <div className="flex justify-center mb-4">
           <Dumbbell className="h-10 w-10 text-primary" />
         </div>
-        <CardTitle className="text-2xl font-headline">Crear una Cuenta</CardTitle>
+        <CardTitle as="h1" className="text-2xl font-headline">Crear una Cuenta</CardTitle>
         <CardDescription>Únete a VM Fitness Hub para comenzar tu viaje.</CardDescription>
       </CardHeader>
       <form action={handleFormSubmit}>

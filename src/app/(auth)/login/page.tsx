@@ -35,10 +35,12 @@ export default function LoginPage() {
         .catch(() => {
           // The server action now provides the error, so we can just display it.
           // This avoids duplicating error mapping logic on the client.
-          toast({ variant: 'destructive', title: 'Error de inicio de sesión', description: state.message });
+          toast({ variant: 'destructive', title: 'Error de inicio de sesión', description: 'El correo electrónico o la contraseña son incorrectos.' });
         });
+    } else if (state.message) {
+        toast({ variant: 'destructive', title: 'Error de validación', description: state.message });
     }
-  }, [state.success, state.message, router, toast]);
+  }, [state, router, toast]);
 
   return (
     <Card className="w-full max-w-sm">
@@ -46,7 +48,7 @@ export default function LoginPage() {
         <div className="flex justify-center mb-4">
           <Dumbbell className="h-10 w-10 text-primary" />
         </div>
-        <CardTitle className="text-2xl font-headline">Bienvenido de Nuevo</CardTitle>
+        <CardTitle as="h1" className="text-2xl font-headline">Bienvenido de Nuevo</CardTitle>
         <CardDescription>Ingresa tus credenciales para acceder a tu cuenta.</CardDescription>
       </CardHeader>
       <form action={formAction}>
