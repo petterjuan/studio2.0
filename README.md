@@ -68,9 +68,7 @@ npm install
 
 ### 4. Configurar Variables de Entorno
 
-Este es el paso más crítico para lanzar la aplicación. Todas las claves secretas y valores de configuración se gestionan en un único archivo `.env`, que debes crear en la raíz del proyecto.
-
-**Nunca subas el archivo `.env` al control de versiones.**
+Este es el paso más crítico para lanzar la aplicación. Todas las claves secretas y valores de configuración se gestionan en un único archivo `.env`, que debes crear en la raíz del proyecto. **Nunca subas el archivo `.env` al control de versiones.**
 
 Crea un archivo llamado `.env` en la raíz del proyecto y añade las variables de entorno necesarias para Firebase, Stripe y Google AI, reemplazando los valores de ejemplo con tus claves reales.
 

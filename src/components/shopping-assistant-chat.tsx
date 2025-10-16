@@ -3,7 +3,7 @@
 
 import { useState, useRef, useEffect, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, User, CornerDownLeft, X, Loader, Sparkles, MessagesSquare } from 'lucide-react';
+import { Bot, User, CornerDownLeft, X, Loader, MessagesSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -22,12 +22,10 @@ export default function ShoppingAssistantChat() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const hasInitialized = useRef(false);
   const welcomePopupTimer = useRef<NodeJS.Timeout | null>(null);
 
+  // Proactively open the chat window with a welcome message after a delay
   useEffect(() => {
-    // Proactively open the chat window with a welcome message after a delay
-    // This will only happen once per session.
     welcomePopupTimer.current = setTimeout(() => {
         if (!isOpen && !sessionStorage.getItem('chatWelcomed')) {
             setIsOpen(true);
@@ -40,12 +38,11 @@ export default function ShoppingAssistantChat() {
             clearTimeout(welcomePopupTimer.current);
         }
     };
-  }, []);
+  }, [isOpen]);
 
+  // Show welcome message only when the chat is opened for the first time
   useEffect(() => {
-    // Only show welcome message once when the chat is opened for the first time
-    if (isOpen && !hasInitialized.current) {
-        hasInitialized.current = true;
+    if (isOpen && messages.length === 0) {
         setIsLoading(true);
         setTimeout(() => {
             setMessages([
@@ -54,18 +51,18 @@ export default function ShoppingAssistantChat() {
             setIsLoading(false);
         }, 1000)
     }
-  }, [isOpen]);
+  }, [isOpen, messages.length]);
 
+  // Auto-scroll to the bottom of the messages
   useEffect(() => {
-    // Auto-scroll to the bottom of the messages
     const viewport = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
     if (viewport) {
       viewport.scrollTop = viewport.scrollHeight;
     }
   }, [messages, isLoading]);
 
+  // Auto-focus the input when the chat is opened
   useEffect(() => {
-    // Auto-focus the input when the chat is opened
     if (isOpen) {
       setTimeout(() => {
         inputRef.current?.focus();
@@ -86,7 +83,7 @@ export default function ShoppingAssistantChat() {
     try {
         const assistantInput: ShoppingAssistantInput = {
             query: input,
-            history: messages, // Send the history *before* the new user message
+            history: messages,
         };
         const result = await shoppingAssistant(assistantInput);
         const assistantMessage: Message = { role: 'assistant', content: result.response };
@@ -97,6 +94,14 @@ export default function ShoppingAssistantChat() {
         setMessages((prev) => [...prev, errorMessage]);
     } finally {
         setIsLoading(false);
+    }
+  };
+
+  const toggleChat = () => {
+    setIsOpen(!isOpen);
+    if (welcomePopupTimer.current) clearTimeout(welcomePopupTimer.current);
+    if (!isOpen) {
+        sessionStorage.setItem('chatWelcomed', 'true');
     }
   };
 
@@ -111,11 +116,7 @@ export default function ShoppingAssistantChat() {
         <Button
           size="icon"
           className="rounded-full h-16 w-16 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg animate-pulse"
-          onClick={() => {
-            setIsOpen(!isOpen);
-            if (welcomePopupTimer.current) clearTimeout(welcomePopupTimer.current);
-            sessionStorage.setItem('chatWelcomed', 'true');
-          }}
+          onClick={toggleChat}
         >
           {isOpen ? <X className="h-8 w-8" /> : <MessagesSquare className="h-8 w-8" />}
           <span className="sr-only">Abrir Asistente</span>

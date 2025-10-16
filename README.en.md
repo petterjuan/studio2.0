@@ -68,9 +68,7 @@ npm install
 
 ### 4. Configure Environment Variables
 
-This is the most critical step for launching the application. All secret keys and configuration values are managed in a single `.env` file, which you must create in the root of the project.
-
-**Never commit the `.env` file to version control.**
+This is the most critical step for launching the application. All secret keys and configuration values are managed in a single `.env` file, which you must create in the root of the project. **Never commit the `.env` file to version control.**
 
 Create a file named `.env` in the project root and add the necessary environment variables for Firebase, Stripe, and Google AI, replacing the placeholder values with your actual keys.
 
