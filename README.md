@@ -92,7 +92,7 @@ FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
 
 # Stripe (Obtenido desde el Stripe Dashboard -> Desarrolladores -> Claves de API)
 # Encuentra tu "Clave secreta" aquí. Si no se proporciona esta clave, el proceso de pago simulará una compra exitosa para fines de desarrollo.
-STRIPE_SECRET_KEY=sk_live_...
+STRIPE_SECRET_KEY=
 
 # Google AI (Genkit - Obtener desde Google AI Studio)
 # Ve a https://aistudio.google.com/app/apikey y crea una nueva clave de API.

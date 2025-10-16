@@ -92,7 +92,7 @@ FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
 
 # Stripe (Obtained from Stripe Dashboard -> Developers -> API keys)
 # Find your "Secret key" here. If this key is not provided, the checkout will simulate a successful purchase for development purposes.
-STRIPE_SECRET_KEY=sk_live_...
+STRIPE_SECRET_KEY=
 
 # Google AI (Genkit - Obtain from Google AI Studio)
 # Go to https://aistudio.google.com/app/apikey and create a new API key.
