@@ -11,7 +11,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { getPlaceholder } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { createCoachingCheckoutSession } from './actions';
-import { FaCalendarCheck } from 'react-icons/fa';
+import { FaWhatsapp } from 'react-icons/fa';
 
 const TestimonialCarousel = dynamic(
   () => import('@/components/testimonial-carousel'),
@@ -52,7 +52,7 @@ const howItWorksSteps = [
   {
     icon: HeartHandshake,
     title: "Paso 4: Comienza la Transformación",
-    description: "¡Empezamos a trabajar juntos! Tendrás mi apoyo y seguimiento continuo para asegurar tu éxito."
+    description: "¡Empezamos a trabajar juntas! Tendrás mi apoyo y seguimiento continuo para asegurar tu éxito."
   },
 ];
 
@@ -62,7 +62,7 @@ export default function CoachingPage() {
   const [submittingPlan, setSubmittingPlan] = useState<string | null>(null);
 
   const valentinaImage = getPlaceholder('valentina-coach');
-  const calendlyLink = "https://calendly.com/petter2001us/schedule-a-call";
+  const whatsappLink = "https://wa.me/573138318683?text=Hola,%20Valentina.%20Quisiera%20saber%20más%20sobre%20tus%20planes%20de%20coaching.";
 
   const handleCheckout = (planId: string) => {
     setSubmittingPlan(planId);
@@ -104,7 +104,7 @@ export default function CoachingPage() {
         <div className="text-center mb-16">
           <h1 className="text-4xl md:text-5xl font-headline">Transforma Tu Vida con Coaching Personalizado</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            Esto no es solo un plan de fitness, es un compromiso contigo mismo. Juntos, crearemos un camino sostenible hacia tus metas, trabajando cuerpo y mente para construir la versión más fuerte y segura de ti.
+            Esto no es solo un plan de fitness, es un compromiso contigo misma. Juntas, crearemos un camino sostenible hacia tus metas, trabajando cuerpo y mente para construir la versión más fuerte y segura de ti.
           </p>
         </div>
 
@@ -114,7 +114,7 @@ export default function CoachingPage() {
                 <div className="md:col-span-2 relative aspect-[4/5] bg-muted rounded-lg overflow-hidden shadow-lg">
                     <Image
                         src={valentinaImage.imageUrl}
-                        alt="Juan Petter, tu coach de fitness"
+                        alt="Valentina Montero, tu coach de fitness"
                         data-ai-hint={valentinaImage.imageHint}
                         fill
                         className="object-cover"
@@ -122,12 +122,12 @@ export default function CoachingPage() {
                 </div>
                 <div className="md:col-span-3">
                     <p className="font-semibold text-primary mb-2">CONOCE A TU COACH</p>
-                    <h2 className="text-3xl font-headline mb-4">Soy Juan Petter, y estoy aquí para guiarte</h2>
+                    <h2 className="text-3xl font-headline mb-4">Soy Valentina Montero, y estoy aquí para guiarte</h2>
                     <p className="text-muted-foreground mb-4">
-                        Mi misión va más allá de darte una rutina. Se trata de empoderarte con el conocimiento, los datos y la confianza para que tomes el control de tu salud. Con años de experiencia ayudando a clientes a transformar sus vidas, sé lo que se necesita para romper barreras y alcanzar la grandeza.
+                        Mi misión va más allá de darte una rutina. Se trata de empoderarte con el conocimiento, las herramientas y la confianza para que tomes el control de tu salud. Con años de experiencia ayudando a mujeres a transformar sus vidas, sé lo que se necesita para romper barreras y alcanzar la grandeza.
                     </p>
                      <p className="text-muted-foreground">
-                        No creo en soluciones rápidas, creo en un estilo de vida sostenible. Juntos, construiremos hábitos que duren para siempre.
+                        No creo en soluciones rápidas, creo en un estilo de vida sostenible. Juntas, construiremos hábitos que duren para siempre.
                     </p>
                 </div>
             </div>
@@ -208,7 +208,7 @@ export default function CoachingPage() {
         <div className="container text-center">
           <h2 className="text-3xl md:text-4xl font-headline mb-4">Resultados que Inspiran</h2>
           <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
-            Descubre cómo el coaching ha ayudado a otros clientes a transformar sus vidas y alcanzar sus metas.
+            Descubre cómo el coaching ha ayudado a otras mujeres a transformar sus vidas y alcanzar sus metas.
           </p>
           <TestimonialCarousel />
         </div>
@@ -218,9 +218,9 @@ export default function CoachingPage() {
         <h3 className="text-2xl font-headline">¿Tienes preguntas antes de empezar?</h3>
         <p className="text-muted-foreground mt-2 mb-4">¡Contáctame directamente! Estaré feliz de ayudarte a decidir si este es el camino correcto para ti.</p>
         <Button asChild size="lg">
-          <Link href={calendlyLink} target="_blank">
-            <FaCalendarCheck className="mr-2 h-5 w-5" />
-            Agendar una Llamada
+          <Link href={whatsappLink} target="_blank">
+            <FaWhatsapp className="mr-2 h-5 w-5" />
+            Preguntar por WhatsApp
           </Link>
         </Button>
         <div className="mt-4 text-sm text-green-600 font-bold flex items-center justify-center gap-2">

@@ -106,7 +106,7 @@ export default async function Home() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-headline mb-4">Impulsa Tu Grandeza: Nuestros Favoritos</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
-              Cada producto está seleccionado por Juan Petter para potenciar tus resultados y llevarte al siguiente nivel.
+              Cada producto está seleccionado por Valentina Montero para potenciar tus resultados y llevarte al siguiente nivel.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -145,9 +145,9 @@ export default async function Home() {
 
       <section className="py-16 md:py-24 bg-secondary/50">
         <div className="container text-center">
-           <h2 className="text-3xl md:text-4xl font-headline mb-4">Lo que Dicen Nuestros Clientes</h2>
+           <h2 className="text-3xl md:text-4xl font-headline mb-4">Lo que Dicen Nuestras Clientas</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground mb-12">
-                Personas reales, resultados reales. Ve cómo hemos ayudado a otros a transformar sus vidas.
+                Mujeres reales, resultados reales. Ve cómo hemos ayudado a otras a transformar sus vidas.
             </p>
             <TestimonialCarousel />
         </div>
@@ -156,7 +156,7 @@ export default async function Home() {
       <section className="py-16 md:py-24 bg-background">
         <div className="container">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-headline mb-4">Del Blog de Fitness por Juan Petter</h2>
+            <h2 className="text-3xl md:text-4xl font-headline mb-4">Del Blog de Fitness de Valentina</h2>
             <p className="max-w-2xl mx-auto text-muted-foreground">
               Consejos, recetas y motivación para mantenerte en el camino correcto.
             </p>
