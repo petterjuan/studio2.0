@@ -72,32 +72,7 @@ This is the most critical step for launching the application. All secret keys an
 
 **Never commit the `.env` file to version control.**
 
-Create a file named `.env` in the project root and add the following variables, replacing the placeholder values with your actual keys.
-
-```plaintext
-# Firebase (Obtained from your Firebase Project Settings > General)
-# Go to your Firebase project, click the gear icon -> Project settings, and under "Your apps", select or create a Web app.
-NEXT_PUBLIC_FIREBASE_API_KEY=AIza...
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
-NEXT_PUBLIC_FIREBASE_APP_ID=1:...
-
-# Firebase Admin (Service account key for the backend)
-# In your Firebase project, click the gear icon -> Project settings -> Service accounts.
-# Click "Generate new private key" and a JSON file will be downloaded.
-# IMPORTANT: Copy the entire content of the JSON file and paste it on a single line.
-FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
-
-# Stripe (Obtained from Stripe Dashboard -> Developers -> API keys)
-# Find your "Secret key" here. If this is not provided, the checkout will simulate a successful purchase for development.
-STRIPE_SECRET_KEY=
-
-# Google AI (Genkit - Obtain from Google AI Studio)
-# Go to https://aistudio.google.com/app/apikey and create a new API key.
-GEMINI_API_KEY=AIza...
-```
+Create a file named `.env` in the project root and add the necessary environment variables for Firebase, Stripe, and Google AI, replacing the placeholder values with your actual keys.
 
 ### 5. Run the Development Server
 

@@ -72,32 +72,7 @@ Este es el paso más crítico para lanzar la aplicación. Todas las claves secre
 
 **Nunca subas el archivo `.env` al control de versiones.**
 
-Crea un archivo llamado `.env` en la raíz del proyecto y añade las siguientes variables, reemplazando los valores de ejemplo con tus claves reales.
-
-```plaintext
-# Firebase (Obtenido desde la Configuración de tu Proyecto en Firebase > General)
-# Ve a tu proyecto de Firebase, haz clic en el ícono de engranaje -> Configuración del proyecto, y en "Tus apps", selecciona o crea una aplicación web.
-NEXT_PUBLIC_FIREBASE_API_KEY=AIza...
-NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your-project.firebaseapp.com
-NEXT_PUBLIC_FIREBASE_PROJECT_ID=your-project-id
-NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your-project.appspot.com
-NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=...
-NEXT_PUBLIC_FIREBASE_APP_ID=1:...
-
-# Firebase Admin (Clave de cuenta de servicio para el backend)
-# En tu proyecto de Firebase, haz clic en el ícono de engranaje -> Configuración del proyecto -> Cuentas de servicio.
-# Haz clic en "Generar nueva clave privada" y se descargará un archivo JSON.
-# IMPORTANTE: Copia todo el contenido del archivo JSON y pégalo en una sola línea.
-FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
-
-# Stripe (Obtenido desde el Stripe Dashboard -> Desarrolladores -> Claves de API)
-# Encuentra tu "Clave secreta" aquí. Si no se proporciona esta clave, el proceso de pago simulará una compra exitosa para el desarrollo.
-STRIPE_SECRET_KEY=
-
-# Google AI (Genkit - Obtener desde Google AI Studio)
-# Ve a https://aistudio.google.com/app/apikey y crea una nueva clave de API.
-GEMINI_API_KEY=AIza...
-```
+Crea un archivo llamado `.env` en la raíz del proyecto y añade las variables de entorno necesarias para Firebase, Stripe y Google AI, reemplazando los valores de ejemplo con tus claves reales.
 
 ### 5. Ejecutar el Servidor de Desarrollo
 
