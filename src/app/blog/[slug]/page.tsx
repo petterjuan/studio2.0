@@ -32,7 +32,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
         <div className="flex items-center justify-center gap-6 mt-6 text-muted-foreground">
           <div className="flex items-center gap-2">
             <User className="h-4 w-4" />
-            <span className="text-sm">Valentina Montero</span>
+            <span className="text-sm">Juan Petter</span>
           </div>
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />

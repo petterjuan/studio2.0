@@ -31,13 +31,13 @@ export const VmLogo = (props: React.SVGProps<SVGSVGElement>) => (
       {/* Text */}
       <g transform="translate(65, 0)">
         <text y="15" className="text-fill" style={{ fontFamily: 'Belleza, sans-serif', fontSize: '18px', fontWeight: '400' }}>
-          VALENTINA
+          JUAN
         </text>
         <text y="37" className="text-fill" style={{ fontFamily: 'Belleza, sans-serif', fontSize: '18px', fontWeight: '400' }}>
-          MONTERO
+          PETTER
         </text>
         <text y="50" className="text-fill" style={{ fontFamily: 'Alegreya, serif', fontSize: '9px', letterSpacing: '1px' }}>
-          FITNESS COACH
+          AI ENGINEER
         </text>
       </g>
     </g>

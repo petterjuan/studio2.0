@@ -28,8 +28,8 @@ const fontCode = Source_Code_Pro({
 });
 
 export const metadata: Metadata = {
-  title: 'VM Fitness Hub | Nutrición Premium y Coaching',
-  description: 'Eleva tu potencial con los recursos de fitness y nutrición de Valentina Montero. Coaching personalizado y productos premium para tu viaje de transformación.',
+  title: 'JP Fitness Hub | AI Coaching & eCommerce',
+  description: 'Eleva tu potencial con los recursos de fitness y nutrición de Juan Petter. Coaching personalizado y productos premium para tu viaje de transformación.',
 };
 
 export default function RootLayout({

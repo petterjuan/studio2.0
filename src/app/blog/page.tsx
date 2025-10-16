@@ -17,9 +17,9 @@ export default async function BlogPage() {
     <>
       <div className="container py-12 md:py-16">
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-headline">El Diario de Valentina: Conquista Tu Grandeza</h1>
+          <h1 className="text-4xl md:text-5xl font-headline">El Blog de Juan: Fitness Basado en Datos</h1>
           <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-            Este es mi espacio personal para compartir contigo no solo entrenamientos, sino la mentalidad, la nutrición y la motivación que necesitas para construir la versión más fuerte y segura de ti misma.
+            Este es mi espacio para compartir no solo entrenamientos, sino la ciencia, la tecnología y la mentalidad que necesitas para construir la versión más fuerte y eficiente de ti mismo.
           </p>
         </div>
 

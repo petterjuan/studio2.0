@@ -1,16 +1,6 @@
 
 # VM Fitness Hub - Headless E-Commerce & Content Platform
 
-![VM Fitness Hub Hero Image](https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzU5NzY3MDA5fDA&ixlib=rb-4.1.0&q=80&w=1080)
-
-## Project Summary
-
-**VM Fitness Hub** is a modern, high-performance web application built with Next.js that serves as a frontend for a premium e-commerce and content experience. The application provides users with a polished UI to browse exclusive products, read insightful blog articles, interact with a smart shopping assistant, and generate personalized workout plans. User authentication, profile data, and admin features are seamlessly handled via Firebase, with secure payments processed through Stripe.
-
-This project is designed to be deployed on **Firebase App Hosting**, providing a scalable and fully-managed solution.
-
----
-
 ## 🚀 Tech Stack
 
 - **Framework:** [Next.js](https://nextjs.org/) 14.2.33
@@ -23,6 +13,14 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 - **Personalization Engine:** [Genkit](https://firebase.google.com/docs/genkit) (with Google's Gemini) 1.0.0
 - **Form Management:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
 
+![VM Fitness Hub Hero Image](https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzU5NzY3MDA5fDA&ixlib=rb-4.1.0&q=80&w=1080)
+
+## Project Summary
+
+**VM Fitness Hub** is a modern, high-performance web application built with Next.js that serves as a frontend for a premium e-commerce and content experience. The application provides users with a polished UI to browse exclusive products, read insightful blog articles, interact with a smart shopping assistant, and generate personalized workout plans. User authentication, profile data, and admin features are seamlessly handled via Firebase, with secure payments processed through Stripe.
+
+This project is designed to be deployed on **Firebase App Hosting**, providing a scalable and fully-managed solution.
+
 ---
 
 ## ✨ Key Features
@@ -30,7 +28,7 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 - **Modern Framework:** Built with **Next.js 14** (App Router) for optimal performance, Server-Side Rendering (SSR), and a seamless user experience.
 - **Elegant & Responsive Design:** A sleek and fully responsive user interface built with **Tailwind CSS** and **ShadCN UI**. The aesthetic is defined by a sophisticated brown and beige color palette, with distinct themes for light and dark modes.
 - **E-commerce Store:** A curated shopping experience for browsing and purchasing exclusive digital products. The payment gateway integrates with **Stripe Checkout** for secure transactions (or simulates the purchase if keys are not provided).
-- **Content Hub:** A dynamic blog featuring articles by Valentina Montero, statically generated for exceptional performance and SEO.
+- **Content Hub:** A dynamic blog featuring articles by Juan Petter, statically generated for exceptional performance and SEO.
 - **Secure Authentication:** A complete user registration and login system with role-based access control (including an admin panel) using **Firebase Authentication**.
 - **Firestore Database:** User profiles, roles, and personalized workout plans are securely stored in **Cloud Firestore**.
 - **User Dashboard:** A private, authenticated space for users to view and manage their saved workout plans and access purchased content.
@@ -94,7 +92,7 @@ FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
 
 # Stripe (Obtained from Stripe Dashboard -> Developers -> API keys)
 # Find your "Secret key" here. If this key is not provided, the checkout will simulate a successful purchase for development purposes.
-STRIPE_SECRET_KEY=sk_test_...
+STRIPE_SECRET_KEY=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
 
 # Google AI (Genkit - Obtain from Google AI Studio)
 # Go to https://aistudio.google.com/app/apikey and create a new API key.
