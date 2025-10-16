@@ -1,0 +1,35 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper function to check if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Helper function to check if the request is from the user who owns the data
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    // USERS COLLECTION
+    // Users can only read their own profile.
+    // Users can only update their own name.
+    // New user profiles are created via server-side logic, not directly by clients.
+    match /users/{userId} {
+      allow read: if isAuthenticated() && isOwner(userId);
+      allow update: if isAuthenticated() && isOwner(userId)
+                    && request.resource.data.keys().hasAll(['name'])
+                    && request.resource.data.name is string;
+      allow create, delete: if false; // Disallow client-side creation/deletion
+
+      // WORKOUT PLANS SUBCOLLECTION
+      // Users can read, write, and delete their own workout plans.
+      // No one else can access a user's workout plans.
+      match /workoutPlans/{planId} {
+        allow read, write, delete: if isAuthenticated() && isOwner(userId);
+      }
+    }
+  }
+}
