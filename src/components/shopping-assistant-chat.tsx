@@ -1,8 +1,9 @@
+
 'use client';
 
 import { useState, useRef, useEffect, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, User, CornerDownLeft, X, Loader, Sparkles } from 'lucide-react';
+import { Bot, User, CornerDownLeft, X, Loader, Sparkles, MessagesSquare } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -22,6 +23,24 @@ export default function ShoppingAssistantChat() {
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const hasInitialized = useRef(false);
+  const welcomePopupTimer = useRef<NodeJS.Timeout | null>(null);
+
+  useEffect(() => {
+    // Proactively open the chat window with a welcome message after a delay
+    // This will only happen once per session.
+    welcomePopupTimer.current = setTimeout(() => {
+        if (!isOpen && !sessionStorage.getItem('chatWelcomed')) {
+            setIsOpen(true);
+            sessionStorage.setItem('chatWelcomed', 'true');
+        }
+    }, 3000); // 3-second delay
+
+    return () => {
+        if (welcomePopupTimer.current) {
+            clearTimeout(welcomePopupTimer.current);
+        }
+    };
+  }, []);
 
   useEffect(() => {
     // Only show welcome message once when the chat is opened for the first time
@@ -83,13 +102,22 @@ export default function ShoppingAssistantChat() {
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-50">
+      <div className="fixed bottom-6 right-6 z-50 group">
+        <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block">
+            <div className="bg-primary text-primary-foreground text-sm font-bold px-4 py-2 rounded-lg shadow-lg">
+                ¿Necesitas ayuda? ¡Pregúntame!
+            </div>
+        </div>
         <Button
           size="icon"
-          className="rounded-full h-16 w-16 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
-          onClick={() => setIsOpen(!isOpen)}
+          className="rounded-full h-16 w-16 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg animate-pulse"
+          onClick={() => {
+            setIsOpen(!isOpen);
+            if (welcomePopupTimer.current) clearTimeout(welcomePopupTimer.current);
+            sessionStorage.setItem('chatWelcomed', 'true');
+          }}
         >
-          {isOpen ? <X className="h-8 w-8" /> : <Sparkles className="h-8 w-8" />}
+          {isOpen ? <X className="h-8 w-8" /> : <MessagesSquare className="h-8 w-8" />}
           <span className="sr-only">Abrir Asistente</span>
         </Button>
       </div>
