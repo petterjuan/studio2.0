@@ -91,7 +91,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID=1:...
 FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
 
 # Stripe (Obtenido desde el Stripe Dashboard -> Desarrolladores -> Claves de API)
-# Encuentra tu "Clave secreta" aquí. Si no se proporciona esta clave, el proceso de pago simulará una compra exitosa para fines de desarrollo.
+# Encuentra tu "Clave secreta" aquí. Si no se proporciona esta clave, el proceso de pago simulará una compra exitosa para el desarrollo.
 STRIPE_SECRET_KEY=
 
 # Google AI (Genkit - Obtener desde Google AI Studio)

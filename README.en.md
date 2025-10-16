@@ -91,7 +91,7 @@ NEXT_PUBLIC_FIREBASE_APP_ID=1:...
 FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
 
 # Stripe (Obtained from Stripe Dashboard -> Developers -> API keys)
-# Find your "Secret key" here. If this key is not provided, the checkout will simulate a successful purchase for development purposes.
+# Find your "Secret key" here. If this is not provided, the checkout will simulate a successful purchase for development.
 STRIPE_SECRET_KEY=
 
 # Google AI (Genkit - Obtain from Google AI Studio)
