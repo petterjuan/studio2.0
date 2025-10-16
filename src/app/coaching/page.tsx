@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useTransition, useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { CheckCircle, Loader2, Award, ListChecks, Smile, HeartHandshake, BadgePercent, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -60,7 +59,6 @@ const howItWorksSteps = [
 
 export default function CoachingPage() {
   const { toast } = useToast();
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [submittingPlan, setSubmittingPlan] = useState<string | null>(null);
 
@@ -75,8 +73,6 @@ export default function CoachingPage() {
 
         if (response.url) {
             window.location.href = response.url;
-        } else if (response.simulation_url) {
-            router.push(response.simulation_url);
         } else {
              throw new Error(response.error || 'No checkout URL returned');
         }

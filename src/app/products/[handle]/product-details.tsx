@@ -3,7 +3,6 @@
 
 import Image from 'next/image';
 import { useTransition } from 'react';
-import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle, Zap, Loader2 } from 'lucide-react';
@@ -20,7 +19,6 @@ const muscleBitesFeatures = [
 
 export default function ProductDetails({ product }: { product: Product }) {
   const { toast } = useToast();
-  const router = useRouter();
   const [isPending, startTransition] = useTransition();
 
   if (!product) {
@@ -34,14 +32,12 @@ export default function ProductDetails({ product }: { product: Product }) {
         
         if (response.url) {
             window.location.href = response.url;
-        } else if (response.simulation_url) {
-            router.push(response.simulation_url);
         } else {
             throw new Error(response.error || 'No checkout URL returned');
         }
 
-      } catch (error) {
-        console.error(error);
+      } catch (error: any) {
+        console.error("Checkout failed:", error);
         toast({
             variant: 'destructive',
             title: '¡Oh, no! Algo salió mal.',

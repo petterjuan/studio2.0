@@ -8,7 +8,6 @@ import { getProductById } from '@/lib/products';
 
 type CheckoutResponse = {
   url?: string | null;
-  simulation_url?: string;
   error?: string;
 }
 
@@ -26,8 +25,9 @@ export async function createCheckoutSession(productId: string): Promise<Checkout
     const cancelUrl = `${protocol}://${domain}/products/${product.handle}`;
     
     if (!process.env.STRIPE_SECRET_KEY) {
-        console.log("STRIPE_SECRET_KEY not set. Simulating purchase.");
-        return { simulation_url: successUrl };
+        console.log("STRIPE_SECRET_KEY not set. Simulating purchase by redirecting to success URL.");
+        // In simulation mode, we just return the success URL directly.
+        return { url: successUrl };
     }
     
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
