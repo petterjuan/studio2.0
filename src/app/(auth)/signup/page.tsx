@@ -1,6 +1,6 @@
 'use client';
 
-import { useTransition } from 'react';
+import { useActionState, useTransition, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { signup } from './actions';
@@ -19,7 +19,19 @@ export default function SignupPage() {
   const { toast } = useToast();
   const [isClientLoading, startClientTransition] = useTransition();
 
-  const handleFormSubmit = (formData: FormData) => {
+  const [state, formAction] = useActionState(signup, { message: '', success: false });
+
+  useEffect(() => {
+    if (state.success) {
+      toast({ title: '¡Bienvenido!', description: 'Tu cuenta ha sido creada exitosamente.' });
+      router.push('/dashboard');
+    } else if (state.message) {
+      toast({ variant: 'destructive', title: 'Error de registro', description: state.message });
+    }
+  }, [state, router, toast]);
+
+
+  const handleClientAuth = (formData: FormData) => {
     const email = formData.get('email') as string;
     const password = formData.get('password') as string;
     const name = formData.get('name') as string;
@@ -31,22 +43,15 @@ export default function SignupPage() {
 
     startClientTransition(async () => {
       try {
-        // Step 1: Create user on the client for immediate sign-in
+        // Step 1: Create user on the client to establish a session
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         const user = userCredential.user;
         
-        // Step 2: Update the user's profile with their name
         await updateProfile(user, { displayName: name });
 
-        // Step 3: Call the server action to create the Firestore document, passing the new UID
-        const serverResult = await signup(user.uid, formData);
+        // Step 2: Call the server action. It will get the UID from the session.
+        formAction(formData);
 
-        if (serverResult.success) {
-          toast({ title: '¡Bienvenido!', description: 'Tu cuenta ha sido creada exitosamente.' });
-          router.push('/dashboard');
-        } else {
-           toast({ variant: 'destructive', title: 'Error de registro', description: serverResult.message });
-        }
       } catch (error: any) {
         let message = 'Ocurrió un error desconocido.';
         if (error.code === 'auth/email-already-in-use') {
@@ -65,10 +70,10 @@ export default function SignupPage() {
         <div className="flex justify-center mb-4">
           <Dumbbell className="h-10 w-10 text-primary" />
         </div>
-        <CardTitle as="h1" className="text-2xl font-headline">Crear una Cuenta</CardTitle>
+        <CardTitle as="h2" className="text-2xl font-headline">Crear una Cuenta</CardTitle>
         <CardDescription>Únete a VM Fitness Hub para comenzar tu viaje.</CardDescription>
       </CardHeader>
-      <form action={handleFormSubmit}>
+      <form action={handleClientAuth}>
         <CardContent className="grid gap-4">
           <div className="grid gap-2">
             <Label htmlFor="name">Nombre</Label>

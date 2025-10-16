@@ -1,12 +1,12 @@
 import { initializeApp, getApps, App, cert } from 'firebase-admin/app';
 import { getAuth, Auth } from 'firebase-admin/auth';
 import { getFirestore, Firestore } from 'firebase-admin/firestore';
+import { cookies } from 'next/headers';
+import { cache } from 'react';
 
 const serviceAccountKey = process.env.FIREBASE_SERVICE_ACCOUNT_KEY;
 
 let app: App;
-let auth: Auth;
-let firestore: Firestore;
 
 if (getApps().length === 0) {
   if (serviceAccountKey) {
@@ -26,8 +26,23 @@ if (getApps().length === 0) {
   app = getApps()[0];
 }
 
-auth = getAuth(app);
-firestore = getFirestore(app);
+const auth = getAuth(app);
+const firestore = getFirestore(app);
+
+export const getCurrentUser = cache(async () => {
+  const sessionCookie = cookies().get('session')?.value;
+
+  if (!sessionCookie) {
+    return null;
+  }
+  try {
+    const decodedIdToken = await auth.verifySessionCookie(sessionCookie, true);
+    return decodedIdToken;
+  } catch (error) {
+    console.error('Error verifying session cookie:', error);
+    return null;
+  }
+});
 
 
 export { app, auth, firestore };
