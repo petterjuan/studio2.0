@@ -23,7 +23,6 @@ export async function createCheckoutSession(productId: string) {
     if (!process.env.STRIPE_SECRET_KEY) {
         console.log("STRIPE_SECRET_KEY not set. Simulating purchase and redirecting to success URL.");
         redirect(successUrl);
-        return;
     }
     
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
