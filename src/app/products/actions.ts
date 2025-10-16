@@ -17,12 +17,36 @@ export async function createCheckoutSession(productId: string) {
         throw new Error('Producto no encontrado.');
     }
     
-    const successUrl = `${protocol}://${domain}/MUSCLE BITES.pdf`;
+    const successUrl = `${protocol}://${domain}/muscle-bites.pdf`;
     const cancelUrl = `${protocol}://${domain}/products/${product.handle}`;
     
     if (!process.env.STRIPE_SECRET_KEY) {
         console.log("STRIPE_SECRET_KEY not set. Simulating purchase and redirecting to success URL.");
-        redirect(successUrl);
+        
+        const stripe = new Stripe('sk_test_123'); // Dummy key for test mode
+        const session = await stripe.checkout.sessions.create({
+            line_items: [{
+                price_data: {
+                    currency: 'usd',
+                    product_data: { name: product.title },
+                    unit_amount: product.rawPrice * 100,
+                },
+                quantity: 1,
+            }],
+            mode: 'payment',
+            success_url: successUrl,
+            cancel_url: cancelUrl,
+            // In test mode, we can still collect addresses
+            billing_address_collection: 'auto',
+        });
+
+        if (session.url) {
+            redirect(session.url);
+        } else {
+            // Fallback for extreme cases
+            redirect(successUrl);
+        }
+        return;
     }
     
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {

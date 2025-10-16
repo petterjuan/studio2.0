@@ -151,7 +151,7 @@ export default async function Home() {
             Descarga nuestra guía gratuita con 5 consejos esenciales para iniciar tu transformación de fitness. ¡Es el primer paso hacia una versión más fuerte y segura de ti misma!
           </p>
           <Button asChild size="lg">
-            <Link href="/Free guide.pdf" target="_blank" download>
+            <Link href="/free-guide.pdf" target="_blank" download>
               <Download className="mr-2 h-5 w-5" />
               Descargar Guía Gratuita
             </Link>
