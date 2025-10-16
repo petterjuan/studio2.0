@@ -3,14 +3,14 @@
 
 ## 🚀 Tech Stack
 
-- **Framework:** [Next.js](https://nextjs.org/) 14.2.33
+- **Framework:** [Next.js](https://nextjs.org/) 15.0.0
 - **Language:** [TypeScript](https://www.typescriptlang.org/) 5
 - **UI Framework:** [React](https://reactjs.org/) 18.3.1
 - **Styling:** [Tailwind CSS](https://tailwindcss.com/)
 - **UI Components:** [ShadCN UI](https://ui.shadcn.com/)
 - **Backend (BaaS):** [Firebase](https://firebase.google.com/) 10.12.4 (Authentication, Firestore, App Hosting)
 - **Payments:** [Stripe](https://stripe.com/) 16.5.0
-- **Personalization Engine:** [Genkit](https://firebase.google.com/docs/genkit) (with Google's Gemini) 0.1.3
+- **Personalization Engine:** [Genkit](https://firebase.google.com/docs/genkit) (with Google's Gemini) 1.0.0
 - **Form Management:** [React Hook Form](https://react-hook-form.com/) 7.52.1 & [Zod](https://zod.dev/) 3.24.2
 
 ![VM Fitness Hub Hero Image](https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzU5NzY3MDA5fDA&ixlib=rb-4.1.0&q=80&w=1080)
@@ -25,7 +25,7 @@ This project is designed to be deployed on **Firebase App Hosting**, providing a
 
 ## ✨ Key Features
 
-- **Modern Framework:** Built with **Next.js 14** (App Router) for optimal performance, Server-Side Rendering (SSR), and a seamless user experience.
+- **Modern Framework:** Built with **Next.js 15** (App Router) for optimal performance, Server-Side Rendering (SSR), and a seamless user experience.
 - **Elegant & Responsive Design:** A sleek and fully responsive user interface built with **Tailwind CSS** and **ShadCN UI**. The aesthetic is defined by a sophisticated brown and beige color palette, with distinct themes for light and dark modes.
 - **E-commerce Store:** A curated shopping experience for browsing and purchasing exclusive digital products. The payment gateway integrates with **Stripe Checkout** for secure transactions (or simulates the purchase if keys are not provided).
 - **Content Hub:** A dynamic blog featuring articles by Valentina Montero, statically generated for exceptional performance and SEO.

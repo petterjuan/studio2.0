@@ -3,14 +3,14 @@
 
 ## 🚀 Pila Tecnológica
 
-- **Framework:** [Next.js](https://nextjs.org/) 14.2.33
+- **Framework:** [Next.js](https://nextjs.org/) 15.0.0
 - **Lenguaje:** [TypeScript](https://www.typescriptlang.org/) 5
 - **UI Framework:** [React](https://reactjs.org/) 18.3.1
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
 - **Componentes UI:** [ShadCN UI](https://ui.shadcn.com/)
 - **Backend (BaaS):** [Firebase](https://firebase.google.com/) 10.12.4 (Authentication, Firestore, App Hosting)
 - **Pagos:** [Stripe](https://stripe.com/) 16.5.0
-- **Motor de Personalización:** [Genkit](https://firebase.google.com/docs/genkit) (con Gemini de Google) 0.1.3
+- **Motor de Personalización:** [Genkit](https://firebase.google.com/docs/genkit) (con Gemini de Google) 1.0.0
 - **Gestión de Formularios:** [React Hook Form](https://react-hook-form.com/) 7.52.1 & [Zod](https://zod.dev/) 3.24.2
 
 ![VM Fitness Hub Hero Image](https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzU5NzY3MDA5fDA&ixlib=rb-4.1.0&q=80&w=1080)
@@ -25,7 +25,7 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 
 ## ✨ Características Principales
 
-- **Framework Moderno:** Construido con **Next.js 14 (App Router)** para un rendimiento óptimo, Server-Side Rendering (SSR) y una experiencia de usuario fluida.
+- **Framework Moderno:** Construido con **Next.js 15 (App Router)** para un rendimiento óptimo, Server-Side Rendering (SSR) y una experiencia de usuario fluida.
 - **Diseño Elegante y Responsivo:** Interfaz de usuario sofisticada y totalmente responsiva construida con **Tailwind CSS** y **ShadCN UI**. La estética se define por una paleta de colores en tonos marrones y beige, con temas diferenciados para modo claro y oscuro.
 - **Tienda E-commerce:** Una experiencia de compra curada para explorar y adquirir productos digitales exclusivos. La pasarela de pago se integra con **Stripe Checkout** para transacciones seguras (o simula la compra si las claves no están configuradas).
 - **Hub de Contenido:** Un blog dinámico con artículos de Valentina Montero, generados estáticamente para un rendimiento excepcional y optimización para motores de búsqueda (SEO).
@@ -34,7 +34,7 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 - **Panel de Usuario:** Un espacio privado y autenticado para que los usuarios vean y gestionen sus planes de entrenamiento guardados y accedan al contenido comprado.
 - **Funcionalidades Avanzadas de Personalización:**
     - **Generador de Planes de Entrenamiento:** Un motor propietario que crea planes de entrenamiento semanales personalizados basados en las metas, nivel de experiencia y preferencias del usuario.
-    - **Asistente de Compras:** Un chatbot de conserjería inteligente que ayuda a los usuarios a encontrar productos y responde a sus preguntas con respuestas contextuales.
+    - **Asistente de Compras:** Un chatbot de conserjería inteligente que ayuda los usuarios a encontrar productos y responde a sus preguntas con respuestas contextuales.
 - **Panel de Administrador:** Una sección protegida basada en roles para que los administradores vean todos los planes de entrenamiento generados por los usuarios.
 - **Optimización para Despliegue:** Totalmente configurado para un despliegue automatizado y sin interrupciones en **Firebase App Hosting**.
 
