@@ -12,14 +12,6 @@ import { es } from 'date-fns/locale';
 import { getPlaceholder } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
 
-const muscleBitesEbookImage = getPlaceholder('product-ebook-muscle-bites');
-
-const muscleBitesFeatures = [
-    "Descubre 4 secretos para combinar snacks de forma inteligente y mantener tu energía.",
-    "Potencia tus entrenamientos con 10 recetas pre-entreno deliciosas y fáciles de preparar.",
-    "Acelera tu recuperación muscular con 5 recetas post-entreno diseñadas para nutrir tu cuerpo."
-];
-
 const TestimonialCarousel = dynamic(
   () => import('@/components/testimonial-carousel'),
   { 
@@ -32,6 +24,13 @@ export default async function Home() {
   const featuredProducts = await getProducts(4);
   const articles = await getArticles(3);
   const heroImage = getPlaceholder('hero-image');
+  const muscleBitesEbookImage = getPlaceholder('product-ebook-muscle-bites');
+
+  const muscleBitesFeatures = [
+      "Descubre 4 secretos para combinar snacks de forma inteligente y mantener tu energía.",
+      "Potencia tus entrenamientos con 10 recetas pre-entreno deliciosas y fáciles de preparar.",
+      "Acelera tu recuperación muscular con 5 recetas post-entreno diseñadas para nutrir tu cuerpo."
+  ];
 
   return (
     <div className="flex flex-col min-h-dvh">
@@ -54,7 +53,7 @@ export default async function Home() {
           </p>
           <Button asChild size="lg" className="mt-8">
             <Link href="/products/muscle-bites-snacks">
-              ¡Lo Quiero Ahora! <ArrowRight className="ml-2 h-5 w-5" />
+              Comprar el Ebook <ArrowRight className="ml-2 h-5 w-5" />
             </Link>
           </Button>
         </div>

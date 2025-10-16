@@ -57,7 +57,9 @@ const recipeGeneratorFlow = ai.defineFlow(
   async (input) => {
     const { output } = await recipePrompt(input);
 
-    if (!output) throw new Error('Failed to generate recipe');
+    if (!output) {
+      throw new Error('Failed to generate recipe: AI model did not return an output.');
+    }
 
     return output;
   },

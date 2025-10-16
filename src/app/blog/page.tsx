@@ -36,7 +36,7 @@ export default async function BlogPage() {
                           alt={article.title}
                           data-ai-hint={image.imageHint}
                           width={1080}
-                          height={720}
+                          height={810}
                           className="object-cover transition-transform duration-300 hover:scale-105"
                         />
                     </div>
