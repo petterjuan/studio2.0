@@ -72,8 +72,8 @@ export async function createCoachingCheckoutSession(planId: string): Promise<Che
 
         return { url: session.url };
 
-    } catch (error) {
-        console.error("Error creating checkout session:", error);
-        return { error: 'Failed to create checkout session.' };
+    } catch (error: any) {
+        console.error("Error creating coaching checkout session:", error.message);
+        return { error: `Failed to create checkout session: ${error.message}` };
     }
 }

@@ -33,6 +33,7 @@ export default function ProductDetails({ product }: { product: Product }) {
         if (response.url) {
             window.location.href = response.url;
         } else {
+            // Now we can show the specific error from the server
             throw new Error(response.error || 'No checkout URL returned');
         }
 
@@ -41,7 +42,7 @@ export default function ProductDetails({ product }: { product: Product }) {
         toast({
             variant: 'destructive',
             title: '¡Oh, no! Algo salió mal.',
-            description: 'No se pudo redirigir a la página de pago. Por favor, inténtalo de nuevo.',
+            description: `No se pudo redirigir a la página de pago. Por favor, inténtalo de nuevo. (${error.message})`,
         });
       }
     });

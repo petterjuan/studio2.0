@@ -77,12 +77,12 @@ export default function CoachingPage() {
              throw new Error(response.error || 'No checkout URL returned');
         }
 
-      } catch (error) {
+      } catch (error: any) {
         console.error("Checkout error:", error);
         toast({
           variant: 'destructive',
           title: '¡Oh, no! Algo salió mal.',
-          description: 'No se pudo redirigir a la página de pago. Por favor, inténtalo de nuevo.',
+          description: `No se pudo redirigir a la página de pago. Por favor, inténtalo de nuevo. (${error.message})`,
         });
       } finally {
         setSubmittingPlan(null);

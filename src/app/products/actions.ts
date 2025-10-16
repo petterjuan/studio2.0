@@ -5,6 +5,7 @@ import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
 import { getPlaceholder } from '@/lib/utils';
 import { getProductById } from '@/lib/products';
+import { redirect } from 'next/navigation';
 
 type CheckoutResponse = {
   url?: string | null;
@@ -21,6 +22,7 @@ export async function createCheckoutSession(productId: string): Promise<Checkout
         return { error: 'Producto no encontrado.' };
     }
     
+    // The file name should not have spaces.
     const successUrl = `${protocol}://${domain}/muscle-bites.pdf`;
     const cancelUrl = `${protocol}://${domain}/products/${product.handle}`;
     
@@ -60,8 +62,8 @@ export async function createCheckoutSession(productId: string): Promise<Checkout
 
         return { url: session.url };
 
-    } catch (error) {
-        console.error("Error creating checkout session:", error);
-        return { error: 'Failed to create checkout session.' };
+    } catch (error: any) {
+        console.error("Error creating checkout session:", error.message);
+        return { error: `Failed to create checkout session: ${error.message}` };
     }
 }
