@@ -1,6 +1,6 @@
 import { getProductByHandle, getProducts } from '@/lib/products';
 import { notFound } from 'next/navigation';
-import dynamicComponent from 'next/dynamic';
+import dynamic from 'next/dynamic';
 import ProductDetails from './product-details';
 import { Product } from '@/lib/definitions';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -8,7 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 export const dynamic = 'force-static';
 export const revalidate = 3600; // Revalidate every hour
 
-const TestimonialCarousel = dynamicComponent(
+const TestimonialCarousel = dynamic(
   () => import('@/components/testimonial-carousel'),
   { 
     loading: () => <Skeleton className="h-[250px] w-full" />
