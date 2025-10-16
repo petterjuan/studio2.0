@@ -39,7 +39,7 @@ export async function createCoachingCheckoutSession(planId: string): Promise<Che
     const cancelUrl = `${protocol}://${domain}/coaching`;
 
     if (!process.env.STRIPE_SECRET_KEY) {
-        console.log("STRIPE_SECRET_KEY not set. Simulating purchase by redirecting to success URL.");
+        console.log("STRIPE_SECRET_KEY not set. Simulating purchase by returning success URL.");
         // In simulation mode, we just return the success URL directly.
         return { url: successUrl };
     }
