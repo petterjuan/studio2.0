@@ -1,9 +1,11 @@
+
 'use client';
 
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
 import { useTransition, useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { CheckCircle, Loader2, Award, ListChecks, Smile, HeartHandshake, BadgePercent, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -58,6 +60,7 @@ const howItWorksSteps = [
 
 export default function CoachingPage() {
   const { toast } = useToast();
+  const router = useRouter();
   const [isPending, startTransition] = useTransition();
   const [submittingPlan, setSubmittingPlan] = useState<string | null>(null);
 
@@ -68,7 +71,16 @@ export default function CoachingPage() {
     setSubmittingPlan(planId);
     startTransition(async () => {
       try {
-        await createCoachingCheckoutSession(planId);
+        const response = await createCoachingCheckoutSession(planId);
+
+        if (response.url) {
+            window.location.href = response.url;
+        } else if (response.simulation_url) {
+            router.push(response.simulation_url);
+        } else {
+             throw new Error(response.error || 'No checkout URL returned');
+        }
+
       } catch (error) {
         console.error("Checkout error:", error);
         toast({
@@ -76,6 +88,7 @@ export default function CoachingPage() {
           title: '¡Oh, no! Algo salió mal.',
           description: 'No se pudo redirigir a la página de pago. Por favor, inténtalo de nuevo.',
         });
+      } finally {
         setSubmittingPlan(null);
       }
     });
