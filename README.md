@@ -4,14 +4,14 @@
 ## 🚀 Pila Tecnológica
 
 - **Framework:** [Next.js](https://nextjs.org/) 14.2.33
-- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/)
+- **Lenguaje:** [TypeScript](https://www.typescriptlang.org/) 5
 - **UI Framework:** [React](https://reactjs.org/) 18.3.1
 - **Estilos:** [Tailwind CSS](https://tailwindcss.com/)
 - **Componentes UI:** [ShadCN UI](https://ui.shadcn.com/)
-- **Backend (BaaS):** [Firebase](https://firebase.google.com/) (Authentication, Firestore, App Hosting)
-- **Pagos:** [Stripe](https://stripe.com/)
-- **Motor de Personalización:** [Genkit](https://firebase.google.com/docs/genkit) (con Gemini de Google) 1.0.0
-- **Gestión de Formularios:** [React Hook Form](https://react-hook-form.com/) & [Zod](https://zod.dev/)
+- **Backend (BaaS):** [Firebase](https://firebase.google.com/) 10.12.4 (Authentication, Firestore, App Hosting)
+- **Pagos:** [Stripe](https://stripe.com/) 16.5.0
+- **Motor de Personalización:** [Genkit](https://firebase.google.com/docs/genkit) (con Gemini de Google) 0.1.3
+- **Gestión de Formularios:** [React Hook Form](https://react-hook-form.com/) 7.52.1 & [Zod](https://zod.dev/) 3.24.2
 
 ![VM Fitness Hub Hero Image](https://images.unsplash.com/photo-1586323289103-e309634e2a1b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw5fHxmaXRuZXNzJTIwd29tYW58ZW58MHx8fHwxNzU5NzY3MDA5fDA&ixlib=rb-4.1.0&q=80&w=1080)
 
@@ -28,7 +28,7 @@ Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, p
 - **Framework Moderno:** Construido con **Next.js 14 (App Router)** para un rendimiento óptimo, Server-Side Rendering (SSR) y una experiencia de usuario fluida.
 - **Diseño Elegante y Responsivo:** Interfaz de usuario sofisticada y totalmente responsiva construida con **Tailwind CSS** y **ShadCN UI**. La estética se define por una paleta de colores en tonos marrones y beige, con temas diferenciados para modo claro y oscuro.
 - **Tienda E-commerce:** Una experiencia de compra curada para explorar y adquirir productos digitales exclusivos. La pasarela de pago se integra con **Stripe Checkout** para transacciones seguras (o simula la compra si las claves no están configuradas).
-- **Hub de Contenido:** Un blog dinámico con artículos de Juan Petter, generados estáticamente para un rendimiento excepcional y optimización para motores de búsqueda (SEO).
+- **Hub de Contenido:** Un blog dinámico con artículos de Valentina Montero, generados estáticamente para un rendimiento excepcional y optimización para motores de búsqueda (SEO).
 - **Autenticación Segura:** Sistema completo de registro e inicio de sesión de usuarios con control de acceso basado en roles (incluyendo un panel de administrador) utilizando **Firebase Authentication**.
 - **Base de Datos Firestore:** Los perfiles de usuario, roles y planes de entrenamiento personalizados se almacenan de forma segura en **Cloud Firestore**.
 - **Panel de Usuario:** Un espacio privado y autenticado para que los usuarios vean y gestionen sus planes de entrenamiento guardados y accedan al contenido comprado.
@@ -92,7 +92,7 @@ FIREBASE_SERVICE_ACCOUNT_KEY={"type": "service_account", ...}
 
 # Stripe (Obtenido desde el Stripe Dashboard -> Desarrolladores -> Claves de API)
 # Encuentra tu "Clave secreta" aquí. Si no se proporciona esta clave, el proceso de pago simulará una compra exitosa para fines de desarrollo.
-STRIPE_SECRET_KEY=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
+STRIPE_SECRET_KEY=sk_live_...
 
 # Google AI (Genkit - Obtener desde Google AI Studio)
 # Ve a https://aistudio.google.com/app/apikey y crea una nueva clave de API.

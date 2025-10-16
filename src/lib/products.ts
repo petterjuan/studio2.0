@@ -21,8 +21,8 @@ const products: Product[] = [
     },
     {
         id: '2',
-        handle: 'proteina-whey-jp-signature',
-        title: 'Proteína Whey "JP Signature"',
+        handle: 'proteina-whey-vm-signature',
+        title: 'Proteína Whey "VM Signature"',
         description: 'Nuestra proteína de suero de leche de la más alta calidad, con un sabor increíble y diseñada para una máxima absorción. El complemento perfecto para tus batidos post-entreno.',
         rawPrice: 65.00,
         price: formatPrice(65.00),
@@ -31,8 +31,8 @@ const products: Product[] = [
     },
     {
         id: '3',
-        handle: 'bandas-de-resistencia-jp-pro',
-        title: 'Set de Bandas de Resistencia "JP Pro"',
+        handle: 'bandas-de-resistencia-vm-pro',
+        title: 'Set de Bandas de Resistencia "VM Pro"',
         description: 'Lleva tus entrenamientos de glúteos al siguiente nivel con nuestro set de 3 bandas de resistencia de tela. Perfectas para activar y construir, en casa o en el gimnasio.',
         rawPrice: 25.00,
         price: formatPrice(25.00),
