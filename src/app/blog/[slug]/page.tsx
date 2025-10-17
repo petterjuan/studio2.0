@@ -3,6 +3,7 @@ import { getArticleByHandle, getArticles } from '@/lib/articles';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { format } from 'date-fns';
+import { es } from 'date-fns/locale';
 import { Calendar, User } from 'lucide-react';
 import { getPlaceholder } from '@/lib/utils';
 import AudioPlayer from './audio-player';
@@ -47,7 +48,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           <div className="flex items-center gap-2">
             <Calendar className="h-4 w-4" />
             <time dateTime={article.publishedAt} className="text-sm">
-              {format(new Date(article.publishedAt), 'd MMMM, yyyy')}
+              {format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}
             </time>
           </div>
         </div>
