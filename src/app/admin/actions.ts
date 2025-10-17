@@ -1,12 +1,20 @@
+
 'use server';
 
 import { collectionGroup, getDocs, query, orderBy, getDoc, DocumentData } from 'firebase/firestore';
-import { firestore as adminFirestore } from '@/firebase/server';
+import { firestore as adminFirestore, getCurrentUser } from '@/firebase/server';
 import type { WorkoutPlan } from '@/lib/definitions';
 
 type UserWorkoutPlan = WorkoutPlan & { userName: string; userEmail: string; };
 
 export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
+  const user = await getCurrentUser();
+  
+  // Security Enhancement: Only allow admins to fetch all plans.
+  if (!user || !user.isAdmin) {
+    return [];
+  }
+  
   if (!adminFirestore) {
     console.warn("Firestore Admin SDK not initialized. Skipping getAllWorkoutPlans.");
     return [];
@@ -39,3 +47,5 @@ export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
 
   return plans;
 }
+
+    

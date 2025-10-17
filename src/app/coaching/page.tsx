@@ -148,7 +148,7 @@ export default function CoachingPage() {
           <Card className="flex flex-col">
               <CardHeader>
                   <CardTitle as="h2" className="font-headline text-2xl">Plan de 6 Semanas</CardTitle>
-                  <CardDescription as="p" className="text-4xl font-bold text-primary">$167</CardDescription>
+                  <CardDescription as="p" className="text-4xl font-bold text-primary">$167.00</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow space-y-4">
                 {coachingFeatures.common.map((feature, i) => (
@@ -170,7 +170,7 @@ export default function CoachingPage() {
             </div>
               <CardHeader>
                   <CardTitle as="h2" className="font-headline text-2xl">Plan de 12 Semanas</CardTitle>
-                  <CardDescription as="p" className="text-4xl font-bold text-primary">$267</CardDescription>
+                  <CardDescription as="p" className="text-4xl font-bold text-primary">$267.00</CardDescription>
               </CardHeader>
               <CardContent className="flex-grow space-y-4">
                 {[...coachingFeatures.common, ...coachingFeatures.twelveWeek].map((feature, i) => (
@@ -240,3 +240,5 @@ export default function CoachingPage() {
     </>
   );
 }
+
+    

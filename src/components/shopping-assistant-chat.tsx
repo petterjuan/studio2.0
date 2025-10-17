@@ -9,6 +9,13 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/componen
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { shoppingAssistant, ShoppingAssistantInput } from '@/ai/flows/shopping-assistant';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+
 
 type Message = {
   role: 'user' | 'assistant';
@@ -22,23 +29,6 @@ export default function ShoppingAssistantChat() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const welcomePopupTimer = useRef<NodeJS.Timeout | null>(null);
-
-  // Proactively open the chat window with a welcome message after a delay
-  useEffect(() => {
-    welcomePopupTimer.current = setTimeout(() => {
-        if (!isOpen && !sessionStorage.getItem('chatWelcomed')) {
-            setIsOpen(true);
-            sessionStorage.setItem('chatWelcomed', 'true');
-        }
-    }, 3000); // 3-second delay
-
-    return () => {
-        if (welcomePopupTimer.current) {
-            clearTimeout(welcomePopupTimer.current);
-        }
-    };
-  }, [isOpen]);
 
   // Show welcome message only when the chat is opened for the first time
   useEffect(() => {
@@ -99,29 +89,30 @@ export default function ShoppingAssistantChat() {
 
   const toggleChat = () => {
     setIsOpen(!isOpen);
-    if (welcomePopupTimer.current) clearTimeout(welcomePopupTimer.current);
-    if (!isOpen) {
-        sessionStorage.setItem('chatWelcomed', 'true');
-    }
   };
 
   return (
     <>
-      <div className="fixed bottom-6 right-6 z-50 group">
-        <div className="absolute bottom-full right-0 mb-2 hidden group-hover:block">
-            <div className="bg-primary text-primary-foreground text-sm font-bold px-4 py-2 rounded-lg shadow-lg">
-                ¿Necesitas ayuda? ¡Pregúntame!
-            </div>
-        </div>
-        <Button
-          size="icon"
-          className="rounded-full h-16 w-16 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg animate-pulse"
-          onClick={toggleChat}
-        >
-          {isOpen ? <X className="h-8 w-8" /> : <MessagesSquare className="h-8 w-8" />}
-          <span className="sr-only">Abrir Asistente</span>
-        </Button>
+      <div className="fixed bottom-6 right-6 z-50">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+                <Button
+                size="icon"
+                className="rounded-full h-16 w-16 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
+                onClick={toggleChat}
+                >
+                {isOpen ? <X className="h-8 w-8" /> : <MessagesSquare className="h-8 w-8" />}
+                <span className="sr-only">Abrir Asistente</span>
+                </Button>
+            </TooltipTrigger>
+            <TooltipContent side="left" className="bg-primary text-primary-foreground">
+                <p>¿Necesitas ayuda? ¡Pregúntame!</p>
+            </TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
       </div>
+
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -207,3 +198,5 @@ function AvatarIcon({ className }: { className?: string }) {
     </div>
   );
 }
+
+    
