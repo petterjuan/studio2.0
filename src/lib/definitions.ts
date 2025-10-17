@@ -1,3 +1,4 @@
+
 import type { User as FirebaseUser } from 'firebase/auth';
 
 export type Product = {
@@ -8,6 +9,7 @@ export type Product = {
   price: string;
   rawPrice: number;
   imageId: string;
+  stripePriceId: string; // <-- Added Stripe Price ID
   tags: string[];
 };
 

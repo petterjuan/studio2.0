@@ -6,17 +6,17 @@ import { headers } from 'next/headers';
 
 type PlanDetails = {
     name: string;
-    priceInCents: number;
+    stripePriceId: string; // Using Stripe Price ID
 }
 
 const plans: Record<string, PlanDetails> = {
     '6-weeks': {
         name: 'Plan de Coaching de 6 Semanas',
-        priceInCents: 16700,
+        stripePriceId: 'price_1PXmJDRsubz5A5s2tMExVpC6', // Reemplazar con tu Price ID real de Stripe
     },
     '12-weeks': {
         name: 'Plan de Coaching de 12 Semanas',
-        priceInCents: 26700,
+        stripePriceId: 'price_1PXmJaRsubz5A5s23kVi8K8L', // Reemplazar con tu Price ID real de Stripe
     }
 };
 
@@ -38,8 +38,8 @@ export async function createCoachingCheckoutSession(planId: string): Promise<Che
     const successUrl = `${protocol}://${domain}/dashboard?coaching_success=true`;
     const cancelUrl = `${protocol}://${domain}/coaching`;
 
-    if (!process.env.STRIPE_SECRET_KEY) {
-        console.log("STRIPE_SECRET_KEY not set. Simulating purchase by returning success URL.");
+    if (!process.env.STRIPE_SECRET_KEY || !plan.stripePriceId) {
+        console.log("Stripe not configured or plan missing Stripe Price ID. Simulating purchase.");
         // In simulation mode, we just return the success URL directly.
         return { url: successUrl };
     }
@@ -53,15 +53,7 @@ export async function createCoachingCheckoutSession(planId: string): Promise<Che
             payment_method_types: ['card'],
             line_items: [
                 {
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: plan.name,
-                            description: "Acceso a coaching personalizado con Valentina Montero.",
-                            images: [],
-                        },
-                        unit_amount: plan.priceInCents,
-                    },
+                    price: plan.stripePriceId, // Use the Stripe Price ID
                     quantity: 1,
                 },
             ],

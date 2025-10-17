@@ -1,3 +1,4 @@
+
 import type { Product } from './definitions';
 
 function formatPrice(amount: number, currencyCode: string = 'USD') {
@@ -17,6 +18,7 @@ const products: Product[] = [
         rawPrice: 29.00,
         price: formatPrice(29.00),
         imageId: 'product-ebook-muscle-bites',
+        stripePriceId: 'price_1PXmGjRsubz5A5s23s5hFz5E', // Reemplazar con tu Price ID real de Stripe
         tags: ['ebook', 'nutrición', 'snacks']
     },
     {
@@ -27,6 +29,7 @@ const products: Product[] = [
         rawPrice: 65.00,
         price: formatPrice(65.00),
         imageId: 'product-whey-protein',
+        stripePriceId: 'price_1PXmHJRsubz5A5s2q7nI3xCa', // Reemplazar con tu Price ID real de Stripe
         tags: ['suplemento', 'proteína']
     },
     {
@@ -37,6 +40,7 @@ const products: Product[] = [
         rawPrice: 25.00,
         price: formatPrice(25.00),
         imageId: 'product-resistance-bands',
+        stripePriceId: 'price_1PXmHmRsubz5A5s2zFj2oQp0', // Reemplazar con tu Price ID real de Stripe
         tags: ['equipamiento', 'fitness']
     },
     {
@@ -47,6 +51,7 @@ const products: Product[] = [
         rawPrice: 29.00,
         price: formatPrice(29.00),
         imageId: 'product-intermittent-fasting',
+        stripePriceId: 'price_1PXmIARsubz5A5s28p1A5ZlA', // Reemplazar con tu Price ID real de Stripe
         tags: ['ebook', 'nutrición', 'ayuno']
     }
 ];

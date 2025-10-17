@@ -3,7 +3,6 @@
 
 import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
-import { getPlaceholder } from '@/lib/utils';
 import { getProductById } from '@/lib/products';
 import { redirect } from 'next/navigation';
 
@@ -22,12 +21,12 @@ export async function createCheckoutSession(productId: string): Promise<Checkout
         return { error: 'Producto no encontrado.' };
     }
     
-    // The file name should not have spaces.
-    const successUrl = `${protocol}://${domain}/muscle-bites.pdf`;
+    // Generic success URL for digital products
+    const successUrl = `${protocol}://${domain}/dashboard?purchase_success=true`;
     const cancelUrl = `${protocol}://${domain}/products/${product.handle}`;
     
-    if (!process.env.STRIPE_SECRET_KEY) {
-        console.log("STRIPE_SECRET_KEY not set. Simulating purchase by returning success URL.");
+    if (!process.env.STRIPE_SECRET_KEY || !product.stripePriceId) {
+        console.log("Stripe not configured or product missing Stripe Price ID. Simulating purchase.");
         // In simulation mode, we just return the success URL directly.
         return { url: successUrl };
     }
@@ -35,23 +34,13 @@ export async function createCheckoutSession(productId: string): Promise<Checkout
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
         apiVersion: '2024-06-20',
     });
-    
-    const image = getPlaceholder(product.imageId);
 
     try {
         const session = await stripe.checkout.sessions.create({
             payment_method_types: ['card'],
             line_items: [
                 {
-                    price_data: {
-                        currency: 'usd',
-                        product_data: {
-                            name: product.title,
-                            description: product.description,
-                            images: image ? [image.imageUrl] : [],
-                        },
-                        unit_amount: Math.round(product.rawPrice * 100), // Price in cents
-                    },
+                    price: product.stripePriceId, // Use the Stripe Price ID
                     quantity: 1,
                 },
             ],
