@@ -163,34 +163,34 @@ export default async function Home() {
             {articles.map((article) => {
               const image = getPlaceholder(article.imageId);
               return (
-              <Card key={article.id} className="flex flex-col overflow-hidden text-left">
-                <Link href={`/blog/${article.handle}`} className="block">
-                  <div className="relative aspect-[4/3]">
-                    <Image
-                      src={image.imageUrl}
-                      alt={article.title}
-                      data-ai-hint={image.imageHint}
-                      width={1080}
-                      height={720}
-                      className="object-cover transition-transform duration-300 hover:scale-105"
-                    />
-                  </div>
-                </Link>
-                <CardHeader>
-                  <CardTitle as="h3" className="font-headline text-xl h-16 overflow-hidden">
-                    <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className='pt-0'>
-                  <p className="text-sm text-muted-foreground">{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</p>
-                  <p className="text-sm text-muted-foreground line-clamp-3 mt-2">{article.excerpt}</p>
-                </CardContent>
-                <CardFooter>
-                  <Button variant="link" asChild className="p-0">
-                    <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                  </Button>
-                </CardFooter>
-              </Card>
+                <Card key={article.id} className="flex flex-col overflow-hidden text-left">
+                  <Link href={`/blog/${article.handle}`} className="block">
+                    <div className="relative aspect-[4/3]">
+                      <Image
+                        src={image.imageUrl}
+                        alt={article.title}
+                        data-ai-hint={image.imageHint}
+                        width={1080}
+                        height={720}
+                        className="object-cover transition-transform duration-300 hover:scale-105"
+                      />
+                    </div>
+                  </Link>
+                  <CardHeader>
+                    <CardTitle as="h3" className="font-headline text-xl h-16 overflow-hidden">
+                      <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className='pt-0'>
+                    <p className="text-sm text-muted-foreground">{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</p>
+                    <p className="text-sm text-muted-foreground line-clamp-3 mt-2">{article.excerpt}</p>
+                  </CardContent>
+                  <CardFooter>
+                    <Button variant="link" asChild className="p-0">
+                      <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    </Button>
+                  </CardFooter>
+                </Card>
             )})}
           </div>
         </div>
@@ -198,3 +198,5 @@ export default async function Home() {
     </div>
   );
 }
+
+    
