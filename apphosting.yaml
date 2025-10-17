@@ -5,4 +5,11 @@ runConfig:
   # Increase this value if you'd like to automatically spin up
   # more instances in response to increased traffic.
   maxInstances: 1
-env: []
+env:
+  - variable: CRON_SECRET
+    secret: cron-secret
+scheduledJobs:
+  - schedule: "every monday 10:00"
+    timeZone: "America/New_York" # EST
+    httpTarget:
+      uri: "/api/cron"

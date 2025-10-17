@@ -1,9 +1,11 @@
 
+import { firestore } from '@/firebase/server';
 import type { Article } from './definitions';
+import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
 
-const articles: Article[] = [
+// The original hardcoded articles. We'll insert them if the collection is empty.
+const seedArticles: Omit<Article, 'id'>[] = [
     {
-        id: '4',
         handle: 'magnesio-para-recuperacion-muscular',
         title: 'Magnesio para la Recuperación Muscular: Cómo Funciona y Cómo Utilizarlo',
         contentHtml: `
@@ -52,7 +54,6 @@ const articles: Article[] = [
         publishedAt: '2024-05-25T10:00:00Z'
     },
     {
-        id: '3',
         handle: 'recuperacion-activa-maximiza-tus-resultados',
         title: 'Recuperación Activa: El Secreto para Maximizar Tus Resultados',
         contentHtml: '<p>El descanso es tan importante como el entrenamiento. Pero, ¿sabías que la recuperación activa puede acelerar tus resultados? Exploramos técnicas como el foam rolling, los estiramientos dinámicos y el cardio de baja intensidad para reducir el dolor muscular y prepararte para tu próxima sesión, más fuerte que antes.</p>',
@@ -61,7 +62,6 @@ const articles: Article[] = [
         publishedAt: '2024-05-20T10:00:00Z'
     },
     {
-        id: '2',
         handle: 'el-poder-del-entrenamiento-de-fuerza',
         title: 'El Poder del Entrenamiento de Fuerza para Mujeres',
         contentHtml: '<p>¡Es hora de dejar de tenerle miedo a las pesas! El entrenamiento de fuerza es una de las herramientas más poderosas para transformar tu cuerpo, acelerar tu metabolismo y construir una confianza inquebrantable. Descubre una rutina de cuerpo completo para principiantes y aprende por qué levantar pesado es el secreto para un físico tonificado y fuerte.</p>',
@@ -70,7 +70,6 @@ const articles: Article[] = [
         publishedAt: '2024-05-15T10:00:00Z'
     },
     {
-        id: '1',
         handle: 'desmitificando-los-macros',
         title: 'Desmitificando los Macros: Tu Guía para una Nutrición Inteligente',
         contentHtml: '<p>Entender los macronutrientes (proteínas, carbohidratos y grasas) es el primer paso para tomar el control de tu nutrición. No se trata de restringir, sino de balancear. En este artículo, te enseñamos cómo calcular tus macros y ajustarlos a tus metas, ya sea que busques perder grasa, ganar músculo o simplemente mejorar tu energía diaria.</p>',
@@ -80,15 +79,60 @@ const articles: Article[] = [
     }
 ];
 
+async function seedDatabase() {
+    const articlesCollection = firestore.collection('articles');
+    const snapshot = await getDocs(query(articlesCollection, limit(1)));
+    
+    if (snapshot.empty) {
+        console.log("Seeding articles collection...");
+        const batch = firestore.batch();
+        seedArticles.forEach(article => {
+            const docRef = articlesCollection.doc();
+            batch.set(docRef, article);
+        });
+        await batch.commit();
+    }
+}
+
+async function fetchArticlesFromFirestore(count?: number): Promise<Article[]> {
+    const articlesCollection = firestore.collection('articles');
+    let articlesQuery: any = query(articlesCollection, orderBy('publishedAt', 'desc'));
+
+    if (count) {
+        articlesQuery = query(articlesQuery, limit(count));
+    }
+
+    const snapshot = await getDocs(articlesQuery);
+
+    if (snapshot.empty) {
+        return [];
+    }
+    
+    return snapshot.docs.map(doc => ({
+        id: doc.id,
+        ...doc.data()
+    })) as Article[];
+}
+
+
 export async function getArticles(first?: number): Promise<Article[]> {
-  const sortedArticles = articles.sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
-  if (first) {
-    return sortedArticles.slice(0, first);
-  }
-  return sortedArticles;
+  await seedDatabase();
+  const articles = await fetchArticlesFromFirestore(first);
+  return articles;
 }
 
 export async function getArticleByHandle(handle: string): Promise<Article | null> {
-    const article = articles.find(a => a.handle === handle);
-    return article || null;
+    const articlesCollection = firestore.collection('articles');
+    const q = query(articlesCollection, where('handle', '==', handle), limit(1));
+    const snapshot = await getDocs(q);
+
+    if (snapshot.empty) {
+        return null;
+    }
+    
+    const doc = snapshot.docs[0];
+    return {
+        id: doc.id,
+        ...doc.data()
+    } as Article;
 }
