@@ -53,5 +53,3 @@ export function ProductsClient({ children }: { children: React.ReactNode }) {
 
   return <>{childrenWithInteractiveHeart}</>;
 }
-
-    

@@ -4,7 +4,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import dynamic from 'next/dynamic';
-import { useTransition, useState } from 'react';
+import { useTransition, useState, useEffect } from 'react';
 import { CheckCircle, Loader2, Award, ListChecks, Smile, HeartHandshake, BadgePercent, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
@@ -13,6 +13,8 @@ import { getPlaceholder } from '@/lib/utils';
 import { useToast } from '@/hooks/use-toast';
 import { createCoachingCheckoutSession } from './actions';
 import { FaWhatsapp } from 'react-icons/fa';
+import { getProductById } from '@/lib/products';
+import { Product } from '@/lib/definitions';
 
 const TestimonialCarousel = dynamic(
   () => import('@/components/testimonial-carousel'),
@@ -61,6 +63,16 @@ export default function CoachingPage() {
   const { toast } = useToast();
   const [isPending, startTransition] = useTransition();
   const [submittingPlan, setSubmittingPlan] = useState<string | null>(null);
+  const [plans, setPlans] = useState<{ '6-weeks': Product | null, '12-weeks': Product | null }>({ '6-weeks': null, '12-weeks': null });
+
+  useEffect(() => {
+    async function fetchPlans() {
+        const sixWeekPlan = await getProductById('coach_6_weeks');
+        const twelveWeekPlan = await getProductById('coach_12_weeks');
+        setPlans({ '6-weeks': sixWeekPlan, '12-weeks': twelveWeekPlan });
+    }
+    fetchPlans();
+  }, []);
 
   const valentinaImage = getPlaceholder('valentina-coach');
   const whatsappLink = "https://wa.me/573138318683?text=Hola,%20Valentina.%20Quisiera%20saber%20más%20sobre%20tus%20planes%20de%20coaching.";
@@ -148,7 +160,9 @@ export default function CoachingPage() {
           <Card className="flex flex-col">
               <CardHeader>
                   <CardTitle as="h2" className="font-headline text-2xl">Plan de 6 Semanas</CardTitle>
-                  <CardDescription as="p" className="text-4xl font-bold text-primary">$167.00</CardDescription>
+                  <CardDescription as="p" className="text-4xl font-bold text-primary">
+                    {plans['6-weeks'] ? plans['6-weeks'].price : <Skeleton className="h-10 w-32" />}
+                  </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow space-y-4">
                 {coachingFeatures.common.map((feature, i) => (
@@ -159,7 +173,7 @@ export default function CoachingPage() {
                 ))}
               </CardContent>
               <CardFooter>
-                  <SubmitButton planId="6-weeks">Empezar Mi Transformación</SubmitButton>
+                  <SubmitButton planId="coach_6_weeks">Empezar Mi Transformación</SubmitButton>
               </CardFooter>
           </Card>
 
@@ -170,7 +184,9 @@ export default function CoachingPage() {
             </div>
               <CardHeader>
                   <CardTitle as="h2" className="font-headline text-2xl">Plan de 12 Semanas</CardTitle>
-                  <CardDescription as="p" className="text-4xl font-bold text-primary">$267.00</CardDescription>
+                  <CardDescription as="p" className="text-4xl font-bold text-primary">
+                    {plans['12-weeks'] ? plans['12-weeks'].price : <Skeleton className="h-10 w-32" />}
+                  </CardDescription>
               </CardHeader>
               <CardContent className="flex-grow space-y-4">
                 {[...coachingFeatures.common, ...coachingFeatures.twelveWeek].map((feature, i) => (
@@ -181,7 +197,7 @@ export default function CoachingPage() {
                 ))}
               </CardContent>
               <CardFooter>
-                  <SubmitButton planId="12-weeks">Empezar Mi Transformación</SubmitButton>
+                  <SubmitButton planId="coach_12_weeks">Empezar Mi Transformación</SubmitButton>
               </CardFooter>
           </Card>
         </div>
@@ -240,5 +256,3 @@ export default function CoachingPage() {
     </>
   );
 }
-
-    

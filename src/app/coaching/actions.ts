@@ -3,22 +3,7 @@
 
 import { Stripe } from 'stripe';
 import { headers } from 'next/headers';
-
-type PlanDetails = {
-    name: string;
-    stripePriceId: string; // Using Stripe Price ID
-}
-
-const plans: Record<string, PlanDetails> = {
-    '6-weeks': {
-        name: 'Plan de Coaching de 6 Semanas',
-        stripePriceId: 'price_1PXmJDRsubz5A5s2tMExVpC6', // Reemplazar con tu Price ID real de Stripe
-    },
-    '12-weeks': {
-        name: 'Plan de Coaching de 12 Semanas',
-        stripePriceId: 'price_1PXmJaRsubz5A5s23kVi8K8L', // Reemplazar con tu Price ID real de Stripe
-    }
-};
+import { getProductById } from '@/lib/products';
 
 type CheckoutResponse = {
   url?: string | null;
@@ -30,7 +15,7 @@ export async function createCoachingCheckoutSession(planId: string): Promise<Che
     const domain = headersList.get('host') || '';
     const protocol = process.env.NODE_ENV === 'production' ? 'https' : 'http';
 
-    const plan = plans[planId];
+    const plan = await getProductById(planId);
     if (!plan) {
         return { error: 'Plan de coaching no encontrado.' };
     }
@@ -40,7 +25,6 @@ export async function createCoachingCheckoutSession(planId: string): Promise<Che
 
     if (!process.env.STRIPE_SECRET_KEY || !plan.stripePriceId) {
         console.log("Stripe not configured or plan missing Stripe Price ID. Simulating purchase.");
-        // In simulation mode, we just return the success URL directly.
         return { url: successUrl };
     }
     
@@ -53,7 +37,7 @@ export async function createCoachingCheckoutSession(planId: string): Promise<Che
             payment_method_types: ['card'],
             line_items: [
                 {
-                    price: plan.stripePriceId, // Use the Stripe Price ID
+                    price: plan.stripePriceId,
                     quantity: 1,
                 },
             ],

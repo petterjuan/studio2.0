@@ -198,5 +198,3 @@ function AvatarIcon({ className }: { className?: string }) {
     </div>
   );
 }
-
-    
