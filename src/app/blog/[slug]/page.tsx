@@ -5,7 +5,6 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { Calendar, User } from 'lucide-react';
 import { getPlaceholder } from '@/lib/utils';
-import dynamic from 'next/dynamic';
 import AudioPlayer from './audio-player';
 import { generateArticleAudio } from '@/ai/flows/audio-generator';
 
@@ -23,7 +22,15 @@ export default async function ArticlePage({ params }: { params: { slug: string }
     notFound();
   }
   
-  const audioData = await generateArticleAudio({ articleTitle: article.title, articleExcerpt: article.excerpt });
+  let audioDataUri: string | null = null;
+  try {
+    const audioData = await generateArticleAudio({ articleTitle: article.title, articleExcerpt: article.excerpt });
+    audioDataUri = audioData.media;
+  } catch (error) {
+    console.warn(`Could not generate audio for article "${article.title}":`, error);
+    // Gracefully fail, the page will render without an audio player.
+  }
+
   const image = getPlaceholder(article.imageId);
 
   return (
@@ -56,7 +63,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           priority
         />
          <div className="absolute bottom-4 right-4">
-            <AudioPlayer audioDataUri={audioData.media} />
+            <AudioPlayer audioDataUri={audioDataUri} />
         </div>
       </div>
       

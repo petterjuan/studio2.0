@@ -9,6 +9,7 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import wav from 'wav';
+import { googleAI } from '@genkit-ai/google-genai';
 
 const AudioInputSchema = z.object({
   articleTitle: z.string().describe("The title of the article."),
@@ -49,28 +50,19 @@ const articleAudioFlow = ai.defineFlow(
     outputSchema: AudioOutputSchema,
   },
   async ({ articleTitle, articleExcerpt }) => {
-    const prompt = `Speaker1: Hola y bienvenida al blog de Valentina Montero. Aquí tienes un resumen de nuestro último artículo: ${articleTitle}.
+    const prompt = `Hola y bienvenida al blog de Valentina Montero. Aquí tienes un resumen de nuestro último artículo: ${articleTitle}.
     
-    Speaker2: ${articleExcerpt}`;
+    ${articleExcerpt}`;
 
     const { media } = await ai.generate({
-      model: 'gemini-2.5-flash-preview-tts',
+      model: googleAI.model('gemini-1.5-flash-latest'),
       prompt: prompt,
       config: {
         responseModalities: ['AUDIO'],
         speechConfig: {
-          multiSpeakerVoiceConfig: {
-            speakerVoiceConfigs: [
-              {
-                speaker: 'Speaker1',
-                voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Algenib' } }, // Friendly intro voice
-              },
-              {
-                speaker: 'Speaker2',
-                voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Achernar' } }, // Main content voice
-              },
-            ],
-          },
+            voiceConfig: {
+              prebuiltVoiceConfig: { voiceName: 'Algenib' }, // Friendly intro voice
+            },
         },
       },
     });
