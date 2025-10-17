@@ -1,3 +1,4 @@
+
 'use client';
 
 import * as React from 'react';
@@ -37,7 +38,7 @@ export default function TestimonialCarousel() {
                     &ldquo;{testimonial.comment}&rdquo;
                   </p>
                 </CardContent>
-                <div className="flex items-center gap-4 px-6 pb-6">
+                <div className="flex items-center gap-4 px-6 pb-6 border-t pt-4">
                     <Avatar>
                         <AvatarImage src={testimonial.avatar} alt={testimonial.name} />
                         <AvatarFallback>

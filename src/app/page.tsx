@@ -1,6 +1,7 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
-import { ArrowRight, CheckCircle, Zap, Download } from 'lucide-react';
+import { ArrowRight, CheckCircle, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter, CardDescription } from '@/components/ui/card';
 import { getProducts } from '@/lib/products';
@@ -140,23 +141,6 @@ export default async function Home() {
           </div>
         </div>
       </section>
-      
-      {/* Free Guide Section */}
-      <section className="py-16 md:py-24 bg-muted/50">
-        <div className="container text-center">
-          <h2 className="text-3xl md:text-4xl font-headline mb-4">Comienza Tu Viaje Hoy</h2>
-          <p className="max-w-2xl mx-auto text-muted-foreground mb-8">
-            Descarga nuestra guía gratuita con 5 consejos esenciales para iniciar tu transformación de fitness. ¡Es el primer paso hacia una versión más fuerte y segura de ti misma!
-          </p>
-          <Button asChild size="lg">
-            <Link href="/free-guide.pdf" target="_blank" download>
-              <Download className="mr-2 h-5 w-5" />
-              Descargar Guía Gratuita
-            </Link>
-          </Button>
-        </div>
-      </section>
-
 
       <section className="py-16 md:py-24 bg-secondary/50">
         <div className="container text-center">
