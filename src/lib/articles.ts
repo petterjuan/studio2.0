@@ -125,12 +125,13 @@ export async function getArticles(first?: number): Promise<Article[]> {
     const articles = await fetchArticlesFromFirestore(first);
     return articles;
   } catch (error: any) {
-    // Gracefully handle the case where the Firestore API is not enabled.
-    if (error.code === 7 || (error.details && error.details.includes('firestore.googleapis.com'))) {
+    // Gracefully handle the case where the Firestore API is not enabled or credentials are missing.
+    if (error.code === 7 || error.code === 'UNAUTHENTICATED' || (error.message && (error.message.includes('Could not refresh access token') || error.message.includes('firestore.googleapis.com')))) {
         console.warn('//////////////////////////////////////////////////////////////////');
-        console.warn('// Firestore API is not enabled. Build will succeed, but no    //');
-        console.warn('// articles will be fetched. Please enable the API here:      //');
-        console.warn(`// https://console.developers.google.com/apis/api/firestore.googleapis.com/overview?project=${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID} //`);
+        console.warn('// WARNING: Firestore API is not enabled or credentials are missing.');
+        console.warn('// The application will proceed without fetching articles.');
+        console.warn('// To enable, visit the link in the build logs or configure server credentials.');
+        console.warn(`// Project: ${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`);
         console.warn('//////////////////////////////////////////////////////////////////');
         return [];
     }
@@ -140,20 +141,29 @@ export async function getArticles(first?: number): Promise<Article[]> {
 }
 
 export async function getArticleByHandle(handle: string): Promise<Article | null> {
-    const articlesCollection = firestore.collection('articles');
-    const snapshot = await articlesCollection.where('handle', '==', handle).limit(1).get();
+    try {
+        const articlesCollection = firestore.collection('articles');
+        const snapshot = await articlesCollection.where('handle', '==', handle).limit(1).get();
 
-    if (snapshot.empty) {
-        return null;
+        if (snapshot.empty) {
+            return null;
+        }
+        
+        const doc = snapshot.docs[0];
+        const data = doc.data();
+        const publishedAt = data.publishedAt;
+        
+        return {
+            id: doc.id,
+            ...data,
+            publishedAt: publishedAt instanceof Timestamp ? publishedAt.toDate().toISOString() : publishedAt,
+        } as Article;
+    } catch (error: any) {
+        // Also handle auth errors gracefully here
+        if (error.code === 7 || error.code === 'UNAUTHENTICATED' || (error.message && error.message.includes('Could not refresh access token'))) {
+             console.warn('// WARNING: Firestore API is not enabled or credentials are missing. Could not fetch article by handle.');
+            return null;
+        }
+        throw error;
     }
-    
-    const doc = snapshot.docs[0];
-    const data = doc.data();
-    const publishedAt = data.publishedAt;
-    
-    return {
-        id: doc.id,
-        ...data,
-        publishedAt: publishedAt instanceof Timestamp ? publishedAt.toDate().toISOString() : publishedAt,
-    } as Article;
 }
