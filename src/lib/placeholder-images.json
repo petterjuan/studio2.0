@@ -3,67 +3,67 @@
     {
       "id": "hero-image",
       "description": "Una mujer atlética con una expresión decidida, lista para un entrenamiento en un gimnasio moderno y elegante.",
-      "imageUrl": "https://picsum.photos/seed/hero/1080/720",
+      "imageUrl": "https://picsum.photos/seed/Ffitness1/1080/720",
       "imageHint": "woman gym workout"
     },
     {
       "id": "valentina-coach",
       "description": "Un retrato profesional de Valentina Montero, sonriendo con confianza en un entorno de fitness.",
-      "imageUrl": "https://picsum.photos/seed/valentina/600/750",
+      "imageUrl": "https://picsum.photos/seed/Ffitness2/600/750",
       "imageHint": "fitness coach portrait"
     },
     {
       "id": "blog-macros",
       "description": "Una mujer sonriendo mientras prepara una ensalada saludable en una cocina luminosa.",
-      "imageUrl": "https://picsum.photos/seed/macros/1080/720",
+      "imageUrl": "https://picsum.photos/seed/Ffitness3/1080/720",
       "imageHint": "healthy food woman"
     },
     {
       "id": "blog-strength",
       "description": "Una mujer fuerte y concentrada levantando una barra en un gimnasio.",
-      "imageUrl": "https://picsum.photos/seed/strength/1080/720",
+      "imageUrl": "https://picsum.photos/seed/Ffitness4/1080/720",
       "imageHint": "fitness woman strength"
     },
     {
       "id": "blog-recovery",
       "description": "Una mujer estirando en una esterilla de yoga en una habitación tranquila.",
-      "imageUrl": "https://picsum.photos/seed/recovery/1080/720",
+      "imageUrl": "https://picsum.photos/seed/Ffitness5/1080/720",
       "imageHint": "woman yoga stretch"
     },
     {
       "id": "blog-magnesium",
       "description": "Una mujer bebiendo un batido de recuperación después de entrenar.",
-      "imageUrl": "https://picsum.photos/seed/magnesium/1080/720",
+      "imageUrl": "https://picsum.photos/seed/Ffitness6/1080/720",
       "imageHint": "woman protein shake"
     },
     {
       "id": "product-whey-protein",
       "description": "Un envase de proteína en polvo de diseño elegante junto a una coctelera, con una mujer fitness de fondo.",
-      "imageUrl": "https://picsum.photos/seed/whey/600/600",
+      "imageUrl": "https://picsum.photos/seed/Ffitness7/600/600",
       "imageHint": "woman protein shake"
     },
     {
       "id": "product-resistance-bands",
       "description": "Una mujer usando bandas de resistencia de tela para un ejercicio de glúteos.",
-      "imageUrl": "https://picsum.photos/seed/bands/600/600",
+      "imageUrl": "https://picsum.photos/seed/Ffitness8/600/600",
       "imageHint": "woman resistance bands"
     },
     {
       "id": "product-intermittent-fasting",
       "description": "Una mujer en ropa de fitness escribiendo en un diario, con un aspecto enfocado y saludable.",
-      "imageUrl": "https://picsum.photos/seed/fasting/600/600",
+      "imageUrl": "https://picsum.photos/seed/Ffitness9/600/600",
       "imageHint": "woman fitness journal"
     },
     {
       "id": "product-ebook-muscle-bites",
-      "description": "Una imagen atractiva de la portada del e-book 'Muscle Bites: Snacks para Ganar Masa Muscular'.",
-      "imageUrl": "https://picsum.photos/seed/ebook/600/600",
-      "imageHint": "healthy snacks ebook"
+      "description": "Una imagen atractiva de la portada del e-book 'Muscle Bites: Snacks para Ganar Masa Muscular' sostenida por una mujer.",
+      "imageUrl": "https://picsum.photos/seed/Ffitness10/600/600",
+      "imageHint": "woman healthy snacks"
     },
     {
       "id": "default",
       "description": "Una mujer en ropa deportiva sonriendo.",
-      "imageUrl": "https://picsum.photos/seed/default/600/400",
+      "imageUrl": "https://picsum.photos/seed/Ffitness11/600/400",
       "imageHint": "fitness woman"
     }
   ]
