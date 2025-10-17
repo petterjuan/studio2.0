@@ -49,11 +49,6 @@ export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
     return [];
   }
   
-  if (!adminFirestore) {
-    console.warn("Firestore Admin SDK not initialized. Skipping getAllWorkoutPlans.");
-    return [];
-  }
-  
   const plansQuery = query(collectionGroup(adminFirestore, 'workoutPlans'), orderBy('createdAt', 'desc'));
   const plansSnapshot = await getDocs(plansQuery);
 
