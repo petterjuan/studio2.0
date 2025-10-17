@@ -31,25 +31,17 @@ export default async function ProductsPage() {
 
   return (
     <div className="bg-background">
-      <ProductsClient>
-        <div className="bg-gradient-to-b from-background to-secondary/30 py-16 md:py-24">
-            <div className="container text-center">
-              <motion.div
-                whileTap={{ scale: 1.5 }}
-                className="inline-block cursor-pointer"
-              >
-                <Heart className={cn("mx-auto h-12 w-12 text-primary transition-colors")} />
-              </motion.div>
-
-              <h1 className="text-4xl md:text-5xl font-headline text-foreground mt-4">
-                Invierte en Ti: Herramientas para Tu Transformación
-              </h1>
-              <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-                El camino hacia tu mejor versión requiere las herramientas adecuadas. Aquí encontrarás recursos exclusivos, diseñados por Valentina Montero, para nutrir tu cuerpo, fortalecer tu mente y potenciar tus resultados.
-              </p>
-            </div>
-        </div>
-      </ProductsClient>
+      <div className="bg-gradient-to-b from-background to-secondary/30 py-16 md:py-24">
+          <div className="container text-center">
+            <ProductsClient />
+            <h1 className="text-4xl md:text-5xl font-headline text-foreground mt-4">
+              Invierte en Ti: Herramientas para Tu Transformación
+            </h1>
+            <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
+              El camino hacia tu mejor versión requiere las herramientas adecuadas. Aquí encontrarás recursos exclusivos, diseñados por Valentina Montero, para nutrir tu cuerpo, fortalecer tu mente y potenciar tus resultados.
+            </p>
+          </div>
+      </div>
 
       {/* Featured Product: Muscle Bites */}
       {mainProduct && (

@@ -37,7 +37,11 @@ export const getCurrentUser = cache(async () => {
   }
   try {
     const decodedIdToken = await auth.verifySessionCookie(sessionCookie, true);
-    return decodedIdToken;
+    const userDoc = await firestore.collection('users').doc(decodedIdToken.uid).get();
+    const isAdmin = userDoc.exists && userDoc.data()?.isAdmin === true;
+    
+    return { ...decodedIdToken, isAdmin };
+
   } catch (error) {
     console.error('Error verifying session cookie:', error);
     return null;
