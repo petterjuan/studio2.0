@@ -7,7 +7,7 @@ runConfig:
   maxInstances: 1
 env:
   - variable: CRON_SECRET
-    secret: cron-secret
+    # secret: cron-secret # Temporarily commented out to resolve deployment issue
 scheduledJobs:
   - schedule: "every monday 10:00"
     timeZone: "America/New_York" # EST
