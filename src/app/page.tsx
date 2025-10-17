@@ -112,9 +112,8 @@ export default async function Home() {
             {featuredProducts.map((product) => {
               const image = getPlaceholder(product.imageId);
               return (
-              <Card key={product.id} className="overflow-hidden group text-left">
-                 <Link href={`/products/${product.handle}`}>
-                  <CardContent className="p-0">
+                <Card key={product.id} className="overflow-hidden group text-left">
+                  <Link href={`/products/${product.handle}`}>
                     <div className="relative aspect-square">
                       <Image
                         src={image.imageUrl}
@@ -125,14 +124,14 @@ export default async function Home() {
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                  </CardContent>
-                  <CardHeader className="p-4">
-                    <CardTitle as="h3" className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
-                    <p className="font-semibold text-primary">{product.price}</p>
-                  </CardHeader>
-                </Link>
-              </Card>
-            )})}
+                    <CardHeader className="p-4">
+                      <CardTitle as="h3" className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
+                      <p className="font-semibold text-primary">{product.price}</p>
+                    </CardHeader>
+                  </Link>
+                </Card>
+              )
+            })}
           </div>
           <div className="text-center">
             <Button asChild size="lg" variant="outline" className="mt-12">
@@ -199,5 +198,3 @@ export default async function Home() {
     </div>
   );
 }
-
-    
