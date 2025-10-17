@@ -1,4 +1,3 @@
-
 import type { Product } from './definitions';
 
 function formatPrice(amount: number, currencyCode: string = 'USD') {
@@ -61,7 +60,7 @@ const products: Product[] = [
         description: 'Transformación intensiva de 6 semanas con seguimiento y planes 100% personalizados.',
         rawPrice: 167.00,
         price: formatPrice(167.00),
-        imageId: 'default',
+        imageId: 'valentina-coach',
         stripePriceId: 'price_1PXmJDRsubz5A5s2tMExVpC6',
         tags: ['coaching', '6-semanas']
     },
@@ -72,7 +71,7 @@ const products: Product[] = [
         description: 'El programa completo de 12 semanas para una transformación total de cuerpo y mente.',
         rawPrice: 267.00,
         price: formatPrice(267.00),
-        imageId: 'default',
+        imageId: 'valentina-coach',
         stripePriceId: 'price_1PXmJaRsubz5A5s23kVi8K8L',
         tags: ['coaching', '12-semanas']
     }

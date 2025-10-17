@@ -1,4 +1,3 @@
-
 import { firestore } from '@/firebase/server';
 import type { Article } from './definitions';
 import { Timestamp } from 'firebase-admin/firestore';
