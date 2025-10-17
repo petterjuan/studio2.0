@@ -98,10 +98,13 @@ export default function DashboardPage() {
         </div>
         
         <div className="space-y-8">
-            <div className="text-center py-12 border-2 border-dashed rounded-lg flex flex-col items-center justify-center">
-                <Dumbbell className="h-12 w-12 text-primary mb-4" />
-                <h3 className="text-xl font-semibold">Explorar Productos</h3>
-                <p className="text-muted-foreground mt-2 mb-4 max-w-xs">
+          <Card>
+            <CardHeader className="text-center">
+                <Dumbbell className="h-12 w-12 text-primary mb-4 mx-auto" />
+                <CardTitle as="h3" className="text-xl font-semibold">Explorar Productos</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+                <p className="text-muted-foreground mb-4 max-w-xs mx-auto">
                     Encuentra los suplementos y comidas perfectos para alcanzar tus metas.
                 </p>
                 <Button asChild>
@@ -109,17 +112,22 @@ export default function DashboardPage() {
                         Ir a la Tienda
                     </Link>
                 </Button>
-            </div>
-            <div className="text-center py-12 border-2 border-dashed rounded-lg flex flex-col items-center justify-center">
-                <Settings className="h-12 w-12 text-primary mb-4" />
-                <h3 className="text-xl font-semibold">Gestionar tu Cuenta</h3>
-                <p className="text-muted-foreground mt-2 mb-4 max-w-xs">
+            </CardContent>
+          </Card>
+           <Card>
+            <CardHeader className="text-center">
+                <Settings className="h-12 w-12 text-primary mb-4 mx-auto" />
+                <CardTitle as="h3" className="text-xl font-semibold">Gestionar tu Cuenta</CardTitle>
+            </CardHeader>
+            <CardContent className="text-center">
+                <p className="text-muted-foreground mb-4 max-w-xs mx-auto">
                     Actualiza tu perfil y preferencias.
                 </p>
                 <Button variant="outline" disabled>
                     Ajustes de Cuenta (Próximamente)
                 </Button>
-            </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>
