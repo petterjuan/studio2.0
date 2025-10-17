@@ -3,67 +3,67 @@
     {
       "id": "hero-image",
       "description": "Una mujer atlética con una expresión decidida, lista para un entrenamiento en un gimnasio moderno y elegante.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness1/1080/720",
-      "imageHint": "woman gym workout"
+      "imageUrl": "https://picsum.photos/seed/womanfitness1/1080/720",
+      "imageHint": "woman workout"
     },
     {
       "id": "valentina-coach",
       "description": "Un retrato profesional de Valentina Montero, sonriendo con confianza en un entorno de fitness.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness2/600/750",
-      "imageHint": "fitness coach portrait"
+      "imageUrl": "https://picsum.photos/seed/womanfitness2/600/750",
+      "imageHint": "fitness coach"
     },
     {
       "id": "blog-macros",
       "description": "Una mujer sonriendo mientras prepara una ensalada saludable en una cocina luminosa.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness3/1080/720",
-      "imageHint": "healthy food woman"
+      "imageUrl": "https://picsum.photos/seed/womanfitness3/1080/720",
+      "imageHint": "healthy food"
     },
     {
       "id": "blog-strength",
       "description": "Una mujer fuerte y concentrada levantando una barra en un gimnasio.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness4/1080/720",
-      "imageHint": "fitness woman strength"
+      "imageUrl": "https://picsum.photos/seed/womanfitness4/1080/720",
+      "imageHint": "woman strength"
     },
     {
       "id": "blog-recovery",
       "description": "Una mujer estirando en una esterilla de yoga en una habitación tranquila.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness5/1080/720",
-      "imageHint": "woman yoga stretch"
+      "imageUrl": "https://picsum.photos/seed/womanfitness5/1080/720",
+      "imageHint": "woman stretching"
     },
     {
       "id": "blog-magnesium",
       "description": "Una mujer bebiendo un batido de recuperación después de entrenar.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness6/1080/720",
-      "imageHint": "woman protein shake"
+      "imageUrl": "https://picsum.photos/seed/womanfitness6/1080/720",
+      "imageHint": "protein shake"
     },
     {
       "id": "product-whey-protein",
       "description": "Un envase de proteína en polvo de diseño elegante junto a una coctelera, con una mujer fitness de fondo.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness7/600/600",
-      "imageHint": "woman protein shake"
+      "imageUrl": "https://picsum.photos/seed/womanfitness7/600/600",
+      "imageHint": "whey protein"
     },
     {
       "id": "product-resistance-bands",
       "description": "Una mujer usando bandas de resistencia de tela para un ejercicio de glúteos.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness8/600/600",
-      "imageHint": "woman resistance bands"
+      "imageUrl": "https://picsum.photos/seed/womanfitness8/600/600",
+      "imageHint": "resistance bands"
     },
     {
       "id": "product-intermittent-fasting",
       "description": "Una mujer en ropa de fitness escribiendo en un diario, con un aspecto enfocado y saludable.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness9/600/600",
-      "imageHint": "woman fitness journal"
+      "imageUrl": "https://picsum.photos/seed/womanfitness9/600/600",
+      "imageHint": "woman journal"
     },
     {
       "id": "product-ebook-muscle-bites",
-      "description": "Una imagen atractiva de la portada del e-book 'Muscle Bites: Snacks para Ganar Masa Muscular' sostenida por una mujer.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness10/600/600",
-      "imageHint": "woman healthy snacks"
+      "description": "Una imagen atractiva de la portada del e-book 'Muscle Bites' sostenida por una mujer.",
+      "imageUrl": "https://picsum.photos/seed/womanfitness10/600/600",
+      "imageHint": "healthy snacks"
     },
     {
       "id": "default",
       "description": "Una mujer en ropa deportiva sonriendo.",
-      "imageUrl": "https://picsum.photos/seed/Ffitness11/600/400",
+      "imageUrl": "https://picsum.photos/seed/womanfitness11/600/400",
       "imageHint": "fitness woman"
     }
   ]
