@@ -66,7 +66,7 @@ export default async function Home() {
                 <div className="relative aspect-square bg-muted rounded-lg overflow-hidden shadow-lg order-last md:order-first">
                     <Image
                         src={muscleBitesEbookImage.imageUrl}
-                        alt="E-book Muscle Bites: Snacks para Ganar Masa Muscular"
+                        alt={muscleBitesEbookImage.description}
                         data-ai-hint={muscleBitesEbookImage.imageHint}
                         width={600}
                         height={600}

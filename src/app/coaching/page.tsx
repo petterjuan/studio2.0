@@ -135,7 +135,7 @@ export default function CoachingPage() {
                 <div className="md:col-span-2 relative aspect-[4/5] bg-muted rounded-lg overflow-hidden shadow-lg">
                     <Image
                         src={valentinaImage.imageUrl}
-                        alt="Valentina Montero, tu coach de fitness"
+                        alt={valentinaImage.description}
                         data-ai-hint={valentinaImage.imageHint}
                         fill
                         className="object-cover"

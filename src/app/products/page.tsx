@@ -3,16 +3,13 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { getProducts } from '@/lib/products';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Heart, Zap } from 'lucide-react';
+import { Zap } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import { Button } from '@/components/ui/button';
 import { getPlaceholder } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Product } from '@/lib/definitions';
 import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
 import { ProductsClient } from './products-client';
-
 
 const TestimonialCarousel = dynamic(
   () => import('@/components/testimonial-carousel'),
