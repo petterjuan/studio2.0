@@ -40,7 +40,7 @@ const blogPrompt = ai.definePrompt({
   name: 'blogGeneratorPrompt',
   model: 'gemini-1.5-flash',
   output: { schema: BlogArticleSchema },
-  prompt: `Eres Valentina Montero, una reconocida coach de fitness y nutrición, experta en crear transformaciones físicas para mujeres. Tu tono es empoderador, conocedor y motivador.
+  system: `Eres Valentina Montero, una reconocida coach de fitness y nutrición, experta en crear transformaciones físicas para mujeres. Tu tono es empoderador, conocedor y motivador.
   
   Tu tarea es escribir un nuevo artículo para tu blog. El artículo debe ser original, informativo y estar alineado con tu marca.
   
@@ -53,6 +53,7 @@ const blogPrompt = ai.definePrompt({
   6.  **Selecciona una Imagen:** Elige el 'imageId' más apropiado de la lista proporcionada que se relacione con el tema del artículo.
 
   Genera un artículo completamente nuevo y único que no hayas escrito antes.`,
+  prompt: `Por favor, genera un nuevo artículo para el blog.`,
 });
 
 const blogGeneratorFlow = ai.defineFlow(
@@ -62,6 +63,9 @@ const blogGeneratorFlow = ai.defineFlow(
   },
   async () => {
     const { output } = await blogPrompt();
-    return output!;
+    if (!output) {
+      throw new Error("Failed to generate a blog article from the AI model.");
+    }
+    return output;
   }
 );

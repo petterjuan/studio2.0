@@ -1,9 +1,11 @@
+
 'use server';
 
 import { z } from 'zod';
 import { firestore as adminFirestore } from '@/firebase/server';
 import { FieldValue } from 'firebase-admin/firestore';
 import { getCurrentUser } from '@/firebase/server';
+import { revalidatePath } from 'next/cache';
 
 // Validation is still useful on the client, but on the server we trust the token.
 const SignupSchema = z.object({
@@ -53,6 +55,9 @@ export async function signup(prevState: SignupState, formData: FormData): Promis
         createdAt: FieldValue.serverTimestamp(),
         isAdmin: false,
     });
+    
+    // Revalidate the auth path to ensure the client-side provider picks up the new user data.
+    revalidatePath('/', 'layout');
 
     return { message: '¡Registro exitoso! Bienvenido.', success: true };
   } catch (error: any) {

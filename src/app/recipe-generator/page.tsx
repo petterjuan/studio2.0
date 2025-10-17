@@ -33,13 +33,22 @@ export default function RecipeGeneratorPage() {
 
     try {
       const recipe = await generateRecipe(values);
-      setGeneratedRecipe(recipe);
+      if (!recipe.isValidIngredient) {
+        toast({
+            variant: 'destructive',
+            title: 'Ingrediente Inválido',
+            description: recipe.error || 'Por favor, introduce un ingrediente válido.',
+        });
+        setGeneratedRecipe(null);
+      } else {
+        setGeneratedRecipe(recipe);
+      }
     } catch (error) {
       console.error('Error generating recipe:', error);
       toast({
         variant: 'destructive',
-        title: 'Error generating recipe',
-        description: 'There was a problem with our system. Please try again.',
+        title: 'Error al Generar la Receta',
+        description: 'Hubo un problema con nuestro sistema. Por favor, intenta de nuevo.',
       });
     } finally {
       setIsLoading(false);
@@ -51,18 +60,18 @@ export default function RecipeGeneratorPage() {
       <div className="text-center mb-12">
         <h1 className="text-4xl md:text-5xl font-headline flex items-center justify-center gap-4">
           <ChefHat className="w-10 h-10 text-primary" />
-          <span>AI Recipe Generator</span>
+          <span>Generador de Recetas con IA</span>
         </h1>
         <p className="mt-4 text-lg text-muted-foreground max-w-3xl mx-auto">
-          Tell us what you have, and our AI will create a delicious recipe for you.
+          Dinos qué tienes a mano, y nuestra IA creará una receta deliciosa y saludable para ti.
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 gap-8 lg:gap-12 max-w-6xl mx-auto">
         <Card className="shadow-lg">
           <CardHeader>
-            <CardTitle as="h2">Create Your Recipe</CardTitle>
-            <CardDescription>Fill out the form to design your meal.</CardDescription>
+            <CardTitle as="h2">Crea Tu Receta</CardTitle>
+            <CardDescription>Completa el formulario para diseñar tu comida.</CardDescription>
           </CardHeader>
           <CardContent>
             <Form {...form}>
@@ -72,9 +81,9 @@ export default function RecipeGeneratorPage() {
                   name="ingredient"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold text-base">Main Ingredient</FormLabel>
+                      <FormLabel className="font-bold text-base">Ingrediente Principal</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Avocado, Chicken, Lentils" {...field} />
+                        <Input placeholder="Ej: Aguacate, Pollo, Lentejas" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -85,9 +94,9 @@ export default function RecipeGeneratorPage() {
                   name="dietaryRestrictions"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel className="font-bold text-base">Dietary Restrictions (Optional)</FormLabel>
+                      <FormLabel className="font-bold text-base">Restricciones Dietéticas (Opcional)</FormLabel>
                       <FormControl>
-                        <Input placeholder="e.g., Vegetarian, Gluten-free" {...field} />
+                        <Input placeholder="Ej: Vegetariano, Sin gluten" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -95,9 +104,9 @@ export default function RecipeGeneratorPage() {
                 />
                 <Button type="submit" disabled={isLoading} className="w-full" size="lg">
                   {isLoading ? (
-                    <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Generating Recipe...</>
+                    <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Generando Receta...</>
                   ) : (
-                    <><Sparkles className="mr-2 h-5 w-5" /> Generate My Recipe</>
+                    <><Sparkles className="mr-2 h-5 w-5" /> Generar Mi Receta</>
                   )}
                 </Button>
               </form>
@@ -106,11 +115,11 @@ export default function RecipeGeneratorPage() {
         </Card>
 
         <div className="bg-muted/50 rounded-lg p-6 lg:p-8 flex flex-col h-full">
-          <h3 className="text-2xl font-headline mb-4">Your Generated Recipe</h3>
+          <h3 className="text-2xl font-headline mb-4">Tu Receta Generada</h3>
           {isLoading ? (
             <div className="flex-grow flex flex-col items-center justify-center text-center">
               <Loader2 className="h-12 w-12 animate-spin text-primary mb-4" />
-              <p className="text-muted-foreground">Our AI chef is cooking up your recipe...</p>
+              <p className="text-muted-foreground">Nuestro chef de IA está preparando tu receta...</p>
             </div>
           ) : generatedRecipe ? (
             <div className="flex-grow flex flex-col">
@@ -127,28 +136,28 @@ export default function RecipeGeneratorPage() {
                     </div>
                      <div className="flex items-center gap-2">
                         <Utensils className="h-4 w-4" />
-                        <span>Cook: {generatedRecipe.cookTime}</span>
+                        <span>Cocción: {generatedRecipe.cookTime}</span>
                     </div>
                      <div className="flex items-center gap-2">
                         <Users className="h-4 w-4" />
-                        <span>Serves: {generatedRecipe.servings}</span>
+                        <span>Porciones: {generatedRecipe.servings}</span>
                     </div>
                   </div>
                   <div>
-                    <h4 className="font-bold mb-2">Ingredients</h4>
+                    <h4 className="font-bold mb-2">Ingredientes</h4>
                     <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
-                      {generatedRecipe.ingredients.map((item, index) => <li key={index}>{item}</li>)}
+                      {generatedRecipe.ingredients?.map((item, index) => <li key={index}>{item}</li>)}
                     </ul>
                   </div>
                   <div>
-                    <h4 className="font-bold mb-2">Instructions</h4>
+                    <h4 className="font-bold mb-2">Instrucciones</h4>
                     <ol className="list-decimal list-inside space-y-2 text-sm text-muted-foreground">
-                      {generatedRecipe.instructions.map((item, index) => <li key={index}>{item}</li>)}
+                      {generatedRecipe.instructions?.map((item, index) => <li key={index}>{item}</li>)}
                     </ol>
                   </div>
                   {generatedRecipe.tips && generatedRecipe.tips.length > 0 && (
                     <div>
-                        <h4 className="font-bold mb-2">Tips</h4>
+                        <h4 className="font-bold mb-2">Consejos</h4>
                         <ul className="list-disc list-inside space-y-1 text-sm text-muted-foreground">
                         {generatedRecipe.tips.map((item, index) => <li key={index}>{item}</li>)}
                         </ul>
@@ -159,7 +168,7 @@ export default function RecipeGeneratorPage() {
             </div>
           ) : (
             <div className="flex-grow flex items-center justify-center text-center">
-              <p className="text-muted-foreground">Your delicious recipe will appear here.</p>
+              <p className="text-muted-foreground">Tu deliciosa receta aparecerá aquí.</p>
             </div>
           )}
         </div>

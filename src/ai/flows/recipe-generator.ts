@@ -21,13 +21,15 @@ export type RecipeInput = z.infer<typeof RecipeInputSchema>;
 
 // Define output schema
 export const RecipeSchema = z.object({
-  title: z.string(),
-  description: z.string(),
-  prepTime: z.string(),
-  cookTime: z.string(),
-  servings: z.number(),
-  ingredients: z.array(z.string()),
-  instructions: z.array(z.string()),
+  isValidIngredient: z.boolean().describe('Whether the provided ingredient is a real food item.'),
+  error: z.string().optional().describe('A friendly error message if the ingredient is not valid.'),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  prepTime: z.string().optional(),
+  cookTime: z.string().optional(),
+  servings: z.number().optional(),
+  ingredients: z.array(z.string()).optional(),
+  instructions: z.array(z.string()).optional(),
   tips: z.array(z.string()).optional(),
 });
 export type Recipe = z.infer<typeof RecipeSchema>;
@@ -42,9 +44,13 @@ const recipePrompt = ai.definePrompt({
     model: 'gemini-1.5-flash-latest',
     input: { schema: RecipeInputSchema },
     output: { schema: RecipeSchema },
-    prompt: `Create a recipe with the following requirements:
-      Main ingredient: {{{ingredient}}}
-      Dietary restrictions: {{{dietaryRestrictions}}}`,
+    prompt: `You are an expert chef AI. First, validate if the user's main ingredient is a real, edible food item.
+    
+    If '{{{ingredient}}}' is NOT a valid food item (e.g., 'rocks', 'air', 'love'), set 'isValidIngredient' to false and provide a friendly 'error' message explaining why, like "Sorry, I can't create a recipe from [ingredient]. Please provide a real food item."
+    
+    If '{{{ingredient}}}' IS a valid food item, set 'isValidIngredient' to true and create a delicious, healthy recipe.
+    - Main ingredient: {{{ingredient}}}
+    - Dietary restrictions: {{{dietaryRestrictions}}}`,
 });
 
 // Define a recipe generator flow
