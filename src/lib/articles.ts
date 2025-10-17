@@ -1,7 +1,7 @@
 
 import { firestore } from '@/firebase/server';
 import type { Article } from './definitions';
-import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
+import { collection, getDocs, query, orderBy, limit, where } from 'firebase/firestore';
 
 // The original hardcoded articles. We'll insert them if the collection is empty.
 const seedArticles: Omit<Article, 'id'>[] = [
