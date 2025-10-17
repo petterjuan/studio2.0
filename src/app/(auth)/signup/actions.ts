@@ -1,3 +1,4 @@
+
 'use server';
 
 import { z } from 'zod';
@@ -5,6 +6,7 @@ import { firestore as adminFirestore } from '@/firebase/server';
 import { FieldValue } from 'firebase-admin/firestore';
 import { getCurrentUser } from '@/firebase/server';
 
+// Validation is still useful on the client, but on the server we trust the token.
 const SignupSchema = z.object({
   name: z.string().min(2, { message: "El nombre debe tener al menos 2 caracteres."}),
   email: z.string().email({ message: "Por favor, introduce una dirección de correo electrónico válida." }),
@@ -15,9 +17,8 @@ type SignupState = {
   success: boolean;
 };
 
-// This action no longer accepts a UID from the client.
-// It securely gets the user from the server-side session.
 export async function signup(prevState: SignupState, formData: FormData): Promise<SignupState> {
+  // We can still validate for fast feedback, but we won't use the form data directly.
   const validatedFields = SignupSchema.safeParse(
     Object.fromEntries(formData.entries())
   );
@@ -38,9 +39,15 @@ export async function signup(prevState: SignupState, formData: FormData): Promis
         return { message: "Usuario no autenticado. No se pudo crear el perfil.", success: false };
     }
 
-    const { name, email } = validatedFields.data;
+    // SECURITY IMPROVEMENT: Use the verified data from the user token, not the form data.
+    const name = user.name;
+    const email = user.email;
 
-    // Create the user document in Firestore with the server-verified UID.
+    if (!name || !email) {
+      return { message: "La información del perfil (nombre y correo) no está disponible en la sesión.", success: false };
+    }
+
+    // Create the user document in Firestore with the server-verified UID and data.
     await adminFirestore.collection("users").doc(user.uid).set({
         name: name,
         email: email,

@@ -33,7 +33,6 @@ export default function ProductDetails({ product }: { product: Product }) {
         if (response.url) {
             window.location.href = response.url;
         } else {
-            // Now we can show the specific error from the server
             throw new Error(response.error || 'No checkout URL returned');
         }
 

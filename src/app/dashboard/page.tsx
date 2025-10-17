@@ -1,8 +1,9 @@
+
 'use client';
 
 import { useAuth } from '@/firebase/auth-provider';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -17,7 +18,7 @@ export default function DashboardPage() {
   const { user, loading } = useAuth();
   const router = useRouter();
   const [plans, setPlans] = useState<WorkoutPlan[]>([]);
-  const [isLoadingPlans, setIsLoadingPlans] = useState(true);
+  const [isLoadingPlans, startTransition] = useTransition();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -27,12 +28,12 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (user?.uid) {
-      setIsLoadingPlans(true);
-      getWorkoutPlansForUser(user.uid)
-        .then(setPlans)
-        .finally(() => setIsLoadingPlans(false));
+      startTransition(async () => {
+        const userPlans = await getWorkoutPlansForUser(user.uid);
+        setPlans(userPlans);
+      });
     }
-  }, [user]);
+  }, [user, startTransition]);
 
   if (loading || !user) {
     return (

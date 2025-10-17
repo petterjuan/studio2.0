@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useAuth } from '@/firebase/auth-provider';
@@ -17,8 +18,10 @@ export default function AdminPage() {
   const router = useRouter();
   const [plans, setPlans] = useState<UserWorkoutPlan[]>([]);
   const [isLoadingPlans, setIsLoadingPlans] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    // Redirect non-admins or logged-out users away.
     if (!loading) {
       if (!user || !user.isAdmin) {
         router.push('/login');
@@ -27,21 +30,35 @@ export default function AdminPage() {
   }, [user, loading, router]);
 
   useEffect(() => {
+    // Only fetch plans if the user is a confirmed admin.
     if (user?.isAdmin) {
       setIsLoadingPlans(true);
       getAllWorkoutPlans()
         .then(setPlans)
+        .catch(err => {
+            console.error(err);
+            setError("No se pudieron cargar los planes de entrenamiento.");
+        })
         .finally(() => setIsLoadingPlans(false));
+    } else {
+        // If user is not admin, don't show loading state.
+        setIsLoadingPlans(false);
     }
   }, [user]);
 
-  if (loading || !user || !user.isAdmin) {
+  // Initial loading state while we verify the user's session.
+  if (loading || !user) {
     return (
       <div className="container py-12">
         <Skeleton className="h-10 w-1/2 mb-8" />
         <Skeleton className="h-96 w-full" />
       </div>
     );
+  }
+
+  // If the user is somehow still here but not an admin, show nothing.
+  if (!user.isAdmin) {
+      return null;
   }
 
   return (
@@ -64,6 +81,10 @@ export default function AdminPage() {
               <Skeleton className="h-12 w-full" />
               <Skeleton className="h-12 w-full" />
               <Skeleton className="h-12 w-full" />
+            </div>
+          ) : error ? (
+            <div className="h-24 text-center text-red-500 flex items-center justify-center">
+              {error}
             </div>
           ) : (
             <Table>
