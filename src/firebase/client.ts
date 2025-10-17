@@ -8,7 +8,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyAMG7_GWoVNP7wuTzYIJYZMffwN7Nej7jg",
   authDomain: "studio-4707171117-1526d.firebaseapp.com",
   projectId: "studio-4707171117-1526d",
-  storageBucket: "studio-4707171117-1526d.firebasestorage.app",
+  storageBucket: "studio-4707171117-1526d.appspot.com",
   messagingSenderId: "834835769907",
   appId: "1:834835769907:web:b4aec87f2f482cb0295146"
 };
