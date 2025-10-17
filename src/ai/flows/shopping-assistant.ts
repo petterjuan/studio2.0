@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview Smart shopping assistant flow that helps users find fitness and nutrition products.
@@ -64,6 +65,7 @@ const searchProductsTool = ai.defineTool({
 
 const shoppingAssistantPrompt = ai.definePrompt({
   name: 'shoppingAssistantPrompt',
+  model: 'gemini-1.5-flash-latest',
   tools: [searchProductsTool],
   input: {schema: ShoppingAssistantInputSchema},
   output: {schema: ShoppingAssistantOutputSchema},
