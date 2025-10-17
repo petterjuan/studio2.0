@@ -1,7 +1,7 @@
 
 import { firestore } from '@/firebase/server';
 import type { Article } from './definitions';
-import { collection, getDocs, query, orderBy, limit, where } from 'firebase/firestore';
+import { Timestamp } from 'firebase-admin/firestore';
 
 // The original hardcoded articles. We'll insert them if the collection is empty.
 const seedArticles: Omit<Article, 'id'>[] = [
@@ -81,7 +81,7 @@ const seedArticles: Omit<Article, 'id'>[] = [
 
 async function seedDatabase() {
     const articlesCollection = firestore.collection('articles');
-    const snapshot = await getDocs(query(articlesCollection, limit(1)));
+    const snapshot = await articlesCollection.limit(1).get();
     
     if (snapshot.empty) {
         console.log("Seeding articles collection...");
@@ -95,23 +95,27 @@ async function seedDatabase() {
 }
 
 async function fetchArticlesFromFirestore(count?: number): Promise<Article[]> {
-    const articlesCollection = firestore.collection('articles');
-    let articlesQuery: any = query(articlesCollection, orderBy('publishedAt', 'desc'));
+    let articlesQuery = firestore.collection('articles').orderBy('publishedAt', 'desc');
 
     if (count) {
-        articlesQuery = query(articlesQuery, limit(count));
+        articlesQuery = articlesQuery.limit(count);
     }
 
-    const snapshot = await getDocs(articlesQuery);
+    const snapshot = await articlesQuery.get();
 
     if (snapshot.empty) {
         return [];
     }
     
-    return snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data()
-    })) as Article[];
+    return snapshot.docs.map(doc => {
+        const data = doc.data();
+        const publishedAt = data.publishedAt;
+        return {
+            id: doc.id,
+            ...data,
+            publishedAt: publishedAt instanceof Timestamp ? publishedAt.toDate().toISOString() : publishedAt,
+        } as Article;
+    });
 }
 
 
@@ -123,16 +127,19 @@ export async function getArticles(first?: number): Promise<Article[]> {
 
 export async function getArticleByHandle(handle: string): Promise<Article | null> {
     const articlesCollection = firestore.collection('articles');
-    const q = query(articlesCollection, where('handle', '==', handle), limit(1));
-    const snapshot = await getDocs(q);
+    const snapshot = await articlesCollection.where('handle', '==', handle).limit(1).get();
 
     if (snapshot.empty) {
         return null;
     }
     
     const doc = snapshot.docs[0];
+    const data = doc.data();
+    const publishedAt = data.publishedAt;
+    
     return {
         id: doc.id,
-        ...doc.data()
+        ...data,
+        publishedAt: publishedAt instanceof Timestamp ? publishedAt.toDate().toISOString() : publishedAt,
     } as Article;
 }
