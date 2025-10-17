@@ -120,9 +120,23 @@ async function fetchArticlesFromFirestore(count?: number): Promise<Article[]> {
 
 
 export async function getArticles(first?: number): Promise<Article[]> {
-  await seedDatabase();
-  const articles = await fetchArticlesFromFirestore(first);
-  return articles;
+  try {
+    await seedDatabase();
+    const articles = await fetchArticlesFromFirestore(first);
+    return articles;
+  } catch (error: any) {
+    // Gracefully handle the case where the Firestore API is not enabled.
+    if (error.code === 7 || (error.details && error.details.includes('firestore.googleapis.com'))) {
+        console.warn('//////////////////////////////////////////////////////////////////');
+        console.warn('// Firestore API is not enabled. Build will succeed, but no    //');
+        console.warn('// articles will be fetched. Please enable the API here:      //');
+        console.warn(`// https://console.developers.google.com/apis/api/firestore.googleapis.com/overview?project=${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID} //`);
+        console.warn('//////////////////////////////////////////////////////////////////');
+        return [];
+    }
+    // For other errors, we still want the build to fail to alert the user.
+    throw error;
+  }
 }
 
 export async function getArticleByHandle(handle: string): Promise<Article | null> {
