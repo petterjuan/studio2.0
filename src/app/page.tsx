@@ -126,7 +126,7 @@ export default async function Home() {
                     </div>
                     <CardHeader className="p-4">
                       <CardTitle as="h3" className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
-                      <p className="font-semibold text-primary">{product.price}</p>
+                      <p className="font-semibold text-primary pt-2">{product.price}</p>
                     </CardHeader>
                   </Link>
                 </Card>
