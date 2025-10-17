@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect, FormEvent } from 'react';
@@ -8,7 +9,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { shoppingAssistant, ShoppingAssistantInput } from '@/ai/flows/shopping-assistant';
-import type { WorkoutPlan } from '@/lib/definitions';
+import type { WorkoutPlan, WorkoutPlanGeneratorInputData } from '@/lib/definitions';
 import { useAuth } from '@/firebase/auth-provider';
 import { saveWorkoutPlan } from '@/app/plan-generator/actions'; // Re-use the save action
 import { useToast } from '@/hooks/use-toast';
@@ -24,6 +25,7 @@ type Message = {
   role: 'user' | 'assistant';
   content: string;
   plan?: WorkoutPlan;
+  userInput?: WorkoutPlanGeneratorInputData;
 };
 
 export default function ShoppingAssistantChat() {
@@ -70,27 +72,19 @@ export default function ShoppingAssistantChat() {
     }
   }, [isOpen]);
   
-  async function handleSavePlan(plan: WorkoutPlan | undefined) {
-    if (!plan || !user) {
+  async function handleSavePlan(plan: WorkoutPlan | undefined, userInput: WorkoutPlanGeneratorInputData | undefined) {
+    if (!plan || !user || !userInput) {
       toast({
         variant: 'destructive',
         title: 'Error al guardar',
-        description: 'No hay plan para guardar o no has iniciado sesión.',
+        description: 'No hay plan para guardar, no has iniciado sesión o faltan datos de entrada.',
       });
       return;
     }
     setIsSaving(true);
-    // The AI doesn't know the user's input, so we have to fake it.
-    // This is a limitation we can improve on later.
-    const fakeUserInput = {
-        objective: 'muscle_gain',
-        experience: 'beginner',
-        daysPerWeek: String(plan.weeklySchedule.length),
-        preferences: ''
-    };
-
+    
     try {
-      await saveWorkoutPlan(user.uid, plan, fakeUserInput);
+      await saveWorkoutPlan(user.uid, plan, userInput);
       setIsSaved(true);
       toast({
         title: '¡Plan guardado!',
@@ -124,7 +118,12 @@ export default function ShoppingAssistantChat() {
             history: messages.map(m => ({role: m.role, content: m.content})), // Don't send the plan object
         };
         const result = await shoppingAssistant(assistantInput);
-        const assistantMessage: Message = { role: 'assistant', content: result.response, plan: result.generatedPlan };
+        const assistantMessage: Message = { 
+            role: 'assistant', 
+            content: result.response, 
+            plan: result.generatedPlan,
+            userInput: result.userInput
+        };
         setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
         console.error("Error llamando al asistente de compras:", error);
@@ -208,7 +207,7 @@ export default function ShoppingAssistantChat() {
                                     </CardHeader>
                                     <CardContent>
                                         <Button
-                                            onClick={() => handleSavePlan(message.plan)}
+                                            onClick={() => handleSavePlan(message.plan, message.userInput)}
                                             disabled={isSaving || isSaved || !user}
                                             className="w-full"
                                             size="sm"

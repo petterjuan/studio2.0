@@ -11,7 +11,7 @@
 import {ai} from '@/ai/genkit';
 import { getProducts } from '@/lib/products';
 import {z} from 'genkit';
-import { generateWorkoutPlan, WorkoutPlanGeneratorInput, WorkoutPlanGeneratorOutputSchema } from './workout-plan-generator';
+import { generateWorkoutPlan, WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutputSchema } from './workout-plan-generator';
 
 const ShoppingAssistantInputSchema = z.object({
   query: z.string().describe('La consulta del usuario sobre productos de fitness y nutrición.'),
@@ -27,6 +27,7 @@ export type ShoppingAssistantInput = z.infer<typeof ShoppingAssistantInputSchema
 const ShoppingAssistantOutputSchema = z.object({
   response: z.string().describe('La respuesta del asistente de compras inteligente.'),
   generatedPlan: WorkoutPlanGeneratorOutputSchema.optional().describe('Un plan de entrenamiento si se generó uno.'),
+  userInput: WorkoutPlanGeneratorInputSchema.optional().describe('The user input that was used to generate the plan.'),
 });
 export type ShoppingAssistantOutput = z.infer<typeof ShoppingAssistantOutputSchema>;
 
@@ -68,15 +69,14 @@ const searchProductsTool = ai.defineTool({
 const generatePlanTool = ai.defineTool({
     name: 'generateWorkoutPlan',
     description: "Genera un plan de entrenamiento personalizado para el usuario si lo solicita o si expresa una meta de fitness clara (ej. 'quiero perder peso', 'cómo puedo ganar músculo').",
-    inputSchema: z.object({
-        objective: z.enum(['fat_loss', 'muscle_gain', 'maintenance']).describe('El objetivo principal del usuario.'),
-        experience: z.enum(['beginner', 'intermediate', 'advanced']).describe('El nivel de experiencia del usuario.'),
-        daysPerWeek: z.string().describe('El número de días a la semana, inferido de la conversación o un valor por defecto razonable (3-4).'),
-        preferences: z.string().optional().describe('Preferencias o limitaciones adicionales del usuario.'),
+    inputSchema: WorkoutPlanGeneratorInputSchema,
+    outputSchema: z.object({
+      plan: WorkoutPlanGeneratorOutputSchema,
+      userInput: WorkoutPlanGeneratorInputSchema,
     }),
-    outputSchema: WorkoutPlanGeneratorOutputSchema,
 }, async (input) => {
-    return await generateWorkoutPlan(input);
+    const plan = await generateWorkoutPlan(input);
+    return { plan, userInput: input };
 });
 
 const shoppingAssistantPrompt = ai.definePrompt({
@@ -84,7 +84,6 @@ const shoppingAssistantPrompt = ai.definePrompt({
   model: 'gemini-1.5-flash',
   tools: [searchProductsTool, generatePlanTool],
   input: {schema: ShoppingAssistantInputSchema},
-  output: {schema: ShoppingAssistantOutputSchema},
   prompt: `Eres un asistente de ventas experto y proactivo para 'VM Fitness Hub', una tienda de fitness y nutrición de primer nivel fundada por Valentina Montero. Tu objetivo no es solo responder preguntas, sino guiar activamente a los usuarios hacia una compra o una acción valiosa, como generar un plan.
 
   **Tu Personalidad:**
@@ -96,7 +95,7 @@ const shoppingAssistantPrompt = ai.definePrompt({
   1.  **Entender la Meta:** Primero, identifica claramente el objetivo del usuario (ej: "ganar músculo", "más energía", "perder peso", "necesito una rutina").
   2.  **Buscar Soluciones (Productos):** Si el usuario pregunta por productos, usa la herramienta \`searchProducts\` para encontrar soluciones en el catálogo. Recomienda proactivamente explicando POR QUÉ un producto es bueno para ellos y menciona el precio.
   3.  **Generar Planes (Proactivamente):** Si el usuario expresa una meta de fitness pero no pregunta por productos (ej. "quiero empezar a entrenar", "cómo puedo perder grasa"), usa la herramienta \`generateWorkoutPlan\`. Infiere los parámetros a partir de la conversación. Si no tienes suficiente información, pide los detalles que te faltan (ej. "¡Claro que sí! Para crearte el mejor plan, dime, ¿cuántos días a la semana te gustaría entrenar y qué nivel de experiencia tienes?").
-  4.  **Presentar el Plan:** Una vez que el plan esté generado, preséntalo de forma resumida en la respuesta de texto y adjunta el plan completo en el campo \`generatedPlan\`.
+  4.  **Presentar el Plan:** Una vez que el plan esté generado, preséntalo de forma resumida en la respuesta de texto. La herramienta se encargará de devolver el plan completo.
   5.  **Manejar Preguntas Complejas:** Si las dudas del usuario exceden las herramientas, sugiere agendar una llamada con Valentina: "Para darte una respuesta 100% personalizada, lo mejor es que agendes una llamada con Valentina en calendly.com/valentinamontero/schedule-a-call".
 
   **Historial de la Conversación:**
@@ -118,7 +117,26 @@ const shoppingAssistantFlow = ai.defineFlow(
     outputSchema: ShoppingAssistantOutputSchema,
   },
   async input => {
-    const {output} = await shoppingAssistantPrompt(input);
-    return output!;
+    const history = (input.history || []).map(msg => ({ role: msg.role, parts: [{ text: msg.content }] }));
+    const prompt = {
+        history,
+        messages: [{ role: 'user', parts: [{ text: input.query }] }],
+    };
+
+    const llmResponse = await shoppingAssistantPrompt.generate(prompt);
+    const toolCalls = llmResponse.toolCalls();
+
+    if (toolCalls.length > 0 && toolCalls[0].name === 'generateWorkoutPlan') {
+        const toolResponse = await llmResponse.toolRequest()?.functionCall<any>('generateWorkoutPlan', toolCalls[0].args);
+        return {
+            response: `¡Aquí tienes! He creado un plan de entrenamiento basado en lo que hablamos. Puedes guardarlo en tu perfil.`,
+            generatedPlan: toolResponse?.plan,
+            userInput: toolResponse?.userInput,
+        }
+    }
+    
+    return {
+        response: llmResponse.text(),
+    };
   }
 );

@@ -1,3 +1,4 @@
+
 'use server';
 
 import { collectionGroup, getDocs, query, orderBy, getDoc, DocumentData, doc, updateDoc } from 'firebase/firestore';
@@ -75,9 +76,11 @@ export async function getAllWorkoutPlans(): Promise<UserWorkoutPlan[]> {
             summary: data.summary,
             weeklySchedule: data.weeklySchedule,
             createdAt: data.createdAt.toDate().toISOString(),
+            status: data.status || 'pending',
+            objective: data.objective,
+            experience: data.experience,
             userName: userData?.name || 'Usuario Desconocido',
             userEmail: userData?.email || 'Sin correo',
-            status: data.status || 'pending',
             aiRecommendation: review.recommendation,
             aiReason: review.reason
         });
