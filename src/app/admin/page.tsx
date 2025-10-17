@@ -3,7 +3,7 @@
 
 import { useAuth } from '@/firebase/auth-provider';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { getAllWorkoutPlans } from './actions';
 import { WorkoutPlan } from '@/lib/definitions';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
@@ -19,6 +19,7 @@ export default function AdminPage() {
   const [plans, setPlans] = useState<UserWorkoutPlan[]>([]);
   const [isLoadingPlans, setIsLoadingPlans] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
     // Redirect non-admins or logged-out users away.
@@ -30,8 +31,9 @@ export default function AdminPage() {
   }, [user, loading, router]);
 
   useEffect(() => {
-    // Only fetch plans if the user is a confirmed admin.
-    if (user?.isAdmin) {
+    // Only fetch plans if the user is a confirmed admin and we haven't fetched yet.
+    if (user?.isAdmin && !hasFetched.current) {
+      hasFetched.current = true; // Prevents re-fetching
       setIsLoadingPlans(true);
       getAllWorkoutPlans()
         .then(setPlans)
@@ -40,7 +42,7 @@ export default function AdminPage() {
             setError("No se pudieron cargar los planes de entrenamiento.");
         })
         .finally(() => setIsLoadingPlans(false));
-    } else {
+    } else if (!user?.isAdmin) {
         // If user is not admin, don't show loading state.
         setIsLoadingPlans(false);
     }

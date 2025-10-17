@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -49,7 +50,7 @@ export default function PlanGeneratorPage() {
 
   async function onSubmit(values: FormValues) {
     setIsLoading(true);
-    setGeneratedPlan(null);
+    setGeneratedPlan(null); // Clear previous plan immediately
     setIsSaved(false);
 
     const input: WorkoutPlanGeneratorInput = {
