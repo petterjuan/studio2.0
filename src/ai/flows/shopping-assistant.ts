@@ -65,7 +65,7 @@ const searchProductsTool = ai.defineTool({
 
 const shoppingAssistantPrompt = ai.definePrompt({
   name: 'shoppingAssistantPrompt',
-  model: 'gemini-1.5-flash-latest',
+  model: 'gemini-1.5-flash',
   tools: [searchProductsTool],
   input: {schema: ShoppingAssistantInputSchema},
   output: {schema: ShoppingAssistantOutputSchema},
