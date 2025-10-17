@@ -39,6 +39,7 @@ export default function PlanGeneratorPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [generatedPlan, setGeneratedPlan] = useState<WorkoutPlan | null>(null);
   const [isSaved, setIsSaved] = useState(false);
+   const [lastSubmittedData, setLastSubmittedData] = useState<FormValues | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -52,6 +53,7 @@ export default function PlanGeneratorPage() {
     setIsLoading(true);
     setGeneratedPlan(null); // Clear previous plan immediately
     setIsSaved(false);
+    setLastSubmittedData(values);
 
     const input: WorkoutPlanGeneratorInput = {
       ...values,
@@ -74,17 +76,25 @@ export default function PlanGeneratorPage() {
   }
 
   async function handleSavePlan() {
-    if (!generatedPlan || !user) {
+    if (!generatedPlan || !user || !lastSubmittedData) {
       toast({
         variant: 'destructive',
         title: 'Error al guardar',
-        description: 'No hay ningún plan para guardar o no has iniciado sesión.',
+        description: 'No hay ningún plan para guardar, no has iniciado sesión, o no hay datos de formulario.',
       });
       return;
     }
     setIsSaving(true);
+
+    const userInput = {
+        objective: lastSubmittedData.objective,
+        experience: lastSubmittedData.experience,
+        daysPerWeek: String(lastSubmittedData.daysPerWeek),
+        preferences: lastSubmittedData.preferences || ''
+    };
+
     try {
-      await saveWorkoutPlan(user.uid, generatedPlan);
+      await saveWorkoutPlan(user.uid, generatedPlan, userInput);
       setIsSaved(true);
       toast({
         title: '¡Plan guardado!',

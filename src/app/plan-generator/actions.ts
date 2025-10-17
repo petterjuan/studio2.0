@@ -1,9 +1,11 @@
+
 'use server';
 
 import { firestore } from '@/firebase/server';
-import type { WorkoutPlan } from '@/lib/definitions';
+import type { WorkoutPlan, WorkoutPlanGeneratorInputData } from '@/lib/definitions';
+import { FieldValue } from 'firebase-admin/firestore';
 
-export async function saveWorkoutPlan(userId: string, plan: Omit<WorkoutPlan, 'id' | 'createdAt'>): Promise<void> {
+export async function saveWorkoutPlan(userId: string, plan: Omit<WorkoutPlan, 'id' | 'createdAt'>, userInput: WorkoutPlanGeneratorInputData): Promise<void> {
   if (!userId) {
     throw new Error("User not authenticated");
   }
@@ -12,6 +14,8 @@ export async function saveWorkoutPlan(userId: string, plan: Omit<WorkoutPlan, 'i
   
   await userWorkoutPlansRef.add({
     ...plan,
-    createdAt: new Date(),
+    ...userInput,
+    createdAt: FieldValue.serverTimestamp(),
+    status: 'pending' // Initial status
   });
 }

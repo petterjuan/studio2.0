@@ -3,12 +3,16 @@
 
 import { useState, useRef, useEffect, FormEvent } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Bot, User, CornerDownLeft, X, Loader, MessagesSquare } from 'lucide-react';
+import { Bot, User, CornerDownLeft, X, Loader, MessagesSquare, Save, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { shoppingAssistant, ShoppingAssistantInput } from '@/ai/flows/shopping-assistant';
+import type { WorkoutPlan } from '@/lib/definitions';
+import { useAuth } from '@/firebase/auth-provider';
+import { saveWorkoutPlan } from '@/app/plan-generator/actions'; // Re-use the save action
+import { useToast } from '@/hooks/use-toast';
 import {
   Tooltip,
   TooltipContent,
@@ -20,15 +24,22 @@ import {
 type Message = {
   role: 'user' | 'assistant';
   content: string;
+  plan?: WorkoutPlan;
 };
 
 export default function ShoppingAssistantChat() {
+  const { user } = useAuth();
+  const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
+
 
   // Show welcome message only when the chat is opened for the first time
   useEffect(() => {
@@ -60,6 +71,44 @@ export default function ShoppingAssistantChat() {
     }
   }, [isOpen]);
   
+  async function handleSavePlan(plan: WorkoutPlan | undefined) {
+    if (!plan || !user) {
+      toast({
+        variant: 'destructive',
+        title: 'Error al guardar',
+        description: 'No hay plan para guardar o no has iniciado sesión.',
+      });
+      return;
+    }
+    setIsSaving(true);
+    // The AI doesn't know the user's input, so we have to fake it.
+    // This is a limitation we can improve on later.
+    const fakeUserInput = {
+        objective: 'muscle_gain',
+        experience: 'beginner',
+        daysPerWeek: String(plan.weeklySchedule.length),
+        preferences: ''
+    };
+
+    try {
+      await saveWorkoutPlan(user.uid, plan, fakeUserInput);
+      setIsSaved(true);
+      toast({
+        title: '¡Plan guardado!',
+        description: 'Puedes ver tu plan en tu panel de control.',
+      });
+    } catch (error) {
+      console.error('Error al guardar el plan:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Error al guardar',
+        description: 'Hubo un problema al guardar tu plan.',
+      });
+    } finally {
+      setIsSaving(false);
+    }
+  }
+
 
   const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
@@ -73,10 +122,10 @@ export default function ShoppingAssistantChat() {
     try {
         const assistantInput: ShoppingAssistantInput = {
             query: input,
-            history: messages,
+            history: messages.map(m => ({role: m.role, content: m.content})), // Don't send the plan object
         };
         const result = await shoppingAssistant(assistantInput);
-        const assistantMessage: Message = { role: 'assistant', content: result.response };
+        const assistantMessage: Message = { role: 'assistant', content: result.response, plan: result.generatedPlan };
         setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
         console.error("Error llamando al asistente de compras:", error);
@@ -142,14 +191,36 @@ export default function ShoppingAssistantChat() {
                         {message.role === 'assistant' && (
                           <AvatarIcon className="bg-primary text-primary-foreground" />
                         )}
-                        <div
-                          className={`rounded-lg px-4 py-2 max-w-[80%] text-sm ${
-                            message.role === 'user'
-                              ? 'bg-primary text-primary-foreground'
-                              : 'bg-muted'
-                          }`}
-                        >
-                          <p>{message.content}</p>
+                        <div className="flex flex-col gap-2 w-full">
+                          <div
+                            className={`rounded-lg px-4 py-2 max-w-[85%] text-sm ${
+                              message.role === 'user'
+                                ? 'bg-primary text-primary-foreground self-end'
+                                : 'bg-muted self-start'
+                            }`}
+                          >
+                            <p>{message.content}</p>
+                          </div>
+                           {message.plan && (
+                                <Card className="bg-muted self-start max-w-[85%]">
+                                    <CardHeader className="pb-2">
+                                        <CardTitle as="h4" className="text-base">{message.plan.title}</CardTitle>
+                                        <CardDescription className="text-xs">{message.plan.summary}</CardDescription>
+                                    </CardHeader>
+                                    <CardContent>
+                                        <Button
+                                            onClick={() => handleSavePlan(message.plan)}
+                                            disabled={isSaving || isSaved || !user}
+                                            className="w-full"
+                                            size="sm"
+                                        >
+                                            {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : isSaved ? <CheckCircle className="mr-2 h-4 w-4" /> : <Save className="mr-2 h-4 w-4" />}
+                                            {isSaved ? '¡Guardado!' : 'Guardar Plan'}
+                                        </Button>
+                                        {!user && <p className="text-xs text-muted-foreground text-center mt-2">Inicia sesión para guardar.</p>}
+                                    </CardContent>
+                                </Card>
+                            )}
                         </div>
                         {message.role === 'user' && <User className="h-8 w-8 rounded-full p-1 bg-muted text-muted-foreground" />}
                       </div>

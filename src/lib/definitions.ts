@@ -32,7 +32,18 @@ export interface WorkoutPlan {
     description: string;
   }[];
   createdAt: string;
+  // Fields for admin review
+  status?: 'pending' | 'approved' | 'denied';
+  objective?: string;
+  experience?: string;
 }
+
+export type WorkoutPlanGeneratorInputData = {
+    objective: 'fat_loss' | 'muscle_gain' | 'maintenance';
+    experience: 'beginner' | 'intermediate' | 'advanced';
+    daysPerWeek: string;
+    preferences?: string;
+};
 
 
 // Extend the Firebase User type to include our custom fields

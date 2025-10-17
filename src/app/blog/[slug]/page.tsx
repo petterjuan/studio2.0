@@ -5,7 +5,9 @@ import Image from 'next/image';
 import { format } from 'date-fns';
 import { Calendar, User } from 'lucide-react';
 import { getPlaceholder } from '@/lib/utils';
-import dynamicComponent from 'next/dynamic';
+import dynamic from 'next/dynamic';
+import AudioPlayer from './audio-player';
+import { generateArticleAudio } from '@/ai/flows/audio-generator';
 
 export async function generateStaticParams() {
   const articles = await getArticles();
@@ -20,7 +22,8 @@ export default async function ArticlePage({ params }: { params: { slug: string }
   if (!article) {
     notFound();
   }
-
+  
+  const audioData = await generateArticleAudio({ articleTitle: article.title, articleExcerpt: article.excerpt });
   const image = getPlaceholder(article.imageId);
 
   return (
@@ -52,6 +55,9 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           className="object-cover rounded-lg"
           priority
         />
+         <div className="absolute bottom-4 right-4">
+            <AudioPlayer audioDataUri={audioData.media} />
+        </div>
       </div>
       
       <div
