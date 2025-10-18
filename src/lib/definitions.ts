@@ -21,6 +21,7 @@ export type Article = {
   excerpt: string;
   imageId: string;
   publishedAt: string;
+  audioDataUri?: string; // Audio summary for the article
 };
 
 export interface WorkoutPlan {

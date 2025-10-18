@@ -4,7 +4,7 @@ import type { Article } from './definitions';
 import { Timestamp } from 'firebase-admin/firestore';
 
 // The original hardcoded articles. We'll insert them if the collection is empty.
-const seedArticles: Omit<Article, 'id'>[] = [
+const seedArticles: Omit<Article, 'id' | 'audioDataUri'>[] = [
     {
         handle: 'magnesio-para-recuperacion-muscular',
         title: 'Magnesio para la Recuperación Muscular: Cómo Funciona y Cómo Utilizarlo',
