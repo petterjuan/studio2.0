@@ -35,18 +35,13 @@ export const WorkoutPlanGeneratorOutputSchema = z.object({
 export type WorkoutPlanGeneratorOutput = z.infer<typeof WorkoutPlanGeneratorOutputSchema>;
 
 export async function generateWorkoutPlan(input: WorkoutPlanGeneratorInput): Promise<WorkoutPlanGeneratorOutput> {
-  // The 'daysPerWeek' from the form is a number, but the AI prompt expects a string.
-  const promptInput = {
-    ...input,
-    daysPerWeek: String(input.daysPerWeek),
-  };
-  return workoutPlanGeneratorFlow(promptInput);
+  return workoutPlanGeneratorFlow(input);
 }
 
 const workoutPlanPrompt = ai.definePrompt({
   name: 'workoutPlanPrompt',
   model: 'gemini-1.5-flash',
-  input: { schema: WorkoutPlanGeneratorInputSchema.extend({ daysPerWeek: z.string() }) }, // Internally, we handle it as a string for the prompt
+  input: { schema: WorkoutPlanGeneratorInputSchema },
   output: { schema: WorkoutPlanGeneratorOutputSchema },
   prompt: `Eres Valentina Montero, una reconocida coach de fitness y nutrición, experta en crear transformaciones físicas para mujeres. Tu tono es empoderador, conocedor y motivador. No solo creas planes, diseñas estilos de vida.
 
@@ -79,7 +74,7 @@ const workoutPlanPrompt = ai.definePrompt({
 const workoutPlanGeneratorFlow = ai.defineFlow(
   {
     name: 'workoutPlanGeneratorFlow',
-    inputSchema: WorkoutPlanGeneratorInputSchema.extend({ daysPerWeek: z.string() }),
+    inputSchema: WorkoutPlanGeneratorInputSchema,
     outputSchema: WorkoutPlanGeneratorOutputSchema,
   },
   async (input) => {
@@ -94,5 +89,3 @@ const workoutPlanGeneratorFlow = ai.defineFlow(
     return output;
   }
 );
-
-    

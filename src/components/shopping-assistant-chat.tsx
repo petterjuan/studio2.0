@@ -13,121 +13,105 @@ import { useAuth } from '@/firebase/auth-provider';
 import { saveWorkoutPlan } from '@/app/plan-generator/actions';
 import { useToast } from '@/hooks/use-toast';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
+import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorOutput } from './ai/flows/workout-plan-generator';
+
 
 type Message = {
   role: 'user' | 'assistant';
   content: string;
-  plan?: WorkoutPlan;
-  userInput?: WorkoutPlanGeneratorInputData;
+  plan?: WorkoutPlanGeneratorOutput;
+  userInput?: WorkoutPlanGeneratorInput;
 };
 
-export default function ShoppingAssistantChat() {
+export default function SalesOptimizedChat() {
   const { user } = useAuth();
   const { toast } = useToast();
+
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
+
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [isSaving, setIsSaving] = useState<boolean>(false);
-  const [isSaved, setIsSaved] = useState<boolean>(false);
+  // === Auto-focus input when chat opens ===
+  useEffect(() => {
+    if (isOpen) {
+      setTimeout(() => inputRef.current?.focus(), 100);
+    }
+  }, [isOpen]);
 
-  // Show welcome message only when the chat is opened for the first time
+  // === Auto-scroll to bottom ===
+  useEffect(() => {
+    const viewport = scrollAreaRef.current?.querySelector<HTMLDivElement>('[data-radix-scroll-area-viewport]');
+    if (viewport) viewport.scrollTop = viewport.scrollHeight;
+  }, [messages, isLoading]);
+
+  // === Welcome message ===
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       setIsLoading(true);
       setTimeout(() => {
-        setMessages([
-          {
-            role: 'assistant',
-            content: `¡Hola, campeona! Soy la asistente de Valentina. ¿Cuáles son tus metas de fitness? Cuéntame un poco para poder guiarte hacia el plan de coaching o el producto perfecto para ti.`,
-          },
-        ]);
+        setMessages([{
+          role: 'assistant',
+          content: '¡Hola! Soy Valentina, tu asistente de fitness. Cuéntame tus metas y puedo generar un plan de entrenamiento personalizado que realmente funcione para ti.',
+        }]);
         setIsLoading(false);
-      }, 1000);
+      }, 700);
     }
   }, [isOpen, messages.length]);
 
-  // Auto-scroll to the bottom of the messages
-  useEffect(() => {
-    const viewport = scrollAreaRef.current?.querySelector<HTMLDivElement>('[data-radix-scroll-area-viewport]');
-    if (viewport) {
-      viewport.scrollTop = viewport.scrollHeight;
-    }
-  }, [messages, isLoading]);
-
-  // Auto-focus the input when the chat is opened
-  useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => {
-        inputRef.current?.focus();
-      }, 100);
-    }
-  }, [isOpen]);
-
-  async function handleSavePlan(plan: WorkoutPlan | undefined, userInput: WorkoutPlanGeneratorInputData | undefined) {
-    if (!plan || !user || !userInput) {
-      toast({
-        variant: 'destructive',
-        title: 'Error al guardar',
-        description: 'No hay plan para guardar, no has iniciado sesión o faltan datos de entrada.',
-      });
-      return;
-    }
-    setIsSaving(true);
-
-    try {
-      await saveWorkoutPlan(user!.uid, plan!, userInput!);
-      setIsSaved(true);
-      toast({
-        title: '¡Plan guardado!',
-        description: 'Puedes ver tu plan en tu panel de control.',
-      });
-    } catch (error) {
-      console.error('Error al guardar el plan:', error);
-      toast({
-        variant: 'destructive',
-        title: 'Error al guardar',
-        description: 'Hubo un problema al guardar tu plan.',
-      });
-    } finally {
-      setIsSaving(false);
-    }
-  }
-
+  // === Send Message / Trigger AI Flow ===
   const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = { role: 'user', content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    setMessages(prev => [...prev, userMessage]);
     setInput('');
     setIsLoading(true);
 
     try {
-      const assistantInput: ShoppingAssistantInput = {
-        query: input,
-        history: messages.map((m) => ({ role: m.role, content: m.content })), // Don't send the plan object
-      };
-      const result = await shoppingAssistantFlow(assistantInput);
+      const response = await fetch('/api/workout-plan', {
+        method: 'POST',
+        body: JSON.stringify({ query: input, history: messages }),
+      });
+      const result: { plan: WorkoutPlanGeneratorOutput; userInput: WorkoutPlanGeneratorInput } = await response.json();
+
       const assistantMessage: Message = {
         role: 'assistant',
-        content: result.response,
-        plan: result.generatedPlan ?? undefined,
-        userInput: result.userInput ?? undefined,
+        content: result.plan.summary + (result.plan.callToAction ? `\n\n${result.plan.callToAction}` : ''),
+        plan: result.plan,
+        userInput: result.userInput,
       };
-      setMessages((prev) => [...prev, assistantMessage]);
+
+      setMessages(prev => [...prev, assistantMessage]);
     } catch (error) {
-      console.error("Error llamando al asistente de compras:", error);
-      const errorMessage: Message = {
-        role: 'assistant',
-        content: "Lo siento, estoy teniendo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde.",
-      };
-      setMessages((prev) => [...prev, errorMessage]);
+      console.error(error);
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Lo siento, algo salió mal. Por favor intenta de nuevo.' }]);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // === Save Plan ===
+  const handleSavePlan = async (plan?: WorkoutPlanGeneratorOutput, userInput?: WorkoutPlanGeneratorInput) => {
+    if (!plan || !user || !userInput) {
+      toast({ variant: 'destructive', title: 'Error', description: 'No hay plan para guardar o no has iniciado sesión.' });
+      return;
+    }
+    setIsSaving(true);
+    try {
+      await saveWorkoutPlan(user.uid, plan, userInput);
+      setIsSaved(true);
+      toast({ title: '¡Plan guardado!', description: 'Puedes verlo en tu panel de control.' });
+    } catch {
+      toast({ variant: 'destructive', title: 'Error al guardar', description: 'Intenta de nuevo más tarde.' });
+    } finally {
+      setIsSaving(false);
     }
   };
 
@@ -135,6 +119,7 @@ export default function ShoppingAssistantChat() {
 
   return (
     <>
+      {/* Floating Chat Button */}
       <div className="fixed bottom-6 right-6 z-50">
         <TooltipProvider>
           <Tooltip>
@@ -155,6 +140,7 @@ export default function ShoppingAssistantChat() {
         </TooltipProvider>
       </div>
 
+      {/* Chat Window */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -164,69 +150,54 @@ export default function ShoppingAssistantChat() {
             transition={{ duration: 0.2 }}
             className="fixed bottom-24 right-6 z-50"
           >
-            <Card className="w-[350px] h-[500px] shadow-2xl flex flex-col">
+            <Card className="w-[360px] h-[520px] shadow-2xl flex flex-col">
               <CardHeader className="flex flex-row items-center justify-between">
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center gap-2">
                   <Bot className="h-6 w-6 text-primary" />
-                  <CardTitle as="h2" className="text-lg font-headline">Asistente de Compras</CardTitle>
+                  <CardTitle as="h2" className="text-lg font-headline">Asistente de Fitness</CardTitle>
                 </div>
               </CardHeader>
+
               <CardContent className="flex-grow overflow-hidden p-0">
                 <ScrollArea className="h-full p-4" ref={scrollAreaRef}>
                   <div className="space-y-4">
-                    {messages.map((message, index) => (
-                      <div
-                        key={index}
-                        className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}
-                      >
-                        {message.role === 'assistant' && (
-                          <AvatarIcon className="bg-primary text-primary-foreground" />
-                        )}
+                    {messages.map((msg, idx) => (
+                      <div key={idx} className={`flex items-start gap-3 ${msg.role === 'user' ? 'justify-end' : ''}`}>
+                        {msg.role === 'assistant' && <AvatarIcon />}
                         <div className="flex flex-col gap-2 w-full">
-                          <div
-                            className={`rounded-lg px-4 py-2 max-w-[85%] text-sm ${
-                              message.role === 'user'
-                                ? 'bg-primary text-primary-foreground self-end'
-                                : 'bg-muted self-start'
-                            }`}
-                          >
-                            <p>{message.content}</p>
+                          <div className={`rounded-lg px-4 py-2 max-w-[85%] text-sm ${msg.role === 'user' ? 'bg-primary text-primary-foreground self-end' : 'bg-muted self-start'}`}>
+                            {msg.content}
                           </div>
-                          {message.plan && (
+
+                          {/* Render Plan Card */}
+                          {msg.plan && (
                             <Card className="bg-muted self-start max-w-[85%]">
                               <CardHeader className="pb-2">
-                                <CardTitle as="h4" className="text-base">{message.plan.title}</CardTitle>
-                                <CardDescription className="text-xs">{message.plan.summary}</CardDescription>
+                                <CardTitle as="h3">{msg.plan.title}</CardTitle>
+                                <CardDescription>{msg.plan.summary}</CardDescription>
                               </CardHeader>
                               <CardContent>
                                 <Button
-                                  onClick={() => handleSavePlan(message.plan, message.userInput)}
+                                  onClick={() => handleSavePlan(msg.plan, msg.userInput)}
                                   disabled={isSaving || isSaved || !user}
-                                  className="w-full"
                                   size="sm"
+                                  className="w-full"
                                 >
-                                  {isSaving
-                                    ? <Loader className="mr-2 h-4 w-4 animate-spin" />
-                                    : isSaved
-                                      ? <CheckCircle className="mr-2 h-4 w-4" />
-                                      : <Save className="mr-2 h-4 w-4" />}
+                                  {isSaving ? <Loader className="mr-2 h-4 w-4 animate-spin" /> : isSaved ? <CheckCircle className="mr-2 h-4 w-4" /> : <Save className="mr-2 h-4 w-4" />}
                                   {isSaved ? '¡Guardado!' : 'Guardar Plan'}
                                 </Button>
-                                {!user && (
-                                  <p className="text-xs text-muted-foreground text-center mt-2">
-                                    Inicia sesión para guardar.
-                                  </p>
-                                )}
+                                {!user && <p className="text-xs text-muted-foreground text-center mt-2">Inicia sesión para guardar.</p>}
                               </CardContent>
                             </Card>
                           )}
                         </div>
-                        {message.role === 'user' && <User className="h-8 w-8 rounded-full p-1 bg-muted text-muted-foreground" />}
+                        {msg.role === 'user' && <User className="h-8 w-8 rounded-full p-1 bg-muted text-muted-foreground" />}
                       </div>
                     ))}
+
                     {isLoading && (
                       <div className="flex items-start gap-3">
-                        <AvatarIcon className="bg-primary text-primary-foreground" />
+                        <AvatarIcon />
                         <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted flex items-center">
                           <Loader className="h-5 w-5 animate-spin text-muted-foreground" />
                         </div>
@@ -235,16 +206,16 @@ export default function ShoppingAssistantChat() {
                   </div>
                 </ScrollArea>
               </CardContent>
+
               <CardFooter>
-                <form onSubmit={handleSendMessage} className="flex w-full items-center space-x-2">
+                <form onSubmit={handleSendMessage} className="flex w-full items-center gap-2">
                   <Input
                     ref={inputRef}
-                    id="message"
                     placeholder="Describe tus metas..."
                     className="flex-1"
                     autoComplete="off"
                     value={input}
-                    onChange={(e) => setInput(e.target.value)}
+                    onChange={e => setInput(e.target.value)}
                     disabled={isLoading}
                   />
                   <Button type="submit" size="icon" disabled={!input.trim() || isLoading}>
@@ -261,9 +232,9 @@ export default function ShoppingAssistantChat() {
   );
 }
 
-function AvatarIcon({ className }: { className?: string }) {
+function AvatarIcon() {
   return (
-    <div className={`flex h-8 w-8 items-center justify-center rounded-full shrink-0 ${className}`}>
+    <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground shrink-0">
       <Bot className="h-5 w-5" />
     </div>
   );
