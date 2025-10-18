@@ -1,4 +1,3 @@
-
 # VM Fitness Hub - Plataforma Headless de E-Commerce y Contenido
 
 ## 🚀 Pila Tecnológica
@@ -17,33 +16,33 @@
 
 ## Resumen del Proyecto
 
-**VM Fitness Hub** es una aplicación web moderna y de alto rendimiento construida con Next.js que sirve como la fachada (frontend) para una experiencia de e-commerce y contenido premium. La aplicación ofrece a los usuarios una interfaz de usuario pulida para explorar productos exclusivos, leer artículos de blog, interactuar con un asistente de compras inteligente y generar planes de entrenamiento y recetas personalizados. La autenticación de usuarios, los datos de perfil y las funciones de administrador se gestionan a través de Firebase, y los pagos se procesan de forma segura mediante Stripe.
+**VM Fitness Hub** es una plataforma de experiencia digital (DXP) headless de alto rendimiento, diseñada con Next.js. Proporciona una arquitectura de frontend sofisticada para un ecosistema premium de e-commerce y contenido. La plataforma aprovecha el renderizado del lado del servidor (SSR) y una pila tecnológica robusta para ofrecer una interfaz de usuario pulida para explorar productos digitales exclusivos, consumir artículos de blog y utilizar herramientas de personalización impulsadas por IA, incluyendo un asistente de compras inteligente y generadores de recetas y entrenamientos personalizados. El backend está impulsado por Firebase para una autenticación de usuarios, persistencia de datos y administración fluidas, mientras que el procesamiento seguro de pagos se orquesta a través de Stripe.
 
-Este proyecto está diseñado para ser desplegado en **Firebase App Hosting**, proporcionando una solución escalable y totalmente gestionada.
+Este proyecto está diseñado para un despliegue automatizado y escalable en **Firebase App Hosting**.
 
 ---
 
 ## ✨ Características Principales
 
-- **Framework Moderno:** Construido con **Next.js 15 (App Router)** para un rendimiento óptimo, Server-Side Rendering (SSR) y una experiencia de usuario fluida.
-- **Diseño Elegante y Responsivo:** Interfaz de usuario sofisticada y totalmente responsiva construida con **Tailwind CSS** y **ShadCN UI**. La estética se define por una paleta de colores en tonos marrones y beige, con temas diferenciados para modo claro y oscuro.
-- **Tienda E-commerce:** Una experiencia de compra curada para explorar y adquirir productos digitales exclusivos. La pasarela de pago se integra con **Stripe Checkout** para transacciones seguras (o simula la compra si las claves no están configuradas).
-- **Hub de Contenido Automatizado:** Un blog dinámico con artículos de Valentina Montero. Nuevos artículos son **generados automáticamente por una IA** cada semana a través de una tarea programada (cron job), asegurando contenido fresco sin esfuerzo manual.
-- **Autenticación Segura:** Sistema completo de registro e inicio de sesión de usuarios con control de acceso basado en roles (incluyendo un panel de administrador) utilizando **Firebase Authentication**.
-- **Base de Datos Firestore:** Los perfiles de usuario, roles, planes de entrenamiento personalizados y artículos de blog generados por IA se almacenan de forma segura en **Cloud Firestore**.
-- **Panel de Usuario:** Un espacio privado y autenticado para que los usuarios vean y gestionen sus planes de entrenamiento guardados y accedan al contenido comprado.
-- **Funcionalidades Avanzadas Potenciadas por IA:**
-    - **Generador de Planes de Entrenamiento:** Un motor propietario que crea planes de entrenamiento semanales personalizados basados en las metas, nivel de experiencia y preferencias del usuario.
-    - **Generador de Recetas:** Una herramienta de IA que crea recetas personalizadas a partir de un ingrediente principal y restricciones dietéticas.
-    - **Asistente de Compras:** Un chatbot de conserjería inteligente que ayuda a los usuarios a encontrar productos y responde a sus preguntas con respuestas contextuales.
-- **Panel de Administrador:** Una sección protegida basada en roles para que los administradores vean todos los planes de entrenamiento generados por los usuarios.
-- **Optimización para Despliegue:** Totalmente configurado para un despliegue automatizado y sin interrupciones en **Firebase App Hosting**.
+- **Arquitectura Next.js 15:** Construido sobre el App Router de Next.js, este proyecto utiliza Server Components por defecto para minimizar el JavaScript del lado del cliente, optimizar el rendimiento de renderizado y mejorar el SEO.
+- **UI/UX Sistematizada:** La interfaz de usuario está construida con un enfoque de sistema de diseño, utilizando **Tailwind CSS** y **ShadCN UI** para una experiencia totalmente responsiva y estéticamente consistente. El tema se define por una paleta de colores sofisticada en tonos marrones y beige, con esquemas distintos para los modos claro y oscuro.
+- **Motor de Comercio Headless:** Proporciona una experiencia de compra curada para productos digitales, integrándose con **Stripe Checkout** a través de la creación de sesiones en el lado del servidor. El sistema está diseñado para funcionar en un "modo de simulación" si no se proporcionan las claves de Stripe, permitiendo el desarrollo y las pruebas sin credenciales activas.
+- **Pipeline de Ingesta de Contenido Automatizado:** Un centro de contenido dinámico con artículos de Valentina Montero. Nuevos artículos optimizados para SEO son **generados autónomamente por una IA** semanalmente a través de una tarea programada (cron job), asegurando un flujo continuo de contenido fresco sin intervención manual.
+- **Gestión de Identidad y Acceso Segura (IAM):** Un sistema completo de autenticación de usuarios con flujos de registro e inicio de sesión, y Control de Acceso Basado en Roles (RBAC) para funciones administrativas, todo gestionado por **Firebase Authentication**.
+- **Persistencia de Datos NoSQL Escalable:** Los perfiles de usuario, roles de RBAC, planes de entrenamiento personalizados y artículos generados por IA se almacenan en **Cloud Firestore**, proporcionando una solución de base de datos escalable y en tiempo real.
+- **Portal de Usuario Autenticado:** Un panel de control privado y autenticado donde los usuarios pueden gestionar sus planes de entrenamiento guardados y acceder al contenido digital comprado.
+- **Motor de IA Generativa Propietario:**
+    - **Generador de Planes de Entrenamiento:** Un motor personalizado que crea planes de entrenamiento semanales personalizados basados en las metas, niveles de experiencia y preferencias definidas por el usuario.
+    - **Generador de Recetas:** Una herramienta de IA que sintetiza recetas novedosas a partir de un ingrediente principal y restricciones dietéticas.
+    - **Asistente de Compras:** Un chatbot inteligente y consciente del contexto que asiste a los usuarios con el descubrimiento de productos y consultas, utilizando dinámicamente una herramienta `searchProducts` contra el catálogo de productos.
+- **Control de Acceso Basado en Roles (RBAC) para Administración:** Un panel administrativo protegido, controlado por roles de usuario, para que los supervisores revisen y gestionen todos los planes de entrenamiento generados por los usuarios.
+- **Optimizado para CI/CD en Firebase App Hosting:** Preconfigurado para despliegues automatizados y sin fricción en **Firebase App Hosting**, con definiciones de infraestructura como código en `apphosting.yaml`.
 
 ---
 
 ## 🛠️ Configuración y Desarrollo Local
 
-Sigue estos pasos para poner en marcha el proyecto en tu máquina local. Este es un paso crucial para asegurar que todos los servicios, incluyendo Firebase y Stripe, estén conectados correctamente.
+Sigue estos pasos para instanciar el proyecto en tu máquina local. Este es un paso crucial para asegurar que todos los servicios, incluyendo Firebase y Stripe, estén conectados correctamente.
 
 ### 1. Prerrequisitos
 
@@ -61,7 +60,7 @@ cd [NOMBRE_DEL_REPOSITORIO]
 
 ### 3. Instalar Dependencias
 
-Instala todas las dependencias del proyecto. Esto puede tardar unos minutos.
+Instala todas las dependencias del proyecto.
 
 ```bash
 npm install
@@ -69,13 +68,13 @@ npm install
 
 ### 4. Configurar Variables de Entorno
 
-Este es el paso más crítico para lanzar la aplicación. Todas las claves secretas y valores de configuración se gestionan en un único archivo `.env`, que debes crear en la raíz del proyecto. **Nunca subas el archivo `.env` al control de versiones.**
+Este es el paso más crítico para lanzar la aplicación. Todos los secretos y valores de configuración se gestionan en un único archivo `.env`, que debes crear en la raíz del proyecto. **Nunca subas el archivo `.env` al control de versiones.**
 
-Crea un archivo llamado `.env` en la raíz del proyecto y añade las variables de entorno necesarias para Firebase, Stripe y Google AI, reemplazando los valores de ejemplo con tus claves reales.
+Crea un archivo llamado `.env` en la raíz del proyecto y añade las variables de entorno necesarias para Firebase, Stripe y Google AI, reemplazando los valores de ejemplo con tus credenciales reales.
 
 ### 5. Ejecutar el Servidor de Desarrollo
 
-Once the environment variables are set, you can start the Next.js development server.
+Una vez que las variables de entorno estén configuradas, puedes iniciar el servidor de desarrollo de Next.js.
 
 ```bash
 npm run dev
@@ -89,25 +88,25 @@ La aplicación estará disponible en `http://localhost:9000`.
 
 ### Firebase
 
-- **Autenticación:** El flujo de autenticación aprovecha la lógica tanto del lado del cliente como del servidor. La creación de usuarios (`createUserWithEmailAndPassword`) se gestiona en el cliente para una experiencia de inicio de sesión inmediata. Luego, las Server Actions se utilizan para crear el documento de usuario correspondiente en Firestore utilizando el token de autenticación verificado por el servidor.
-- **Firestore:** Se utiliza para almacenar perfiles de usuario (incluyendo un campo `isAdmin` para el control de acceso), los planes de entrenamiento generados por los usuarios y los artículos de blog generados por IA.
-- **Server SDK:** El SDK de administración de Firebase (`firebase-admin`) se utiliza en las Server Actions para realizar operaciones privilegiadas de backend, como la obtención de datos de todos los usuarios para el panel de administración.
+- **Autenticación:** El flujo de autenticación emplea una estrategia híbrida cliente-servidor. La creación de usuarios (`createUserWithEmailAndPassword`) se maneja en el lado del cliente para establecer una sesión inmediata. Las Server Actions luego utilizan el token de autenticación de la sesión para crear de forma segura el documento de usuario correspondiente en Firestore con datos validados por el servidor, mitigando los riesgos de manipulación.
+- **Firestore:** Utilizado para almacenar perfiles de usuario (incluyendo un booleano `isAdmin` para RBAC), planes de entrenamiento generados por usuarios y artículos de blog generados por IA.
+- **Server SDK:** El SDK de administración de Firebase (`firebase-admin`) se utiliza dentro de las Server Actions para ejecutar operaciones privilegiadas de backend, como consultar datos de todos los usuarios en el panel administrativo.
 
 ### Stripe
 
-El flujo de pago se gestiona a través de **Stripe Checkout**.
-1.  Un usuario hace clic en el botón de compra en una página de producto o coaching.
-2.  Se invoca una **Server Action**.
-3.  Esta acción crea de forma segura una `checkout.Session` de Stripe en el lado del servidor, utilizando un `stripePriceId` predefinido asociado a cada producto.
-4.  La aplicación redirige al usuario a la URL segura de la pasarela de pago de Stripe para completar la compra.
-5.  **Importante:** Si la clave `STRIPE_SECRET_KEY` no está configurada en tu archivo `.env`, este flujo se **simula**. El usuario será redirigido directamente a una página de éxito para facilitar el desarrollo y las pruebas locales sin necesidad de claves de Stripe.
+El flujo de pago se orquesta a través de **Stripe Checkout**.
+1.  Un usuario inicia una compra desde una página de producto o coaching.
+2.  Se invoca una **Server Action** para manejar la solicitud.
+3.  Esta acción crea de forma segura una `checkout.Session` de Stripe en el lado del servidor, haciendo referencia a un `stripePriceId` predefinido asociado con cada producto.
+4.  La aplicación redirige al usuario a la URL de pago segura alojada en Stripe.
+5.  **Importante:** Si la `STRIPE_SECRET_KEY` no está presente en el archivo `.env`, este flujo opera en **modo de simulación**. El usuario es redirigido directamente a una página de éxito, permitiendo el desarrollo local y pruebas de extremo a extremo sin requerir credenciales de Stripe activas.
 
 ### Motor de Personalización (Genkit)
 
-- **Generador de Planes de Entrenamiento:** El flujo `workoutPlanGeneratorFlow` (`src/ai/flows/workout-plan-generator.ts`) utiliza un prompt estructurado para crear planes de entrenamiento semanales de alta calidad y personalizados basados en las entradas del usuario.
-- **Generador de Recetas:** El flujo `recipeGeneratorFlow` (`src/ai/flows/recipe-generator.ts`) crea recetas deliciosas a partir de un ingrediente y preferencias dietéticas.
-- **Asistente de Compras:** El flujo `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) procesa la consulta del usuario y el historial de chat. Utiliza una herramienta (`searchProductsTool`) para permitir que el modelo busque dinámicamente en el catálogo de productos y ofrezca recomendaciones inteligentes.
-- **Escritor de Blogs Automatizado:** El flujo `blogGeneratorFlow` (`src/ai/flows/blog-generator.ts`) se activa mediante un cron job semanal. Genera un nuevo artículo optimizado para SEO sobre fitness femenino y lo guarda directamente en la base de datos de Firestore.
+- **Generador de Planes de Entrenamiento:** El `workoutPlanGeneratorFlow` (`src/ai/flows/workout-plan-generator.ts`) utiliza un prompt estructurado con validación de esquema Zod para producir planes de entrenamiento semanales personalizados y de alta calidad basados en las entradas del usuario.
+- **Generador de Recetas:** El `recipeGeneratorFlow` (`src/ai/flows/recipe-generator.ts`) genera recetas a partir de un ingrediente y preferencias dietéticas especificadas, con validación de entrada incorporada.
+- **Asistente de Compras:** El `shoppingAssistantFlow` (`src/ai/flows/shopping-assistant.ts`) procesa la consulta del usuario y el historial del chat. Aprovecha una `searchProductsTool` para otorgar al modelo la capacidad de consultar dinámicamente el catálogo de productos y proporcionar recomendaciones inteligentes y contextuales.
+- **Escritor de Blogs Automatizado:** El `blogGeneratorFlow` (`src/ai/flows/blog-generator.ts`) se activa mediante un cron job semanal. Genera un nuevo artículo optimizado para SEO sobre un tema de fitness relevante y lo persiste directamente en la base de datos de Firestore.
 
 ---
 
@@ -115,6 +114,6 @@ El flujo de pago se gestiona a través de **Stripe Checkout**.
 
 Este proyecto está optimizado para **Firebase App Hosting**.
 
-El despliegue se gestiona automáticamente a través del flujo de trabajo de Firebase Studio. Cada vez que se confirma un cambio, se puede iniciar una nueva compilación y despliegue.
+El despliegue se gestiona automáticamente a través del flujo de trabajo de Firebase Studio. Confirmar un cambio puede desencadenar un nuevo ciclo de compilación y despliegue.
 
-El archivo `apphosting.yaml` en la raíz contiene la configuración básica para el entorno de App Hosting, incluyendo la tarea programada para la creación automatizada de blogs. No se necesita configuración manual de CI/CD.
+El archivo `apphosting.yaml` en el directorio raíz contiene la configuración declarativa para el entorno de App Hosting, incluido el trabajo programado para la creación automatizada de contenido. No es necesaria ninguna configuración manual del pipeline de CI/CD.
