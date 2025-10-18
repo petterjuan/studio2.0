@@ -6,9 +6,7 @@
  * - generateWorkoutPlan - A function that creates a weekly workout schedule based on user inputs.
  */
 
-import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
-import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutput, WorkoutPlanGeneratorOutputSchema } from '@/lib/definitions';
+import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorOutput } from '@/lib/definitions';
 import { workoutPlanGeneratorFlow } from './workout-plan-generator-flow';
 
 

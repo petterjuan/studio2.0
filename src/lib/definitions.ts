@@ -25,6 +25,27 @@ export type Article = {
   audioDataUri?: string; // Audio summary for the article
 };
 
+export const RecipeInputSchema = z.object({
+  ingredient: z.string().min(1).describe('Main ingredient or cuisine type'),
+  dietaryRestrictions: z.string().optional().describe('Any dietary restrictions'),
+});
+export type RecipeInput = z.infer<typeof RecipeInputSchema>;
+
+export const RecipeSchema = z.object({
+  isValidIngredient: z.boolean().describe('Whether the provided ingredient is a real, edible food item.'),
+  error: z.string().optional().describe('Friendly error message if the ingredient is invalid.'),
+  title: z.string().optional(),
+  description: z.string().optional(),
+  prepTime: z.string().optional(),
+  cookTime: z.string().optional(),
+  servings: z.number().optional(),
+  ingredients: z.array(z.string()).optional(),
+  instructions: z.array(z.string()).optional(),
+  tips: z.array(z.string()).optional(),
+});
+export type Recipe = z.infer<typeof RecipeSchema>;
+
+
 const ObjectiveEnum = z.enum(['fat_loss', 'muscle_gain', 'maintenance']);
 const ExperienceEnum = z.enum(['beginner', 'intermediate', 'advanced']);
 

@@ -1,3 +1,4 @@
+
 'use server';
 /**
  * @fileOverview A flow to generate personalized workout plans.
@@ -6,13 +7,8 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
 import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutput, WorkoutPlanGeneratorOutputSchema } from '@/lib/definitions';
 
-
-export async function generateWorkoutPlan(input: WorkoutPlanGeneratorInput): Promise<WorkoutPlanGeneratorOutput> {
-  return workoutPlanGeneratorFlow(input);
-}
 
 const workoutPlanPrompt = ai.definePrompt({
   name: 'workoutPlanPrompt',
