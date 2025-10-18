@@ -8,7 +8,7 @@
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { RecipeInputSchema, RecipeSchema } from './recipe-generator';
+import { RecipeInputSchema, RecipeSchema } from '@/lib/definitions';
 
 // Define AI prompt
 const recipePrompt = ai.definePrompt({

@@ -15,7 +15,7 @@ export type Product = {
 };
 
 export type Article = {
-  id: string;
+  id:string;
   handle: string;
   title: string;
   contentHtml: string;
@@ -58,12 +58,7 @@ export interface WorkoutPlan extends WorkoutPlanGeneratorOutput {
   experience?: string;
 }
 
-export type WorkoutPlanGeneratorInputData = {
-    objective: 'fat_loss' | 'muscle_gain' | 'maintenance';
-    experience: 'beginner' | 'intermediate' | 'advanced';
-    daysPerWeek: number;
-    preferences?: string;
-};
+export type WorkoutPlanGeneratorInputData = WorkoutPlanGeneratorInput;
 
 
 export const ShoppingAssistantInputSchema = z.object({
