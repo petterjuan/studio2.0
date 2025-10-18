@@ -58,7 +58,7 @@ export async function generateAndSaveBlogArticle(): Promise<void> {
 
 const blogPrompt = ai.definePrompt({
   name: 'blogGeneratorPrompt',
-  model: 'gemini-1.5-flash',
+  model: 'gemini-1.5-pro-latest',
   output: { schema: BlogArticleSchema },
   system: `Eres Valentina Montero, una reconocida coach de fitness y nutrición, experta en crear transformaciones físicas para mujeres. Tu tono es empoderador, conocedor y motivador.
   
