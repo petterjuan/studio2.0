@@ -12,7 +12,7 @@ import { RecipeInputSchema, RecipeSchema } from '@/lib/definitions';
 // Define AI prompt
 const recipePrompt = ai.definePrompt({
   name: 'recipePrompt',
-  model: 'gemini-1.5-flash-latest',
+  model: 'gemini-1.5-flash',
   input: { schema: RecipeInputSchema },
   output: { schema: RecipeSchema },
   prompt: `

@@ -26,7 +26,7 @@ export type ReviewOutput = z.infer<typeof ReviewOutputSchema>;
 
 const reviewPrompt = ai.definePrompt({
   name: 'adminReviewPrompt',
-  model: 'gemini-1.5-flash-latest',
+  model: 'gemini-1.5-flash',
   input: { schema: ReviewInputSchema },
   output: { schema: ReviewOutputSchema },
   prompt: `Eres un asistente de IA para Valentina Montero, una coach de fitness experta. Tu tarea es revisar un plan de entrenamiento generado por un usuario y dar una recomendación de 'Aprobar' o 'Denegar' con una breve justificación.

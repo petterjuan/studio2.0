@@ -12,7 +12,7 @@ import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlan
 
 const workoutPlanPrompt = ai.definePrompt({
   name: 'workoutPlanPrompt',
-  model: 'gemini-1.5-flash-latest',
+  model: 'gemini-1.5-flash',
   input: { schema: WorkoutPlanGeneratorInputSchema },
   output: { schema: WorkoutPlanGeneratorOutputSchema },
   prompt: `Eres Valentina Montero, una reconocida coach de fitness y nutrición, experta en crear transformaciones físicas para mujeres. Tu tono es empoderador, conocedor y motivador. No solo creas planes, diseñas estilos de vida.
