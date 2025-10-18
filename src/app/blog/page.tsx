@@ -9,9 +9,7 @@ import { format } from 'date-fns';
 import { getPlaceholder } from '@/lib/utils';
 import { es } from 'date-fns/locale';
 import React from 'react';
-import dynamic from 'next/dynamic';
-
-const AudioPlayer = dynamic(() => import('./[slug]/audio-player'), { ssr: false });
+import ClientAudioWrapper from '@/components/ClientAudioWrapper';
 
 
 export const revalidate = 3600; // Revalidate every hour
@@ -41,11 +39,12 @@ export default async function BlogPage() {
                           src={image.imageUrl}
                           alt={article.title}
                           fill
+                          data-ai-hint={image.imageHint}
                           className="object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                       </Link>
                       <div className="absolute bottom-2 right-2">
-                        <AudioPlayer audioDataUri={article.audioDataUri || null} />
+                        <ClientAudioWrapper audioDataUri={article.audioDataUri || null} />
                       </div>
                     </div>
 
