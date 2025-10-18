@@ -1,3 +1,4 @@
+
 import Image from 'next/image';
 import Link from 'next/link';
 import { getArticles } from '@/lib/articles';
@@ -29,36 +30,37 @@ export default async function BlogPage() {
             {articles.map((article) => {
               const image = getPlaceholder(article.imageId);
               return (
-                <Card key={article.id} className="flex flex-col overflow-hidden">
-                    <div className="relative aspect-[4/3]">
-                        <Link href={`/blog/${article.handle}`} className="block">
-                          <Image
-                            src={image.imageUrl}
-                            alt={article.title}
-                            data-ai-hint={image.imageHint}
-                            width={1080}
-                            height={810}
-                            className="object-cover transition-transform duration-300 hover:scale-105"
-                          />
-                        </Link>
-                         <div className="absolute bottom-2 right-2">
-                           <AudioPlayer audioDataUri={article.audioDataUri || null} />
-                        </div>
-                    </div>
-                    <CardHeader>
-                    <CardTitle as="h2" className="font-headline text-2xl h-16 overflow-hidden">
-                        <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
-                    </CardTitle>
-                    <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>
+                <Card key={article.id} className="flex flex-col overflow-hidden group">
+                  <div className="relative aspect-[4/3]">
+                      <Link href={`/blog/${article.handle}`} className="block h-full w-full">
+                        <Image
+                          src={image.imageUrl}
+                          alt={article.title}
+                          data-ai-hint={image.imageHint}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </Link>
+                       <div className="absolute bottom-2 right-2">
+                         <AudioPlayer audioDataUri={article.audioDataUri || null} />
+                      </div>
+                  </div>
+                  <div className="flex flex-col flex-grow p-6">
+                    <CardHeader className="p-0">
+                      <CardTitle as="h2" className="font-headline text-2xl h-16 overflow-hidden">
+                          <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
+                      </CardTitle>
+                      <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>
                     </CardHeader>
-                    <CardContent className="flex-grow">
-                    <p className="text-sm text-muted-foreground line-clamp-4">{article.excerpt}</p>
+                    <CardContent className="p-0 pt-4 flex-grow">
+                      <p className="text-sm text-muted-foreground line-clamp-4">{article.excerpt}</p>
                     </CardContent>
-                    <CardFooter>
-                    <Button variant="outline" asChild>
-                        <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                    </Button>
+                    <CardFooter className="p-0 pt-4">
+                      <Button variant="outline" asChild>
+                          <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                      </Button>
                     </CardFooter>
+                  </div>
                 </Card>
               )
             })}
@@ -67,3 +69,5 @@ export default async function BlogPage() {
     </>
   );
 }
+
+    

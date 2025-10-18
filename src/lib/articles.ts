@@ -137,6 +137,17 @@ export async function getArticles(first?: number): Promise<Article[]> {
   try {
     await seedDatabase();
     const articles = await fetchArticlesFromFirestore(first);
+    
+    // If firestore is empty, but seeding didn't run because of an auth error, fallback to seeds
+    if (articles.length === 0) {
+        return seedArticles.map((article, index) => ({
+            ...article,
+            id: `seed-${index}`,
+            publishedAt: new Date(article.publishedAt).toISOString(),
+            audioDataUri: '',
+        })).slice(0, first);
+    }
+
     return articles;
   } catch (error: any) {
     // Gracefully handle the case where the Firestore API is not enabled or credentials are missing.
@@ -150,7 +161,8 @@ export async function getArticles(first?: number): Promise<Article[]> {
         return seedArticles.map((article, index) => ({
             ...article,
             id: `seed-${index}`,
-            publishedAt: new Date().toISOString(), // Use current date for fallback
+            publishedAt: new Date(article.publishedAt).toISOString(),
+             audioDataUri: '',
         })).slice(0, first);
     }
     // For other errors, we still want the build to fail to alert the user.
@@ -167,7 +179,7 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
              // Fallback to check seed articles if nothing is found in DB
             const seedArticle = seedArticles.find(a => a.handle === handle);
             if (seedArticle) {
-                return { ...seedArticle, id: 'seed-fallback', publishedAt: new Date().toISOString() };
+                return { ...seedArticle, id: 'seed-fallback', publishedAt: new Date(seedArticle.publishedAt).toISOString() };
             }
             return null;
         }
@@ -188,12 +200,14 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
             // Fallback to check seed articles if Firestore is unavailable
             const seedArticle = seedArticles.find(a => a.handle === handle);
             if (seedArticle) {
-                return { ...seedArticle, id: 'seed-fallback', publishedAt: new Date().toISOString() };
+                return { ...seedArticle, id: 'seed-fallback', publishedAt: new Date(seedArticle.publishedAt).toISOString() };
             }
             return null;
         }
         throw error;
     }
 }
+
+    
 
     
