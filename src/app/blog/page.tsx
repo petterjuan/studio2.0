@@ -7,6 +7,7 @@ import { ArrowRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { getPlaceholder } from '@/lib/utils';
 import { es } from 'date-fns/locale';
+import AudioPlayer from './[slug]/audio-player';
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -29,18 +30,21 @@ export default async function BlogPage() {
               const image = getPlaceholder(article.imageId);
               return (
                 <Card key={article.id} className="flex flex-col overflow-hidden">
-                    <Link href={`/blog/${article.handle}`} className="block">
                     <div className="relative aspect-[4/3]">
-                        <Image
-                          src={image.imageUrl}
-                          alt={article.title}
-                          data-ai-hint={image.imageHint}
-                          width={1080}
-                          height={810}
-                          className="object-cover transition-transform duration-300 hover:scale-105"
-                        />
+                        <Link href={`/blog/${article.handle}`} className="block">
+                          <Image
+                            src={image.imageUrl}
+                            alt={article.title}
+                            data-ai-hint={image.imageHint}
+                            width={1080}
+                            height={810}
+                            className="object-cover transition-transform duration-300 hover:scale-105"
+                          />
+                        </Link>
+                         <div className="absolute bottom-2 right-2">
+                           <AudioPlayer audioDataUri={article.audioDataUri || null} />
+                        </div>
                     </div>
-                    </Link>
                     <CardHeader>
                     <CardTitle as="h2" className="font-headline text-2xl h-16 overflow-hidden">
                         <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>

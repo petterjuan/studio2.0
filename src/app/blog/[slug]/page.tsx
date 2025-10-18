@@ -1,4 +1,3 @@
-
 import { getArticleByHandle, getArticles } from '@/lib/articles';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
