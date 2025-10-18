@@ -133,10 +133,7 @@ export default function PlanGeneratorPage() {
           </CardHeader>
           <CardContent>
             <FormProvider {...form}>
-              <form
-                onSubmit={(e) => e.preventDefault()} // Prevent default form submission
-                className="space-y-8"
-              >
+              <div className="space-y-8">
                 <FormField
                   control={form.control}
                   name="objective"
@@ -232,8 +229,8 @@ export default function PlanGeneratorPage() {
                 />
 
                 <Button
-                  type="button" // Change type to button
-                  onClick={form.handleSubmit(onSubmit)} // Handle submit via onClick
+                  type="button" 
+                  onClick={form.handleSubmit(onSubmit)} 
                   disabled={isLoading}
                   className="w-full"
                   size="lg"
@@ -244,7 +241,7 @@ export default function PlanGeneratorPage() {
                     <><Sparkles className="mr-2 h-5 w-5" /> Generar Mi Plan de Entrenamiento</>
                   )}
                 </Button>
-              </form>
+              </div>
             </FormProvider>
           </CardContent>
         </Card>
