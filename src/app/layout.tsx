@@ -7,6 +7,7 @@ import { Footer } from '@/components/layout/footer';
 import { Toaster } from '@/components/ui/toaster';
 import { AuthProvider } from '@/firebase/auth-provider';
 import { DynamicShoppingAssistantChat } from '@/components/layout/client-components';
+import React from 'react';
 
 const fontBody = Alegreya({
   subsets: ['latin'],
@@ -32,11 +33,7 @@ export const metadata: Metadata = {
   description: 'Eleva tu potencial con los recursos de fitness y nutrición de Valentina Montero. Coaching personalizado y productos premium para tu viaje de transformación.',
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+export default function RootLayout({ children }: React.PropsWithChildren) {
   return (
     <html lang="es" suppressHydrationWarning>
       <body className={cn(
@@ -46,9 +43,12 @@ export default function RootLayout({
         fontCode.variable
       )}>
         <AuthProvider>
+          <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-50 top-0 left-0 bg-primary text-primary-foreground p-4">
+            Saltar al contenido
+          </a>
           <div className="relative flex min-h-dvh flex-col bg-background">
             <Header />
-              <main className="flex-1">{children}</main>
+              <main id="main-content" className="flex-1">{children}</main>
             <Footer />
           </div>
           <Toaster />
