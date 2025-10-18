@@ -8,7 +8,11 @@ import { ArrowRight } from 'lucide-react';
 import { format } from 'date-fns';
 import { getPlaceholder } from '@/lib/utils';
 import { es } from 'date-fns/locale';
-import AudioPlayer from './[slug]/audio-player';
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const AudioPlayer = dynamic(() => import('./[slug]/audio-player'), { ssr: false });
+
 
 export const revalidate = 3600; // Revalidate every hour
 
@@ -26,40 +30,50 @@ export default async function BlogPage() {
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {articles.map((article) => {
+            {articles?.length > 0 && articles.map(article => {
               const image = getPlaceholder(article.imageId);
               return (
-                <Card key={article.id} className="flex flex-col overflow-hidden group">
-                  <div className="relative aspect-[4/3]">
-                      <Link href={`/blog/${article.handle}`} className="block h-full w-full">
+                <React.Fragment key={article.id}>
+                  <Card className="flex flex-col overflow-hidden group">
+                    <div className="relative aspect-[4/3]">
+                      <Link href={`/blog/${article.handle}`}>
                         <Image
                           src={image.imageUrl}
                           alt={article.title}
-                          data-ai-hint={image.imageHint}
                           fill
                           className="object-cover transition-transform duration-300 group-hover:scale-105"
                         />
                       </Link>
-                       <div className="absolute bottom-2 right-2">
-                         <AudioPlayer audioDataUri={article.audioDataUri || null} />
+                      <div className="absolute bottom-2 right-2">
+                        <AudioPlayer audioDataUri={article.audioDataUri || null} />
                       </div>
-                  </div>
-                  <CardHeader className="p-6 pb-2">
+                    </div>
+
+                    <CardHeader className="p-6 pb-2">
                       <CardTitle as="h2" className="font-headline text-2xl h-16 overflow-hidden">
-                          <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
+                        <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">
+                          {article.title}
+                        </Link>
                       </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6 pt-0 flex-grow">
-                    <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>
-                    <p className="text-sm text-muted-foreground line-clamp-4 mt-2">{article.excerpt}</p>
-                  </CardContent>
-                  <CardFooter className="p-6 pt-0">
-                    <Button variant="outline" asChild>
-                        <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                    </Button>
-                  </CardFooter>
-                </Card>
-              )
+                    </CardHeader>
+
+                    <CardContent className="p-6 pt-0 flex-grow">
+                      <CardDescription>
+                        {format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}
+                      </CardDescription>
+                      <p className="text-sm text-muted-foreground line-clamp-4 mt-2">{article.excerpt}</p>
+                    </CardContent>
+
+                    <CardFooter className="p-6 pt-0">
+                      <Button variant="outline" asChild>
+                        <Link href={`/blog/${article.handle}`}>
+                          Leer Más <ArrowRight className="ml-2 h-4 w-4" />
+                        </Link>
+                      </Button>
+                    </CardFooter>
+                  </Card>
+                </React.Fragment>
+              );
             })}
         </div>
       </div>
