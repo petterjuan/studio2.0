@@ -44,22 +44,20 @@ export default async function BlogPage() {
                          <AudioPlayer audioDataUri={article.audioDataUri || null} />
                       </div>
                   </div>
-                  <div className="flex flex-col flex-grow p-6">
-                    <CardHeader className="p-0 mb-4">
-                        <CardTitle as="h2" className="font-headline text-2xl h-16 overflow-hidden">
-                            <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
-                        </CardTitle>
-                        <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>
-                    </CardHeader>
-                    <CardContent className="p-0 flex-grow">
-                      <p className="text-sm text-muted-foreground line-clamp-4">{article.excerpt}</p>
-                    </CardContent>
-                    <CardFooter className="p-0 pt-4">
-                      <Button variant="outline" asChild>
-                          <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                      </Button>
-                    </CardFooter>
-                  </div>
+                  <CardHeader className="p-6 pb-2">
+                      <CardTitle as="h2" className="font-headline text-2xl h-16 overflow-hidden">
+                          <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
+                      </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6 pt-0 flex-grow">
+                    <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>
+                    <p className="text-sm text-muted-foreground line-clamp-4 mt-2">{article.excerpt}</p>
+                  </CardContent>
+                  <CardFooter className="p-6 pt-0">
+                    <Button variant="outline" asChild>
+                        <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                    </Button>
+                  </CardFooter>
                 </Card>
               )
             })}
@@ -68,5 +66,3 @@ export default async function BlogPage() {
     </>
   );
 }
-
-    

@@ -98,7 +98,6 @@ async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | n
 
         const snapshot = await articlesQuery.get();
         
-        // If firestore is available but empty, return an empty array.
         if (snapshot.empty) {
             return [];
         }
@@ -129,18 +128,17 @@ async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | n
 export async function getArticles(first?: number): Promise<Article[]> {
   const articlesFromDb = await fetchArticlesFromFirestore(first);
 
+  // If Firestore is unreachable, return the hardcoded articles.
   if (articlesFromDb === null) {
-      // Firestore failed, return the hardcoded articles.
       return first ? fallbackArticles.slice(0, first) : fallbackArticles;
   }
   
-  // If Firestore is reachable but empty, and we are not fetching a limited number,
-  // it means we should probably show the seed articles.
-  if (articlesFromDb.length === 0 && !first) {
+  // If Firestore is reachable but has no articles, return the fallback/seed articles.
+  if (articlesFromDb.length === 0) {
       return fallbackArticles;
   }
 
-  // Otherwise, return what we got from the DB.
+  // Otherwise, return the articles from the database.
   return articlesFromDb;
 }
 
@@ -171,5 +169,3 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
         throw error;
     }
 }
-
-    
