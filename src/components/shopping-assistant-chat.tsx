@@ -79,7 +79,7 @@ export default function ShoppingAssistantChat() {
     setIsSaving(true);
 
     try {
-      await saveWorkoutPlan(user.uid, plan, userInput);
+      await saveWorkoutPlan(user!.uid, plan!, userInput!);
       setIsSaved(true);
       toast({
         title: '¡Plan guardado!',
@@ -115,8 +115,8 @@ export default function ShoppingAssistantChat() {
       const assistantMessage: Message = {
         role: 'assistant',
         content: result.response,
-        plan: result.generatedPlan,
-        userInput: result.userInput,
+        plan: result.generatedPlan ?? undefined,
+        userInput: result.userInput ?? undefined,
       };
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
