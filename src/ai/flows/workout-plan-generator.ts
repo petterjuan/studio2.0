@@ -14,7 +14,7 @@ import { z } from 'genkit';
 const ObjectiveEnum = z.enum(['fat_loss', 'muscle_gain', 'maintenance']);
 const ExperienceEnum = z.enum(['beginner', 'intermediate', 'advanced']);
 
-const WorkoutPlanGeneratorInputSchema = z.object({
+export const WorkoutPlanGeneratorInputSchema = z.object({
   objective: ObjectiveEnum.describe('El objetivo principal del usuario (perder grasa, ganar músculo, mantenimiento).'),
   experience: ExperienceEnum.describe('El nivel de experiencia del usuario (principiante, intermedio, avanzado).'),
   daysPerWeek: z.string().describe('El número de días a la semana que el usuario puede entrenar.'),
@@ -22,7 +22,7 @@ const WorkoutPlanGeneratorInputSchema = z.object({
 });
 export type WorkoutPlanGeneratorInput = z.infer<typeof WorkoutPlanGeneratorInputSchema>;
 
-const WorkoutPlanGeneratorOutputSchema = z.object({
+export const WorkoutPlanGeneratorOutputSchema = z.object({
   title: z.string().describe('Un título creativo y motivador para el plan de entrenamiento. Por ejemplo: "Plan de Fuerza y Definición: 4 Días Intensos".'),
   summary: z.string().describe('Un resumen de 1-2 frases que describe el enfoque del plan, basado en los objetivos del usuario.'),
   weeklySchedule: z.array(
