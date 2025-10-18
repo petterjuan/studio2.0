@@ -1,142 +1,119 @@
-
 'use server';
 /**
- * @fileOverview Smart shopping assistant flow that helps users find fitness and nutrition products.
- *
- * - shoppingAssistant - A function that handles the shopping assistant conversation.
- * - ShoppingAssistantInput - The input type for the shoppingAssistant function.
- * - ShoppingAssistantOutput - The return type for the shoppingAssistant function.
+ * @fileOverview Optimized shopping assistant flow for VM Fitness Hub.
  */
 
-import {ai} from '@/ai/genkit';
+import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 import { getProducts } from '@/lib/products';
-import {z} from 'genkit';
 import { generateWorkoutPlan, WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutputSchema } from './workout-plan-generator';
 
-const ShoppingAssistantInputSchema = z.object({
-  query: z.string().describe('La consulta del usuario sobre productos de fitness y nutrición.'),
+// ========================
+// Schemas
+// ========================
+export const ShoppingAssistantInputSchema = z.object({
+  query: z.string().describe('La consulta del usuario sobre productos o planes de fitness.'),
   history: z.array(
-    z.object({
-      role: z.enum(['user', 'assistant']),
-      content: z.string(),
-    })
-  ).optional().describe('El historial de la conversación.'),
+    z.object({ role: z.enum(['user','assistant']), content: z.string() })
+  ).optional(),
 });
 export type ShoppingAssistantInput = z.infer<typeof ShoppingAssistantInputSchema>;
 
-const ShoppingAssistantOutputSchema = z.object({
-  response: z.string().describe('La respuesta del asistente de compras inteligente.'),
-  generatedPlan: WorkoutPlanGeneratorOutputSchema.optional().describe('Un plan de entrenamiento si se generó uno.'),
-  userInput: WorkoutPlanGeneratorInputSchema.optional().describe('The user input that was used to generate the plan.'),
+export const ShoppingAssistantOutputSchema = z.object({
+  response: z.string().describe('Respuesta final del asistente.'),
+  generatedPlan: WorkoutPlanGeneratorOutputSchema.optional(),
+  userInput: WorkoutPlanGeneratorInputSchema.optional(),
 });
 export type ShoppingAssistantOutput = z.infer<typeof ShoppingAssistantOutputSchema>;
 
-export async function shoppingAssistant(input: ShoppingAssistantInput): Promise<ShoppingAssistantOutput> {
-  return shoppingAssistantFlow(input);
-}
-
+// ========================
+// Tools
+// ========================
 const searchProductsTool = ai.defineTool({
   name: 'searchProducts',
-  description: 'Busca en el catálogo de productos basándose en una consulta o objetivo del usuario (ej: "ganar músculo", "proteína", "perder peso").',
-  inputSchema: z.object({
-    query: z.string().describe('La consulta de búsqueda para encontrar productos relevantes.'),
-  }),
-  outputSchema: z.array(z.object({
-    title: z.string(),
-    description: z.string(),
-    price: z.string(),
-    handle: z.string(),
-  })),
-}, async (input) => {
+  description: 'Busca productos de fitness y nutrición basándose en la consulta del usuario.',
+  inputSchema: z.object({ query: z.string() }),
+  outputSchema: z.array(z.object({ title: z.string(), description: z.string(), price: z.string(), handle: z.string() })),
+}, async ({ query }) => {
   const allProducts = await getProducts();
-  const query = input.query.toLowerCase();
-  
-  const filteredProducts = allProducts.filter(product => 
-    product.title.toLowerCase().includes(query) || 
-    product.description.toLowerCase().includes(query) ||
-    product.tags.some(tag => tag.toLowerCase().includes(query))
-  );
-
-  // Return a subset of product data
-  return filteredProducts.map(p => ({
-    title: p.title,
-    description: p.description,
-    price: p.price,
-    handle: p.handle,
-  }));
+  const q = query.toLowerCase();
+  return allProducts
+    .filter(p => p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.tags.some(t => t.toLowerCase().includes(q)))
+    .map(p => ({ title: p.title, description: p.description, price: p.price, handle: p.handle }));
 });
 
 const generatePlanTool = ai.defineTool({
-    name: 'generateWorkoutPlan',
-    description: "Genera un plan de entrenamiento personalizado para el usuario si lo solicita o si expresa una meta de fitness clara (ej. 'quiero perder peso', 'cómo puedo ganar músculo').",
-    inputSchema: WorkoutPlanGeneratorInputSchema,
-    outputSchema: z.object({
-      plan: WorkoutPlanGeneratorOutputSchema,
-      userInput: WorkoutPlanGeneratorInputSchema,
-    }),
-}, async (input) => {
-    const plan = await generateWorkoutPlan(input);
-    return { plan, userInput: input };
+  name: 'generateWorkoutPlan',
+  description: 'Genera un plan de entrenamiento personalizado para el usuario.',
+  inputSchema: WorkoutPlanGeneratorInputSchema,
+  outputSchema: z.object({ plan: WorkoutPlanGeneratorOutputSchema, userInput: WorkoutPlanGeneratorInputSchema }),
+}, async (input: WorkoutPlanGeneratorInput) => {
+  const plan = await generateWorkoutPlan(input);
+  return { plan, userInput: input };
 });
 
+// ========================
+// Prompt
+// ========================
 const shoppingAssistantPrompt = ai.definePrompt({
   name: 'shoppingAssistantPrompt',
   model: 'gemini-1.5-flash',
   tools: [searchProductsTool, generatePlanTool],
-  input: {schema: ShoppingAssistantInputSchema},
-  prompt: `Eres un asistente de ventas experto y proactivo para 'VM Fitness Hub', una tienda de fitness y nutrición de primer nivel fundada por Valentina Montero. Tu objetivo no es solo responder preguntas, sino guiar activamente a los usuarios hacia una compra o una acción valiosa, como generar un plan.
+  input: { schema: ShoppingAssistantInputSchema },
+  prompt: `
+Eres un asistente experto para VM Fitness Hub. Tu objetivo es guiar proactivamente a los usuarios hacia productos o planes que les ayuden.
 
-  **Tu Personalidad:**
-  - **Experto y Confiado:** Habla con autoridad en fitness, nutrición y tecnología de IA.
-  - **Proactivo y Servicial:** No esperes a que el usuario te pregunte. Anticípate a sus necesidades. Tu meta es cerrar una venta o generar un plan que realmente ayude al cliente.
-  - **Motivador:** Usa un tono enérgico y positivo, alineado con la marca de Valentina Montero.
+Historial:
+{{#each history}}- {{this.role}}: {{this.content}}
+{{/each}}
 
-  **Tu Proceso:**
-  1.  **Entender la Meta:** Primero, identifica claramente el objetivo del usuario (ej: "ganar músculo", "más energía", "perder peso", "necesito una rutina").
-  2.  **Buscar Soluciones (Productos):** Si el usuario pregunta por productos, usa la herramienta \`searchProducts\` para encontrar soluciones en el catálogo. Recomienda proactivamente explicando POR QUÉ un producto es bueno para ellos y menciona el precio.
-  3.  **Generar Planes (Proactivamente):** Si el usuario expresa una meta de fitness pero no pregunta por productos (ej. "quiero empezar a entrenar", "cómo puedo perder grasa"), usa la herramienta \`generateWorkoutPlan\`. Infiere los parámetros a partir de la conversación. Si no tienes suficiente información, pide los detalles que te faltan (ej. "¡Claro que sí! Para crearte el mejor plan, dime, ¿cuántos días a la semana te gustaría entrenar y qué nivel de experiencia tienes?").
-  4.  **Presentar el Plan:** Una vez que el plan esté generado, preséntalo de forma resumida en la respuesta de texto. La herramienta se encargará de devolver el plan completo.
-  5.  **Manejar Preguntas Complejas:** Si las dudas del usuario exceden las herramientas, sugiere agendar una llamada con Valentina: "Para darte una respuesta 100% personalizada, lo mejor es que agendes una llamada con Valentina en calendly.com/valentinamontero/schedule-a-call".
+Consulta del Usuario:
+Usuario: {{{query}}}
 
-  **Historial de la Conversación:**
-  {{#each history}}
-  - {{this.role}}: {{this.content}}
-  {{/each}}
-
-  **Consulta del Usuario:**
-  Usuario: {{{query}}}
-  
-  **Tu Próxima Acción:**
-  Asistente:`,
+Responde con claridad, motivación y autoridad. Usa herramientas cuando sea necesario y ofrece fallback amigable si no hay datos.
+`,
 });
 
-const shoppingAssistantFlow = ai.defineFlow(
-  {
-    name: 'shoppingAssistantFlow',
-    inputSchema: ShoppingAssistantInputSchema,
-    outputSchema: ShoppingAssistantOutputSchema,
-  },
-  async input => {
-    const history = (input.history || []).map(msg => ({ role: msg.role, parts: [{ text: msg.content }] }));
-    const prompt = {
-        history,
-        messages: [{ role: 'user', parts: [{ text: input.query }] }],
-    };
+// ========================
+// Flow
+// ========================
+export const shoppingAssistantFlow = ai.defineFlow({
+  name: 'shoppingAssistantFlow',
+  inputSchema: ShoppingAssistantInputSchema,
+  outputSchema: ShoppingAssistantOutputSchema,
+}, async (input) => {
+  // Normalize history
+  const history = (input.history || []).map(msg => ({ role: msg.role, parts: [{ text: msg.content.slice(0, 500) }] }));
 
-    const llmResponse = await shoppingAssistantPrompt.generate(prompt);
-    const toolCalls = llmResponse.toolCalls();
+  const llmResponse = await shoppingAssistantPrompt.generate({ history, messages: [{ role: 'user', parts: [{ text: input.query.slice(0, 500) }] }] });
+  const toolCalls = llmResponse.toolCalls();
 
-    if (toolCalls.length > 0 && toolCalls[0].name === 'generateWorkoutPlan') {
-        const toolResponse = await llmResponse.toolRequest()?.functionCall<any>('generateWorkoutPlan', toolCalls[0].args);
-        return {
-            response: `¡Aquí tienes! He creado un plan de entrenamiento basado en lo que hablamos. Puedes guardarlo en tu perfil.`,
-            generatedPlan: toolResponse?.plan,
-            userInput: toolResponse?.userInput,
-        }
-    }
-    
+  console.log('[ShoppingAssistant] Tool calls detected:', toolCalls.map(t => t.name));
+
+  // Handle Workout Plan
+  const planToolCall = toolCalls.find(tc => tc.name === 'generateWorkoutPlan');
+  if (planToolCall) {
+    const toolResponse = await llmResponse.toolRequest()?.functionCall<any>('generateWorkoutPlan', planToolCall.args);
     return {
-        response: llmResponse.text(),
+      response: '¡Aquí tienes! He creado un plan de entrenamiento personalizado para ti.',
+      generatedPlan: toolResponse?.plan,
+      userInput: toolResponse?.userInput,
     };
   }
-);
+
+  // Handle Product Search
+  const productToolCall = toolCalls.find(tc => tc.name === 'searchProducts');
+  if (productToolCall) {
+    const products = await llmResponse.toolRequest()?.functionCall<any>('searchProducts', productToolCall.args);
+    return {
+      response: products && products.length > 0
+        ? `He encontrado estos productos que podrían ayudarte:\n${products.map((p: any) => `- ${p.title} (${p.price})`).join('\n')}`
+        : 'No encontré productos exactos para tu consulta, pero puedo ayudarte a generar un plan personalizado.',
+    };
+  }
+
+  // Fallback response
+  return {
+    response: llmResponse.text() || '¡Hola! No pude encontrar una respuesta precisa. ¿Quieres que te ayude a generar un plan o buscar productos?',
+  };
+});

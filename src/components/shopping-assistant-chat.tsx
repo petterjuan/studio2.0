@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState, useRef, useEffect, FormEvent } from 'react';
@@ -8,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { shoppingAssistant, ShoppingAssistantInput } from '@/ai/flows/shopping-assistant';
+import { shoppingAssistantFlow, ShoppingAssistantInput } from '@/ai/flows/shopping-assistant';
 import type { WorkoutPlan, WorkoutPlanGeneratorInputData } from '@/lib/definitions';
 import { useAuth } from '@/firebase/auth-provider';
 import { saveWorkoutPlan } from '@/app/plan-generator/actions'; // Re-use the save action
@@ -117,7 +116,7 @@ export default function ShoppingAssistantChat() {
             query: input,
             history: messages.map(m => ({role: m.role, content: m.content})), // Don't send the plan object
         };
-        const result = await shoppingAssistant(assistantInput);
+        const result = await shoppingAssistantFlow(assistantInput);
         const assistantMessage: Message = { 
             role: 'assistant', 
             content: result.response, 
