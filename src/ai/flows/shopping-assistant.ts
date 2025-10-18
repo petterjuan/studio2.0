@@ -9,13 +9,13 @@ import { z } from 'genkit';
 import { getProducts } from '@/lib/products';
 import { generateWorkoutPlan } from './workout-plan-generator';
 import { 
-  WorkoutPlanGeneratorInput, 
-  WorkoutPlanGeneratorInputSchema, 
+  WorkoutPlanGeneratorInputSchema,
   WorkoutPlanGeneratorOutputSchema,
-  ShoppingAssistantInput,
   ShoppingAssistantInputSchema,
   ShoppingAssistantOutputSchema,
-  ShoppingAssistantOutput
+  ShoppingAssistantInput,
+  ShoppingAssistantOutput,
+  WorkoutPlanGeneratorInput
 } from '@/lib/definitions';
 import { googleAI } from '@genkit-ai/google-genai';
 
