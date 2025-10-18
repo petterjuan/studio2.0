@@ -6,8 +6,9 @@ import type { Article } from './definitions';
 import { Timestamp } from 'firebase-admin/firestore';
 
 // The original hardcoded articles. We'll insert them if the collection is empty.
-const seedArticles: Omit<Article, 'id' | 'audioDataUri'>[] = [
+const fallbackArticles: Article[] = [
     {
+        id: 'fallback-1',
         handle: 'magnesio-para-recuperacion-muscular',
         title: 'Magnesio para la Recuperación Muscular: Cómo Funciona y Cómo Utilizarlo',
         contentHtml: `
@@ -52,40 +53,40 @@ const seedArticles: Omit<Article, 'id' | 'audioDataUri'>[] = [
         `,
         excerpt: '¿Sufres de calambres o fatiga post-entreno? Descubre cómo el magnesio, un mineral esencial, puede ser el secreto para una recuperación muscular más rápida y un rendimiento superior. Aprende a identificar las señales de deficiencia y a incorporarlo en tu dieta para maximizar tus resultados.',
         imageId: 'blog-magnesium',
-        publishedAt: '2024-05-25T10:00:00Z'
+        publishedAt: '2024-05-25T10:00:00Z',
+        audioDataUri: ''
     },
     {
+        id: 'fallback-2',
         handle: 'recuperacion-activa-maximiza-tus-resultados',
         title: 'Recuperación Activa: El Secreto para Maximizar Tus Resultados',
         contentHtml: '<p>El descanso es tan importante como el entrenamiento. Pero, ¿sabías que la recuperación activa puede acelerar tus resultados? Exploramos técnicas como el foam rolling, los estiramientos dinámicos y el cardio de baja intensidad para reducir el dolor muscular y prepararte para tu próxima sesión, más fuerte que antes.</p>',
         excerpt: 'Tu progreso no solo ocurre en el gimnasio. Aprende técnicas de recuperación activa para reducir el dolor y mejorar tu rendimiento.',
         imageId: 'blog-recovery',
-        publishedAt: '2024-05-20T10:00:00Z'
+        publishedAt: '2024-05-20T10:00:00Z',
+        audioDataUri: ''
     },
     {
+        id: 'fallback-3',
         handle: 'el-poder-del-entrenamiento-de-fuerza',
         title: 'El Poder del Entrenamiento de Fuerza para Mujeres',
         contentHtml: '<p>¡Es hora de dejar de tenerle miedo a las pesas! El entrenamiento de fuerza es una de las herramientas más poderosas para transformar tu cuerpo, acelerar tu metabolismo y construir una confianza inquebrantable. Descubre una rutina de cuerpo completo para principiantes y aprende por qué levantar pesado es el secreto para un físico tonificado y fuerte.</p>',
         excerpt: 'Descubre por qué levantar pesas es clave para un metabolismo acelerado, un cuerpo tonificado y una confianza inquebrantable.',
         imageId: 'blog-strength',
-        publishedAt: '2024-05-15T10:00:00Z'
+        publishedAt: '2024-05-15T10:00:00Z',
+        audioDataUri: ''
     },
     {
+        id: 'fallback-4',
         handle: 'desmitificando-los-macros',
         title: 'Desmitificando los Macros: Tu Guía para una Nutrición Inteligente',
         contentHtml: '<p>Entender los macronutrientes (proteínas, carbohidratos y grasas) es el primer paso para tomar el control de tu nutrición. No se trata de restringir, sino de balancear. En este artículo, te enseñamos cómo calcular tus macros y ajustarlos a tus metas, ya sea que busques perder grasa, ganar músculo o simplemente mejorar tu energía diaria.</p>',
         excerpt: 'No se trata de restringir, sino de balancear. Aprende a calcular y ajustar tus macronutrientes para alcanzar tus metas de fitness.',
         imageId: 'blog-macros',
-        publishedAt: '2024-05-10T10:00:00Z'
+        publishedAt: '2024-05-10T10:00:00Z',
+        audioDataUri: ''
     }
-];
-
-const fallbackArticles = seedArticles.map((article, index) => ({
-    ...article,
-    id: `seed-${index}`,
-    publishedAt: new Date(article.publishedAt).toISOString(),
-    audioDataUri: '',
-})).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+].sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
 
 
 async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | null> {
@@ -99,7 +100,9 @@ async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | n
         const snapshot = await articlesQuery.get();
         
         if (snapshot.empty) {
-            return [];
+            // Return null if firestore is reachable but has no articles
+            // This signals to the calling function to use fallbacks
+            return null;
         }
     
         return snapshot.docs.map(doc => {
@@ -113,33 +116,36 @@ async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | n
         });
 
     } catch (error: any) {
+        // This error code (7) indicates "PERMISSION_DENIED", which often happens when Firestore isn't set up
+        // or when running in an environment without credentials (like initial local setup).
         if (error.code === 7 || error.code === 'UNAUTHENTICATED' || (error.message && (error.message.includes('Could not refresh access token') || error.message.includes('firestore.googleapis.com')))) {
             console.warn('//////////////////////////////////////////////////////////////////');
             console.warn('// WARNING: Firestore API is not enabled or credentials are missing.');
             console.warn('// The application will proceed using fallback data.');
             console.warn(`// Project: ${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`);
             console.warn('//////////////////////////////////////////////////////////////////');
-            return null; // Return null to indicate fallback
+            return null; // Return null to indicate fallback is needed
         }
-        throw error; // Re-throw other errors
+        // For any other error, we should throw it to see what's happening.
+        throw error;
     }
 }
 
 export async function getArticles(first?: number): Promise<Article[]> {
   const articlesFromDb = await fetchArticlesFromFirestore(first);
 
-  // If Firestore is unreachable, return the hardcoded articles.
+  // If Firestore is unreachable or empty, return the hardcoded articles.
   if (articlesFromDb === null) {
       return first ? fallbackArticles.slice(0, first) : fallbackArticles;
   }
   
-  // If Firestore is reachable but has no articles, return the fallback/seed articles.
-  if (articlesFromDb.length === 0) {
-      return fallbackArticles;
-  }
-
   // Otherwise, return the articles from the database.
-  return articlesFromDb;
+  // Use a Map to ensure uniqueness just in case.
+  const uniqueArticles = Array.from(
+    new Map(articlesFromDb.map((a) => [a.handle || a.id, a])).values()
+  );
+
+  return uniqueArticles;
 }
 
 export async function getArticleByHandle(handle: string): Promise<Article | null> {
@@ -169,3 +175,5 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
         throw error;
     }
 }
+
+    
