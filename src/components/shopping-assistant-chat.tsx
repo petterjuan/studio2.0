@@ -10,15 +10,9 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { shoppingAssistantFlow, ShoppingAssistantInput } from '@/ai/flows/shopping-assistant';
 import type { WorkoutPlan, WorkoutPlanGeneratorInputData } from '@/lib/definitions';
 import { useAuth } from '@/firebase/auth-provider';
-import { saveWorkoutPlan } from '@/app/plan-generator/actions'; // Re-use the save action
+import { saveWorkoutPlan } from '@/app/plan-generator/actions';
 import { useToast } from '@/hooks/use-toast';
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 type Message = {
   role: 'user' | 'assistant';
@@ -36,27 +30,29 @@ export default function ShoppingAssistantChat() {
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  
+
   const [isSaving, setIsSaving] = useState<boolean>(false);
   const [isSaved, setIsSaved] = useState<boolean>(false);
-
 
   // Show welcome message only when the chat is opened for the first time
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-        setIsLoading(true);
-        setTimeout(() => {
-            setMessages([
-                { role: 'assistant', content: `¡Hola, campeona! Soy la asistente de Valentina. ¿Cuáles son tus metas de fitness? Cuéntame un poco para poder guiarte hacia el plan de coaching o el producto perfecto para ti.` },
-            ]);
-            setIsLoading(false);
-        }, 1000)
+      setIsLoading(true);
+      setTimeout(() => {
+        setMessages([
+          {
+            role: 'assistant',
+            content: `¡Hola, campeona! Soy la asistente de Valentina. ¿Cuáles son tus metas de fitness? Cuéntame un poco para poder guiarte hacia el plan de coaching o el producto perfecto para ti.`,
+          },
+        ]);
+        setIsLoading(false);
+      }, 1000);
     }
   }, [isOpen, messages.length]);
 
   // Auto-scroll to the bottom of the messages
   useEffect(() => {
-    const viewport = scrollAreaRef.current?.querySelector('[data-radix-scroll-area-viewport]');
+    const viewport = scrollAreaRef.current?.querySelector<HTMLDivElement>('[data-radix-scroll-area-viewport]');
     if (viewport) {
       viewport.scrollTop = viewport.scrollHeight;
     }
@@ -67,10 +63,10 @@ export default function ShoppingAssistantChat() {
     if (isOpen) {
       setTimeout(() => {
         inputRef.current?.focus();
-      }, 100); // Short delay to ensure the input is rendered
+      }, 100);
     }
   }, [isOpen]);
-  
+
   async function handleSavePlan(plan: WorkoutPlan | undefined, userInput: WorkoutPlanGeneratorInputData | undefined) {
     if (!plan || !user || !userInput) {
       toast({
@@ -81,7 +77,7 @@ export default function ShoppingAssistantChat() {
       return;
     }
     setIsSaving(true);
-    
+
     try {
       await saveWorkoutPlan(user.uid, plan, userInput);
       setIsSaved(true);
@@ -101,7 +97,6 @@ export default function ShoppingAssistantChat() {
     }
   }
 
-
   const handleSendMessage = async (e: FormEvent) => {
     e.preventDefault();
     if (!input.trim() || isLoading) return;
@@ -112,30 +107,31 @@ export default function ShoppingAssistantChat() {
     setIsLoading(true);
 
     try {
-        const assistantInput: ShoppingAssistantInput = {
-            query: input,
-            history: messages.map(m => ({role: m.role, content: m.content})), // Don't send the plan object
-        };
-        const result = await shoppingAssistantFlow(assistantInput);
-        const assistantMessage: Message = { 
-            role: 'assistant', 
-            content: result.response, 
-            plan: result.generatedPlan,
-            userInput: result.userInput
-        };
-        setMessages((prev) => [...prev, assistantMessage]);
+      const assistantInput: ShoppingAssistantInput = {
+        query: input,
+        history: messages.map((m) => ({ role: m.role, content: m.content })), // Don't send the plan object
+      };
+      const result = await shoppingAssistantFlow(assistantInput);
+      const assistantMessage: Message = {
+        role: 'assistant',
+        content: result.response,
+        plan: result.generatedPlan,
+        userInput: result.userInput,
+      };
+      setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-        console.error("Error llamando al asistente de compras:", error);
-        const errorMessage: Message = { role: 'assistant', content: "Lo siento, estoy teniendo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde." };
-        setMessages((prev) => [...prev, errorMessage]);
+      console.error("Error llamando al asistente de compras:", error);
+      const errorMessage: Message = {
+        role: 'assistant',
+        content: "Lo siento, estoy teniendo problemas para conectarme en este momento. Por favor, inténtalo de nuevo más tarde.",
+      };
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
-        setIsLoading(false);
+      setIsLoading(false);
     }
   };
 
-  const toggleChat = () => {
-    setIsOpen(!isOpen);
-  };
+  const toggleChat = () => setIsOpen(!isOpen);
 
   return (
     <>
@@ -143,17 +139,17 @@ export default function ShoppingAssistantChat() {
         <TooltipProvider>
           <Tooltip>
             <TooltipTrigger asChild>
-                <Button
+              <Button
                 size="icon"
                 className="rounded-full h-16 w-16 bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg"
                 onClick={toggleChat}
-                >
+              >
                 {isOpen ? <X className="h-8 w-8" /> : <MessagesSquare className="h-8 w-8" />}
                 <span className="sr-only">Abrir Asistente</span>
-                </Button>
+              </Button>
             </TooltipTrigger>
             <TooltipContent side="left" className="bg-primary text-primary-foreground">
-                <p>¿Necesitas ayuda? ¡Pregúntame!</p>
+              <p>¿Necesitas ayuda? ¡Pregúntame!</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
@@ -181,9 +177,7 @@ export default function ShoppingAssistantChat() {
                     {messages.map((message, index) => (
                       <div
                         key={index}
-                        className={`flex items-start gap-3 ${
-                          message.role === 'user' ? 'justify-end' : ''
-                        }`}
+                        className={`flex items-start gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}
                       >
                         {message.role === 'assistant' && (
                           <AvatarIcon className="bg-primary text-primary-foreground" />
@@ -198,37 +192,45 @@ export default function ShoppingAssistantChat() {
                           >
                             <p>{message.content}</p>
                           </div>
-                           {message.plan && (
-                                <Card className="bg-muted self-start max-w-[85%]">
-                                    <CardHeader className="pb-2">
-                                        <CardTitle as="h4" className="text-base">{message.plan.title}</CardTitle>
-                                        <CardDescription className="text-xs">{message.plan.summary}</CardDescription>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <Button
-                                            onClick={() => handleSavePlan(message.plan, message.userInput)}
-                                            disabled={isSaving || isSaved || !user}
-                                            className="w-full"
-                                            size="sm"
-                                        >
-                                            {isSaving ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : isSaved ? <CheckCircle className="mr-2 h-4 w-4" /> : <Save className="mr-2 h-4 w-4" />}
-                                            {isSaved ? '¡Guardado!' : 'Guardar Plan'}
-                                        </Button>
-                                        {!user && <p className="text-xs text-muted-foreground text-center mt-2">Inicia sesión para guardar.</p>}
-                                    </CardContent>
-                                </Card>
-                            )}
+                          {message.plan && (
+                            <Card className="bg-muted self-start max-w-[85%]">
+                              <CardHeader className="pb-2">
+                                <CardTitle as="h4" className="text-base">{message.plan.title}</CardTitle>
+                                <CardDescription className="text-xs">{message.plan.summary}</CardDescription>
+                              </CardHeader>
+                              <CardContent>
+                                <Button
+                                  onClick={() => handleSavePlan(message.plan, message.userInput)}
+                                  disabled={isSaving || isSaved || !user}
+                                  className="w-full"
+                                  size="sm"
+                                >
+                                  {isSaving
+                                    ? <Loader className="mr-2 h-4 w-4 animate-spin" />
+                                    : isSaved
+                                      ? <CheckCircle className="mr-2 h-4 w-4" />
+                                      : <Save className="mr-2 h-4 w-4" />}
+                                  {isSaved ? '¡Guardado!' : 'Guardar Plan'}
+                                </Button>
+                                {!user && (
+                                  <p className="text-xs text-muted-foreground text-center mt-2">
+                                    Inicia sesión para guardar.
+                                  </p>
+                                )}
+                              </CardContent>
+                            </Card>
+                          )}
                         </div>
                         {message.role === 'user' && <User className="h-8 w-8 rounded-full p-1 bg-muted text-muted-foreground" />}
                       </div>
                     ))}
                     {isLoading && (
-                       <div className="flex items-start gap-3">
-                         <AvatarIcon className="bg-primary text-primary-foreground" />
-                         <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted flex items-center">
-                            <Loader className="h-5 w-5 animate-spin text-muted-foreground" />
-                         </div>
-                       </div>
+                      <div className="flex items-start gap-3">
+                        <AvatarIcon className="bg-primary text-primary-foreground" />
+                        <div className="rounded-lg px-4 py-2 max-w-[80%] bg-muted flex items-center">
+                          <Loader className="h-5 w-5 animate-spin text-muted-foreground" />
+                        </div>
+                      </div>
                     )}
                   </div>
                 </ScrollArea>
