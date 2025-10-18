@@ -1,29 +1,14 @@
 
 'use server';
 /**
- * @fileOverview A robust AI flow to generate recipes.
+ * @fileOverview The core AI flow for generating recipes.
  * 
- * Features:
- * - Ingredient validation
- * - AI output schema validation
- * - Input normalization
- * - Logging for debugging
- * - Fallback on AI failure
+ * This file contains the Genkit prompt and flow definitions.
  */
 
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
-import { RecipeInputSchema, RecipeSchema, RecipeInput, Recipe } from './recipe-generator';
-
-/**
- * Normalizes user input
- */
-function normalizeInput(input: RecipeInput): RecipeInput {
-  return {
-    ingredient: input.ingredient.trim().toLowerCase(),
-    dietaryRestrictions: input.dietaryRestrictions?.trim() || 'none',
-  };
-}
+import { RecipeInputSchema, RecipeSchema } from './recipe-generator';
 
 // Define AI prompt
 const recipePrompt = ai.definePrompt({
@@ -58,32 +43,13 @@ export const generateRecipe = ai.defineFlow(
     inputSchema: RecipeInputSchema,
     outputSchema: RecipeSchema,
   },
-  async (rawInput) => {
-    const input = normalizeInput(rawInput);
-    console.log('[RecipeGenerator] Input:', input);
+  async (input) => {
+    const { output } = await recipePrompt(input);
 
-    try {
-      const { output } = await recipePrompt(input);
-
-      if (!output) {
-        console.warn('[RecipeGenerator] AI returned no output. Using fallback.');
-        return {
-          isValidIngredient: false,
-          error: `Sorry, I couldn't generate a recipe for "${input.ingredient}".`,
-        };
-      }
-
-      // Validate AI output against schema
-      const validatedOutput = RecipeSchema.parse(output);
-      console.log('[RecipeGenerator] Validated output:', validatedOutput);
-
-      return validatedOutput;
-    } catch (err) {
-      console.error('[RecipeGenerator] Error generating recipe:', err);
-      return {
-        isValidIngredient: false,
-        error: `Sorry, something went wrong generating a recipe for "${input.ingredient}". Please try again.`,
-      };
+    if (!output) {
+      throw new Error(`AI returned no output for ingredient: "${input.ingredient}".`);
     }
+
+    return output;
   },
 );
