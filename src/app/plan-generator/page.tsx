@@ -11,8 +11,8 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
 import { Loader2, Sparkles, Save, CheckCircle, BrainCircuit } from 'lucide-react';
-import { WorkoutPlanGeneratorInput, generateWorkoutPlan } from '@/ai/flows/workout-plan-generator';
-import type { WorkoutPlan } from '@/lib/definitions';
+import { generateWorkoutPlan } from '@/ai/flows/workout-plan-generator';
+import type { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorOutput, WorkoutPlanGeneratorInputData } from '@/lib/definitions';
 import { useAuth } from '@/firebase/auth-provider';
 import { saveWorkoutPlan } from './actions';
 import { useToast } from '@/hooks/use-toast';
@@ -36,7 +36,7 @@ export default function PlanGeneratorPage() {
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
-  const [generatedPlan, setGeneratedPlan] = useState<WorkoutPlan | null>(null);
+  const [generatedPlan, setGeneratedPlan] = useState<WorkoutPlanGeneratorOutput | null>(null);
   const [isSaved, setIsSaved] = useState(false);
    const [lastSubmittedData, setLastSubmittedData] = useState<FormValues | null>(null);
 
@@ -85,7 +85,7 @@ export default function PlanGeneratorPage() {
     }
     setIsSaving(true);
 
-    const userInput = {
+    const userInput: WorkoutPlanGeneratorInputData = {
         objective: lastSubmittedData.objective,
         experience: lastSubmittedData.experience,
         daysPerWeek: String(lastSubmittedData.daysPerWeek), // Convert to string for Firestore consistency
@@ -307,5 +307,3 @@ export default function PlanGeneratorPage() {
     </div>
   );
 }
-
-    

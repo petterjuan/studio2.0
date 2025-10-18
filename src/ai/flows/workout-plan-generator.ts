@@ -8,31 +8,8 @@
  */
 
 import { ai } from '@/ai/genkit';
-import { z } from 'genkit';
+import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutput, WorkoutPlanGeneratorOutputSchema } from '@/lib/definitions';
 
-const ObjectiveEnum = z.enum(['fat_loss', 'muscle_gain', 'maintenance']);
-const ExperienceEnum = z.enum(['beginner', 'intermediate', 'advanced']);
-
-export const WorkoutPlanGeneratorInputSchema = z.object({
-  objective: ObjectiveEnum.describe('El objetivo principal del usuario (perder grasa, ganar músculo, mantenimiento).'),
-  experience: ExperienceEnum.describe('El nivel de experiencia del usuario (principiante, intermedio, avanzado).'),
-  daysPerWeek: z.number().int().min(2).max(6).describe('El número de días a la semana que el usuario puede entrenar.'),
-  preferences: z.string().optional().describe('Preferencias o limitaciones adicionales del usuario (ej. "enfocarse en glúteos", "lesión en la rodilla", "prefiere peso corporal").'),
-});
-export type WorkoutPlanGeneratorInput = z.infer<typeof WorkoutPlanGeneratorInputSchema>;
-
-export const WorkoutPlanGeneratorOutputSchema = z.object({
-  title: z.string().describe('Un título creativo y motivador para el plan de entrenamiento. Por ejemplo: "Plan de Fuerza y Definición: 4 Días Intensos".'),
-  summary: z.string().describe('Un resumen de 1-2 frases que describe el enfoque del plan, basado en los objetivos del usuario.'),
-  weeklySchedule: z.array(
-    z.object({
-      day: z.string().describe("El día de entrenamiento (ej: 'Día 1: Tren Superior', 'Día 2: Piernas y Glúteos', 'Día 3: Descanso Activo')."),
-      description: z.string().describe("La descripción detallada de los ejercicios para ese día, incluyendo series y repeticiones. Formatea esto con saltos de línea para que sea legible. Por ejemplo: '1. Sentadillas: 3x12\\n2. Zancadas: 3x15 por pierna\\n3. Peso Muerto Rumano: 3x12'."),
-    })
-  ).describe('El plan de entrenamiento semanal detallado. El número de días de entrenamiento debe coincidir con el solicitado por el usuario.'),
-});
-
-export type WorkoutPlanGeneratorOutput = z.infer<typeof WorkoutPlanGeneratorOutputSchema>;
 
 export async function generateWorkoutPlan(input: WorkoutPlanGeneratorInput): Promise<WorkoutPlanGeneratorOutput> {
   return workoutPlanGeneratorFlow(input);
@@ -61,6 +38,7 @@ const workoutPlanPrompt = ai.definePrompt({
       *   **Intermedia:** Introduce variaciones, aumenta el volumen y la intensidad (ej. superseries).
       *   **Avanzada:** Usa técnicas más complejas (series descendentes, pausas-descanso), y mayor volumen e intensidad.
   6.  **Considera las Preferencias:** Si la usuaria mencionó preferencias (ej: "enfocarse en glúteos", "sin equipo"), el plan DEBE reflejarlo como prioridad.
+  7.  **Crea un Llamado a la Acción (callToAction):** Termina con una frase motivadora que anime a la usuaria a guardar el plan. Por ejemplo: "¡Guarda este plan en tu perfil y empecemos a construir tu mejor versión!"
   
   **Datos de la Usuaria:**
   *   **Objetivo:** {{{objective}}}

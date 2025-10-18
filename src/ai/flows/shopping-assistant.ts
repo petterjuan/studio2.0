@@ -6,7 +6,8 @@
 import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { getProducts } from '@/lib/products';
-import { generateWorkoutPlan, WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutputSchema } from './workout-plan-generator';
+import { generateWorkoutPlan } from './workout-plan-generator';
+import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutput, WorkoutPlanGeneratorOutputSchema } from '@/lib/definitions';
 
 // ========================
 // Schemas
