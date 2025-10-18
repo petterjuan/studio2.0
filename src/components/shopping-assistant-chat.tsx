@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { shoppingAssistantFlow, ShoppingAssistantInput } from '@/ai/flows/shopping-assistant';
-import type { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorOutput } from '@/lib/definitions';
+import { shoppingAssistantFlow } from '@/ai/flows/shopping-assistant';
+import type { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorOutput, ShoppingAssistantInput, ShoppingAssistantOutput } from '@/lib/definitions';
 import { useAuth } from '@/firebase/auth-provider';
 import { saveWorkoutPlan } from '@/app/plan-generator/actions';
 import { useToast } from '@/hooks/use-toast';
@@ -78,7 +78,7 @@ export default function SalesOptimizedChat() {
         method: 'POST',
         body: JSON.stringify({ query: input, history: messages }),
       });
-      const result: { response: string, generatedPlan?: WorkoutPlanGeneratorOutput, userInput?: WorkoutPlanGeneratorInput } = await response.json();
+      const result: ShoppingAssistantOutput = await response.json();
 
       const assistantMessage: Message = {
         role: 'assistant',

@@ -7,25 +7,15 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { getProducts } from '@/lib/products';
 import { generateWorkoutPlan } from './workout-plan-generator';
-import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutput, WorkoutPlanGeneratorOutputSchema } from '@/lib/definitions';
-
-// ========================
-// Schemas
-// ========================
-export const ShoppingAssistantInputSchema = z.object({
-  query: z.string().describe('La consulta del usuario sobre productos o planes de fitness.'),
-  history: z.array(
-    z.object({ role: z.enum(['user','assistant']), content: z.string() })
-  ).optional(),
-});
-export type ShoppingAssistantInput = z.infer<typeof ShoppingAssistantInputSchema>;
-
-export const ShoppingAssistantOutputSchema = z.object({
-  response: z.string().describe('Respuesta final del asistente.'),
-  generatedPlan: WorkoutPlanGeneratorOutputSchema.optional(),
-  userInput: WorkoutPlanGeneratorInputSchema.optional(),
-});
-export type ShoppingAssistantOutput = z.infer<typeof ShoppingAssistantOutputSchema>;
+import { 
+  WorkoutPlanGeneratorInput, 
+  WorkoutPlanGeneratorInputSchema, 
+  WorkoutPlanGeneratorOutputSchema,
+  ShoppingAssistantInput,
+  ShoppingAssistantInputSchema,
+  ShoppingAssistantOutputSchema,
+  ShoppingAssistantOutput
+} from '@/lib/definitions';
 
 // ========================
 // Tools
@@ -78,7 +68,7 @@ Responde con claridad, motivación y autoridad. Usa herramientas cuando sea nece
 // ========================
 // Flow
 // ========================
-export const shoppingAssistantFlow = ai.defineFlow({
+const shoppingAssistantFlowRunner = ai.defineFlow({
   name: 'shoppingAssistantFlow',
   inputSchema: ShoppingAssistantInputSchema,
   outputSchema: ShoppingAssistantOutputSchema,
@@ -118,3 +108,7 @@ export const shoppingAssistantFlow = ai.defineFlow({
     response: llmResponse.text() || '¡Hola! No pude encontrar una respuesta precisa. ¿Quieres que te ayude a generar un plan o buscar productos?',
   };
 });
+
+export async function shoppingAssistantFlow(input: ShoppingAssistantInput): Promise<ShoppingAssistantOutput> {
+  return shoppingAssistantFlowRunner(input);
+}

@@ -65,6 +65,21 @@ export type WorkoutPlanGeneratorInputData = {
     preferences?: string;
 };
 
+export const ShoppingAssistantInputSchema = z.object({
+  query: z.string().describe('La consulta del usuario sobre productos o planes de fitness.'),
+  history: z.array(
+    z.object({ role: z.enum(['user','assistant']), content: z.string() })
+  ).optional(),
+});
+export type ShoppingAssistantInput = z.infer<typeof ShoppingAssistantInputSchema>;
+
+export const ShoppingAssistantOutputSchema = z.object({
+  response: z.string().describe('Respuesta final del asistente.'),
+  generatedPlan: WorkoutPlanGeneratorOutputSchema.optional(),
+  userInput: WorkoutPlanGeneratorInputSchema.optional(),
+});
+export type ShoppingAssistantOutput = z.infer<typeof ShoppingAssistantOutputSchema>;
+
 
 // Extend the Firebase User type to include our custom fields
 export interface User extends Partial<FirebaseUser> {
