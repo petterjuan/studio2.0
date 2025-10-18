@@ -1,9 +1,13 @@
-
 'use server';
 /**
- * @fileOverview A flow to generate an audio summary for a blog article.
- *
- * - generateArticleAudio - Creates a spoken-word summary.
+ * @fileOverview A robust AI flow to generate audio summaries for blog articles.
+ * 
+ * Features:
+ * - Safe length handling
+ * - Media URI validation
+ * - Base64 WAV conversion
+ * - Configurable voice
+ * - Logging for debugging
  */
 
 import { ai } from '@/ai/genkit';
@@ -12,8 +16,9 @@ import wav from 'wav';
 import { googleAI } from '@genkit-ai/google-genai';
 
 const AudioInputSchema = z.object({
-  articleTitle: z.string().describe("The title of the article."),
-  articleExcerpt: z.string().describe("The short summary/excerpt of the article."),
+  articleTitle: z.string().max(150).describe("The title of the article."),
+  articleExcerpt: z.string().max(500).describe("The short summary/excerpt of the article."),
+  voiceName: z.string().optional().describe("Optional: voice to use for TTS."),
 });
 
 const AudioOutputSchema = z.object({
@@ -23,6 +28,7 @@ const AudioOutputSchema = z.object({
 export type AudioInput = z.infer<typeof AudioInputSchema>;
 export type AudioOutput = z.infer<typeof AudioOutputSchema>;
 
+// Convert PCM Buffer to WAV Base64
 async function toWav(pcmData: Buffer): Promise<string> {
   return new Promise((resolve, reject) => {
     const writer = new wav.Writer({
@@ -30,10 +36,12 @@ async function toWav(pcmData: Buffer): Promise<string> {
       sampleRate: 24000,
       bitDepth: 16,
     });
-    const bufs: any[] = [];
+
+    const bufs: Buffer[] = [];
     writer.on('data', (chunk) => bufs.push(chunk));
     writer.on('end', () => resolve(Buffer.concat(bufs).toString('base64')));
     writer.on('error', reject);
+
     writer.write(pcmData);
     writer.end();
   });
@@ -49,31 +57,49 @@ const articleAudioFlow = ai.defineFlow(
     inputSchema: AudioInputSchema,
     outputSchema: AudioOutputSchema,
   },
-  async ({ articleTitle, articleExcerpt }) => {
-    const prompt = `Hola y bienvenida al blog de Valentina Montero. Aquí tienes un resumen de nuestro último artículo: ${articleTitle}.
-    
-    ${articleExcerpt}`;
+  async ({ articleTitle, articleExcerpt, voiceName = 'Algenib' }) => {
+    // Sanitize lengths
+    const safeTitle = articleTitle.slice(0, 150);
+    const safeExcerpt = articleExcerpt.slice(0, 500);
 
+    console.log(`Generating audio for article: "${safeTitle}" (${safeExcerpt.length} chars)`);
+
+    // Construct prompt
+    const prompt = `
+Genera un resumen hablado de este artículo para el blog de Valentina Montero.
+El tono debe ser amigable, claro y profesional, listo para reproducción en audio.
+Título: ${safeTitle}
+Resumen: ${safeExcerpt}
+`;
+
+    // Call AI TTS generation
     const { media } = await ai.generate({
       model: googleAI.model('gemini-1.5-flash-latest'),
-      prompt: prompt,
+      prompt,
       config: {
         responseModalities: ['AUDIO'],
         speechConfig: {
-            voiceConfig: {
-              prebuiltVoiceConfig: { voiceName: 'Algenib' }, // Friendly intro voice
-            },
+          voiceConfig: {
+            prebuiltVoiceConfig: { voiceName }, 
+          },
         },
       },
     });
 
-    if (!media?.url) {
-      throw new Error('No audio media was generated.');
+    if (!media?.url?.startsWith('data:audio')) {
+      throw new Error('Generated media is not a valid data URI.');
     }
 
-    const audioBuffer = Buffer.from(media.url.substring(media.url.indexOf(',') + 1), 'base64');
+    // Convert audio to WAV Base64
+    const audioBuffer = Buffer.from(media.url.split(',')[1], 'base64');
     const wavBase64 = await toWav(audioBuffer);
+    const fullWavDataUri = `data:audio/wav;base64,${wavBase64}`;
+    
+    // Extra validation
+    if (!/^data:audio\/wav;base64,[A-Za-z0-9+/=]+$/.test(fullWavDataUri)) {
+      throw new Error('Invalid WAV base64 data.');
+    }
 
-    return { media: `data:audio/wav;base64,${wavBase64}` };
+    return { media: fullWavDataUri };
   }
 );
