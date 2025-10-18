@@ -77,7 +77,19 @@ const shoppingAssistantFlowRunner = ai.defineFlow({
   // Normalize history
   const history = (input.history || []).map(msg => ({ role: msg.role, parts: [{ text: msg.content.slice(0, 500) }] }));
 
-  const llmResponse = await shoppingAssistantPrompt.generate({ history, messages: [{ role: 'user', parts: [{ text: input.query.slice(0, 500) }] }] });
+  const llmResponse = await ai.generate({
+    prompt: shoppingAssistantPrompt.prompt,
+    model: shoppingAssistantPrompt.model,
+    history,
+    tools: [searchProductsTool, generatePlanTool],
+    input: {
+        query: input.query
+    },
+    output: {
+        schema: ShoppingAssistantOutputSchema
+    }
+  });
+  
   const toolCalls = llmResponse.toolCalls();
 
   console.log('[ShoppingAssistant] Tool calls detected:', toolCalls.map(t => t.name));

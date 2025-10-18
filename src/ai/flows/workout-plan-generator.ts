@@ -4,11 +4,10 @@
  * @fileOverview A flow to generate personalized workout plans.
  *
  * - generateWorkoutPlan - A function that creates a weekly workout schedule based on user inputs.
- * - WorkoutPlanGeneratorInput - The input type for the plan generation.
- * - WorkoutPlanGeneratorOutput - The return type (the workout plan).
  */
 
 import { ai } from '@/ai/genkit';
+import { z } from 'genkit';
 import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutput, WorkoutPlanGeneratorOutputSchema } from '@/lib/definitions';
 
 

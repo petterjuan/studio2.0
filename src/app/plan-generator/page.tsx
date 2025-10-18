@@ -39,7 +39,7 @@ export default function PlanGeneratorPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [generatedPlan, setGeneratedPlan] = useState<WorkoutPlanGeneratorOutput | null>(null);
   const [isSaved, setIsSaved] = useState(false);
-   const [lastSubmittedData, setLastSubmittedData] = useState<FormValues | null>(null);
+   const [lastSubmittedData, setLastSubmittedData] = useState<WorkoutPlanGeneratorInputData | null>(null);
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -53,14 +53,16 @@ export default function PlanGeneratorPage() {
     setIsLoading(true);
     setGeneratedPlan(null); // Clear previous plan immediately
     setIsSaved(false);
-    setLastSubmittedData(values);
-
-    const input: WorkoutPlanGeneratorInput = {
+    
+    const processedInput: WorkoutPlanGeneratorInput = {
       ...values,
+      daysPerWeek: parseInt(values.daysPerWeek, 10),
     };
+    setLastSubmittedData(processedInput);
+
 
     try {
-      const plan = await generateWorkoutPlan(input);
+      const plan = await generateWorkoutPlan(processedInput);
       setGeneratedPlan(plan);
     } catch (error) {
       console.error('Error generando el plan:', error);
@@ -85,15 +87,8 @@ export default function PlanGeneratorPage() {
     }
     setIsSaving(true);
 
-    const userInput: WorkoutPlanGeneratorInputData = {
-        objective: lastSubmittedData.objective,
-        experience: lastSubmittedData.experience,
-        daysPerWeek: lastSubmittedData.daysPerWeek,
-        preferences: lastSubmittedData.preferences || ''
-    };
-
     try {
-      await saveWorkoutPlan(user.uid, generatedPlan, userInput);
+      await saveWorkoutPlan(user.uid, generatedPlan, lastSubmittedData);
       setIsSaved(true);
       toast({
         title: '¡Plan guardado!',
