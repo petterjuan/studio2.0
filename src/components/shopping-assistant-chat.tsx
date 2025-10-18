@@ -8,7 +8,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle, CardDescription }
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { shoppingAssistantFlow } from '@/ai/flows/shopping-assistant';
-import type { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorOutput, ShoppingAssistantInput, ShoppingAssistantOutput } from '@/lib/definitions';
+import type { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorOutput, ShoppingAssistantInput, ShoppingAssistantOutput, WorkoutPlanGeneratorInputData } from '@/lib/definitions';
 import { useAuth } from '@/firebase/auth-provider';
 import { saveWorkoutPlan } from '@/app/plan-generator/actions';
 import { useToast } from '@/hooks/use-toast';
@@ -83,8 +83,8 @@ export default function SalesOptimizedChat() {
       const assistantMessage: Message = {
         role: 'assistant',
         content: result.response,
-        plan: result.generatedPlan,
-        userInput: result.userInput,
+        plan: result.generatedPlan ?? undefined,        // ensures TS knows this can be undefined
+        userInput: result.userInput ?? undefined,       // ensures TS knows this can be undefined
       };
       
       setMessages(prev => [...prev, assistantMessage]);
@@ -104,21 +104,7 @@ export default function SalesOptimizedChat() {
     }
     setIsSaving(true);
     try {
-      // The userInput from the flow is already in the correct format.
-      // However, the saveWorkoutPlan function expects the 'daysPerWeek' to be a string.
-      // We need to ensure the object we pass matches the expected type.
-      const planDataToSave = {
-        ...plan
-      };
-
-      const userInputToSave = {
-        objective: userInput.objective,
-        experience: userInput.experience,
-        daysPerWeek: String(userInput.daysPerWeek), // Convert number to string
-        preferences: userInput.preferences || ''
-      };
-
-      await saveWorkoutPlan(user.uid, planDataToSave, userInputToSave);
+      await saveWorkoutPlan(user.uid, plan, userInput);
       setIsSaved(true);
       toast({ title: '¡Plan guardado!', description: 'Puedes verlo en tu panel de control.' });
     } catch {

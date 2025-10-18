@@ -45,7 +45,7 @@ export const WorkoutPlanGeneratorOutputSchema = z.object({
       description: z.string().describe("La descripción detallada de los ejercicios para ese día, incluyendo series y repeticiones. Formatea esto con saltos de línea para que sea legible. Por ejemplo: '1. Sentadillas: 3x12\\n2. Zancadas: 3x15 por pierna\\n3. Peso Muerto Rumano: 3x12'."),
     })
   ).describe('El plan de entrenamiento semanal detallado. El número de días de entrenamiento debe coincidir con el solicitado por el usuario.'),
-  callToAction: z.string().optional().describe('Un llamado a la acción para animar al usuario a guardar el plan o explorar más opciones.'),
+  callToAction: z.string().optional().describe('Un llamado a la acción para animar a la usuaria a guardar el plan o explorar más opciones.'),
 });
 export type WorkoutPlanGeneratorOutput = z.infer<typeof WorkoutPlanGeneratorOutputSchema>;
 
