@@ -133,8 +133,8 @@ export default async function Home() {
               )
             })}
           </div>
-          <div className="text-center">
-            <Button asChild size="lg" variant="outline" className="mt-12">
+          <div className="text-center mt-12">
+            <Button asChild size="lg" variant="outline">
               <Link href="/products">Comprar Todos los Productos</Link>
             </Button>
           </div>
