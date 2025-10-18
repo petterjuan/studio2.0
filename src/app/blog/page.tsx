@@ -45,13 +45,13 @@ export default async function BlogPage() {
                       </div>
                   </div>
                   <div className="flex flex-col flex-grow p-6">
-                    <CardHeader className="p-0">
-                      <CardTitle as="h2" className="font-headline text-2xl h-16 overflow-hidden">
-                          <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
-                      </CardTitle>
-                      <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>
+                    <CardHeader className="p-0 mb-4">
+                        <CardTitle as="h2" className="font-headline text-2xl h-16 overflow-hidden">
+                            <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
+                        </CardTitle>
+                        <CardDescription>{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</CardDescription>
                     </CardHeader>
-                    <CardContent className="p-0 pt-4 flex-grow">
+                    <CardContent className="p-0 flex-grow">
                       <p className="text-sm text-muted-foreground line-clamp-4">{article.excerpt}</p>
                     </CardContent>
                     <CardFooter className="p-0 pt-4">

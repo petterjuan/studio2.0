@@ -114,8 +114,6 @@ async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | n
         });
 
     } catch (error: any) {
-        // This error code (7) indicates missing permissions, which often happens when the service account isn't set up.
-        // We gracefully fall back to local data in this case.
         if (error.code === 7 || error.code === 'UNAUTHENTICATED' || (error.message && (error.message.includes('Could not refresh access token') || error.message.includes('firestore.googleapis.com')))) {
             console.warn('//////////////////////////////////////////////////////////////////');
             console.warn('// WARNING: Firestore API is not enabled or credentials are missing.');
@@ -136,6 +134,13 @@ export async function getArticles(first?: number): Promise<Article[]> {
       return first ? fallbackArticles.slice(0, first) : fallbackArticles;
   }
   
+  // If Firestore is reachable but empty, and we are not fetching a limited number,
+  // it means we should probably show the seed articles.
+  if (articlesFromDb.length === 0 && !first) {
+      return fallbackArticles;
+  }
+
+  // Otherwise, return what we got from the DB.
   return articlesFromDb;
 }
 
