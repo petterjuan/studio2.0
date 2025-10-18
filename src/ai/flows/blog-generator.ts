@@ -23,15 +23,24 @@ const BlogArticleSchema = z.object({
 export type BlogArticle = z.infer<typeof BlogArticleSchema>;
 
 export async function generateAndSaveBlogArticle(): Promise<void> {
+  console.log("Starting blog article generation flow...");
   const article = await blogGeneratorFlow();
   
   if (article) {
+    console.log(`Article content generated for: "${article.title}". Now generating audio...`);
     // Now, generate the audio for the new article
     const audioInput: AudioInput = {
       articleTitle: article.title,
       articleExcerpt: article.excerpt,
     };
     const audioOutput = await generateArticleAudio(audioInput);
+    
+    // Validate the audio output before saving
+    if (!audioOutput.media || !audioOutput.media.startsWith('data:audio/wav;base64,')) {
+        console.error('Invalid audio data received from TTS flow. Aborting save.');
+        throw new Error('Invalid audio data returned from TTS flow.');
+    }
+    
     const audioDataUri = audioOutput.media;
 
     const articlesCollection = firestore.collection('articles');
@@ -40,9 +49,10 @@ export async function generateAndSaveBlogArticle(): Promise<void> {
       publishedAt: new Date().toISOString(),
       audioDataUri: audioDataUri, // Save the audio data
     });
-    console.log(`Successfully generated and saved article: ${article.title}`);
+    console.log(`Successfully generated and saved article: "${article.title}" with audio.`);
   } else {
-    console.error('Failed to generate blog article.');
+    console.error('Failed to generate blog article content. The flow returned no data.');
+    throw new Error('Failed to generate blog article.');
   }
 }
 
@@ -53,7 +63,7 @@ const blogPrompt = ai.definePrompt({
   system: `Eres Valentina Montero, una reconocida coach de fitness y nutrición, experta en crear transformaciones físicas para mujeres. Tu tono es empoderador, conocedor y motivador.
   
   Tu tarea es escribir un nuevo artículo para tu blog. El artículo debe ser original, informativo y estar alineado con tu marca.
-  
+
   **Instrucciones:**
   1.  **Elige un Tema Relevante:** Escoge un tema de interés para mujeres que buscan mejorar su salud y estado físico. Ejemplos de temas: nutrición, entrenamiento de fuerza, mentalidad, recuperación, mitos del fitness, etc.
   2.  **Crea un Título Atractivo:** El título debe ser llamativo y optimizado para SEO.
@@ -73,9 +83,15 @@ const blogGeneratorFlow = ai.defineFlow(
   },
   async () => {
     const { output } = await blogPrompt();
-    if (!output) {
-      throw new Error("Failed to generate a blog article from the AI model.");
+    
+    // Explicitly validate the output against the schema before returning.
+    // The .parse method will throw an error if the output doesn't match the schema.
+    try {
+        const validatedArticle = BlogArticleSchema.parse(output);
+        return validatedArticle;
+    } catch (error) {
+        console.error("AI output failed validation:", error);
+        throw new Error("Failed to generate a valid blog article from the AI model.");
     }
-    return output;
   }
 );
