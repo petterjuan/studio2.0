@@ -133,7 +133,10 @@ export default function PlanGeneratorPage() {
           </CardHeader>
           <CardContent>
             <FormProvider {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <form
+                onSubmit={(e) => e.preventDefault()} // Prevent default form submission
+                className="space-y-8"
+              >
                 <FormField
                   control={form.control}
                   name="objective"
@@ -228,7 +231,13 @@ export default function PlanGeneratorPage() {
                   )}
                 />
 
-                <Button type="submit" disabled={isLoading} className="w-full" size="lg">
+                <Button
+                  type="button" // Change type to button
+                  onClick={form.handleSubmit(onSubmit)} // Handle submit via onClick
+                  disabled={isLoading}
+                  className="w-full"
+                  size="lg"
+                >
                   {isLoading ? (
                     <><Loader2 className="mr-2 h-5 w-5 animate-spin" /> Generando Plan...</>
                   ) : (
@@ -261,6 +270,9 @@ export default function PlanGeneratorPage() {
                       <p className="text-sm text-muted-foreground whitespace-pre-wrap">{dayPlan.description}</p>
                     </div>
                   ))}
+                  {generatedPlan.callToAction && (
+                    <p className="text-center font-semibold text-primary pt-4">{generatedPlan.callToAction}</p>
+                  )}
                 </CardContent>
               </Card>
               {user ? (
