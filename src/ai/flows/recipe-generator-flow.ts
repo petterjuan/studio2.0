@@ -8,11 +8,12 @@
 
 import { ai } from '@/ai/genkit';
 import { RecipeInputSchema, RecipeSchema } from '@/lib/definitions';
+import { googleAI } from '@genkit-ai/google-genai';
 
 // Define AI prompt
 const recipePrompt = ai.definePrompt({
   name: 'recipePrompt',
-  model: 'gemini-1.5-pro-latest',
+  model: googleAI.model('gemini-1.5-pro'),
   input: { schema: RecipeInputSchema },
   output: { schema: RecipeSchema },
   prompt: `

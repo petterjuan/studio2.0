@@ -17,6 +17,7 @@ import {
   ShoppingAssistantOutputSchema,
   ShoppingAssistantOutput
 } from '@/lib/definitions';
+import { googleAI } from '@genkit-ai/google-genai';
 
 // ========================
 // Tools
@@ -49,7 +50,7 @@ const generatePlanTool = ai.defineTool({
 // ========================
 const shoppingAssistantPrompt = ai.definePrompt({
   name: 'shoppingAssistantPrompt',
-  model: 'gemini-1.5-pro-latest',
+  model: googleAI.model('gemini-1.5-pro'),
   tools: [searchProductsTool, generatePlanTool],
   input: { schema: ShoppingAssistantInputSchema },
   prompt: `

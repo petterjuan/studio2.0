@@ -11,6 +11,7 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 import { firestore } from '@/firebase/server';
 import { generateArticleAudio, AudioInput } from './audio-generator';
+import { googleAI } from '@genkit-ai/google-genai';
 
 const BlogArticleSchema = z.object({
   handle: z.string().describe("A URL-friendly slug for the article title (e.g., 'el-poder-del-entrenamiento-de-fuerza')."),
@@ -58,7 +59,7 @@ export async function generateAndSaveBlogArticle(): Promise<void> {
 
 const blogPrompt = ai.definePrompt({
   name: 'blogGeneratorPrompt',
-  model: 'gemini-1.5-pro-latest',
+  model: googleAI.model('gemini-1.5-pro'),
   output: { schema: BlogArticleSchema },
   system: `Eres Valentina Montero, una reconocida coach de fitness y nutrición, experta en crear transformaciones físicas para mujeres. Tu tono es empoderador, conocedor y motivador.
   

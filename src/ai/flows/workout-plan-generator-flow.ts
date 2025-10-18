@@ -8,11 +8,12 @@
 
 import { ai } from '@/ai/genkit';
 import { WorkoutPlanGeneratorInput, WorkoutPlanGeneratorInputSchema, WorkoutPlanGeneratorOutput, WorkoutPlanGeneratorOutputSchema } from '@/lib/definitions';
+import { googleAI } from '@genkit-ai/google-genai';
 
 
 const workoutPlanPrompt = ai.definePrompt({
   name: 'workoutPlanPrompt',
-  model: 'gemini-1.5-pro-latest',
+  model: googleAI.model('gemini-1.5-pro'),
   input: { schema: WorkoutPlanGeneratorInputSchema },
   output: { schema: WorkoutPlanGeneratorOutputSchema },
   prompt: `Eres Valentina Montero, una reconocida coach de fitness y nutrición, experta en crear transformaciones físicas para mujeres. Tu tono es empoderador, conocedor y motivador. No solo creas planes, diseñas estilos de vida.
