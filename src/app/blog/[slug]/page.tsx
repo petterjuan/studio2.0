@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Calendar, User } from 'lucide-react';
 import { getPlaceholder } from '@/lib/utils';
-import AudioPlayer from './audio-player';
+import ClientAudioWrapper from '@/components/ClientAudioWrapper';
 
 export async function generateStaticParams() {
   const articles = await getArticles();
@@ -53,7 +53,7 @@ export default async function ArticlePage({ params }: { params: { slug: string }
           priority
         />
          <div className="absolute bottom-4 right-4">
-            <AudioPlayer audioDataUri={article.audioDataUri || null} />
+            <ClientAudioWrapper audioDataUri={article.audioDataUri || null} />
         </div>
       </div>
       
