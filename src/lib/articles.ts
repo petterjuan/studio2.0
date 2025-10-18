@@ -1,4 +1,6 @@
 
+'use server';
+
 import { firestore } from '@/firebase/server';
 import type { Article } from './definitions';
 import { Timestamp } from 'firebase-admin/firestore';
@@ -144,7 +146,12 @@ export async function getArticles(first?: number): Promise<Article[]> {
         console.warn('// The application will proceed without fetching articles.');
         console.warn(`// Project: ${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`);
         console.warn('//////////////////////////////////////////////////////////////////');
-        return [];
+        // Fallback to returning the hardcoded seed articles if Firestore is unavailable
+        return seedArticles.map((article, index) => ({
+            ...article,
+            id: `seed-${index}`,
+            publishedAt: new Date().toISOString(), // Use current date for fallback
+        })).slice(0, first);
     }
     // For other errors, we still want the build to fail to alert the user.
     throw error;
@@ -157,6 +164,11 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
         const snapshot = await articlesCollection.where('handle', '==', handle).limit(1).get();
 
         if (snapshot.empty) {
+             // Fallback to check seed articles if nothing is found in DB
+            const seedArticle = seedArticles.find(a => a.handle === handle);
+            if (seedArticle) {
+                return { ...seedArticle, id: 'seed-fallback', publishedAt: new Date().toISOString() };
+            }
             return null;
         }
         
@@ -173,8 +185,15 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
         // Also handle auth errors gracefully here
         if (error.code === 7 || error.code === 'UNAUTHENTICATED' || (error.message && error.message.includes('Could not refresh access token'))) {
              console.warn('// WARNING: Firestore API is not enabled or credentials are missing. Could not fetch article by handle.');
+            // Fallback to check seed articles if Firestore is unavailable
+            const seedArticle = seedArticles.find(a => a.handle === handle);
+            if (seedArticle) {
+                return { ...seedArticle, id: 'seed-fallback', publishedAt: new Date().toISOString() };
+            }
             return null;
         }
         throw error;
     }
 }
+
+    

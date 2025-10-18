@@ -11,6 +11,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { getPlaceholder } from '@/lib/utils';
 import { Skeleton } from '@/components/ui/skeleton';
+import AudioPlayer from './blog/[slug]/audio-player';
 
 const TestimonialCarousel = dynamic(
   () => import('@/components/testimonial-carousel'),
@@ -68,8 +69,7 @@ export default async function Home() {
                         src={muscleBitesEbookImage.imageUrl}
                         alt={muscleBitesEbookImage.description}
                         data-ai-hint={muscleBitesEbookImage.imageHint}
-                        width={600}
-                        height={600}
+                        fill
                         className="object-cover"
                     />
                 </div>
@@ -112,22 +112,23 @@ export default async function Home() {
             {featuredProducts.map((product) => {
               const image = getPlaceholder(product.imageId);
               return (
-                <Card key={product.id} className="overflow-hidden group text-left">
-                  <Link href={`/products/${product.handle}`}>
+                <Card key={product.id} className="overflow-hidden group text-left flex flex-col">
+                  <Link href={`/products/${product.handle}`} className="flex flex-col h-full">
                     <div className="relative aspect-square">
                       <Image
                         src={image.imageUrl}
                         alt={product.title}
                         data-ai-hint={image.imageHint}
-                        width={600}
-                        height={600}
+                        fill
                         className="object-cover transition-transform duration-300 group-hover:scale-105"
                       />
                     </div>
-                    <CardHeader className="p-4">
+                    <CardHeader className="p-4 flex-grow">
                       <CardTitle as="h3" className="font-body text-base h-10 overflow-hidden">{product.title}</CardTitle>
-                      <p className="font-semibold text-primary pt-2">{product.price}</p>
                     </CardHeader>
+                    <CardFooter className="p-4 pt-0">
+                      <p className="font-semibold text-primary">{product.price}</p>
+                    </CardFooter>
                   </Link>
                 </Card>
               )
@@ -163,33 +164,37 @@ export default async function Home() {
             {articles.map((article) => {
               const image = getPlaceholder(article.imageId);
               return (
-                <Card key={article.id} className="flex flex-col overflow-hidden text-left">
-                  <Link href={`/blog/${article.handle}`} className="block">
+                <Card key={article.id} className="flex flex-col overflow-hidden text-left group">
                     <div className="relative aspect-[4/3]">
-                      <Image
-                        src={image.imageUrl}
-                        alt={article.title}
-                        data-ai-hint={image.imageHint}
-                        width={1080}
-                        height={720}
-                        className="object-cover transition-transform duration-300 hover:scale-105"
-                      />
+                      <Link href={`/blog/${article.handle}`} className="block">
+                        <Image
+                          src={image.imageUrl}
+                          alt={article.title}
+                          data-ai-hint={image.imageHint}
+                          fill
+                          className="object-cover transition-transform duration-300 group-hover:scale-105"
+                        />
+                      </Link>
+                       <div className="absolute bottom-2 right-2">
+                           <AudioPlayer audioDataUri={article.audioDataUri || null} />
+                        </div>
                     </div>
-                  </Link>
-                  <CardHeader>
-                    <CardTitle as="h3" className="font-headline text-xl h-16 overflow-hidden">
-                      <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className='pt-0'>
-                    <p className="text-sm text-muted-foreground">{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</p>
-                    <p className="text-sm text-muted-foreground line-clamp-3 mt-2">{article.excerpt}</p>
-                  </CardContent>
-                  <CardFooter>
-                    <Button variant="link" asChild className="p-0">
-                      <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
-                    </Button>
-                  </CardFooter>
+                  <div className="flex flex-col flex-grow">
+                    <CardHeader>
+                        <CardTitle as="h3" className="font-headline text-xl h-16 overflow-hidden">
+                        <Link href={`/blog/${article.handle}`} className="hover:text-primary transition-colors">{article.title}</Link>
+                        </CardTitle>
+                    </CardHeader>
+                    <CardContent className='pt-0 flex-grow'>
+                        <p className="text-sm text-muted-foreground">{format(new Date(article.publishedAt), 'd MMMM, yyyy', { locale: es })}</p>
+                        <p className="text-sm text-muted-foreground line-clamp-3 mt-2">{article.excerpt}</p>
+                    </CardContent>
+                    <CardFooter>
+                        <Button variant="link" asChild className="p-0">
+                        <Link href={`/blog/${article.handle}`}>Leer Más <ArrowRight className="ml-2 h-4 w-4" /></Link>
+                        </Button>
+                    </CardFooter>
+                  </div>
                 </Card>
             )})}
           </div>
@@ -198,3 +203,5 @@ export default async function Home() {
     </div>
   );
 }
+
+    
