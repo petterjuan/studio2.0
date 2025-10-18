@@ -10,10 +10,10 @@ import { ai } from '@/ai/genkit';
 import { z } from 'genkit';
 
 const ReviewInputSchema = z.object({
-  userObjective: z.string().describe("El objetivo del usuario (ej. 'perder grasa', 'ganar músculo')."),
-  userExperience: z.string().describe("La experiencia del usuario (ej. 'principiante', 'avanzado')."),
-  planTitle: z.string().describe("El título del plan de entrenamiento."),
-  planSummary: z.string().describe("El resumen del plan de entrenamiento."),
+  userObjective: z.string().max(100).describe("El objetivo del usuario (ej. 'perder grasa', 'ganar músculo')."),
+  userExperience: z.string().max(50).describe("La experiencia del usuario (ej. 'principiante', 'avanzado')."),
+  planTitle: z.string().max(150).describe("El título del plan de entrenamiento."),
+  planSummary: z.string().max(1000).describe("El resumen del plan de entrenamiento."),
 });
 
 const ReviewOutputSchema = z.object({
@@ -23,10 +23,6 @@ const ReviewOutputSchema = z.object({
 
 export type ReviewInput = z.infer<typeof ReviewInputSchema>;
 export type ReviewOutput = z.infer<typeof ReviewOutputSchema>;
-
-export async function reviewWorkoutPlan(input: ReviewInput): Promise<ReviewOutput> {
-  return adminReviewFlow(input);
-}
 
 const reviewPrompt = ai.definePrompt({
   name: 'adminReviewPrompt',
@@ -51,10 +47,10 @@ const reviewPrompt = ai.definePrompt({
   - **Título del Plan:** {{{planTitle}}}
   - **Resumen del Plan:** {{{planSummary}}}
 
-  Basado en estos datos, proporciona tu recomendación y justificación.`,
+  Basado en estos datos, proporciona tu recomendación y justificación. Responde únicamente en formato JSON.`,
 });
 
-const adminReviewFlow = ai.defineFlow(
+export const reviewWorkoutPlan = ai.defineFlow(
   {
     name: 'adminReviewFlow',
     inputSchema: ReviewInputSchema,
@@ -62,6 +58,14 @@ const adminReviewFlow = ai.defineFlow(
   },
   async (input) => {
     const { output } = await reviewPrompt(input);
-    return output!;
+    
+    if (!output) {
+      throw new Error("La revisión de la IA falló: el resultado es nulo.");
+    }
+
+    // Optional but recommended: server-side validation
+    ReviewOutputSchema.parse(output);
+
+    return output;
   }
 );
