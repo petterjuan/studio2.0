@@ -80,94 +80,83 @@ const seedArticles: Omit<Article, 'id' | 'audioDataUri'>[] = [
     }
 ];
 
-async function seedDatabase() {
+const fallbackArticles = seedArticles.map((article, index) => ({
+    ...article,
+    id: `seed-${index}`,
+    publishedAt: new Date(article.publishedAt).toISOString(),
+    audioDataUri: '',
+})).sort((a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime());
+
+
+async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | null> {
     try {
-        const articlesCollection = firestore.collection('articles');
-        const snapshot = await articlesCollection.limit(1).get();
+        let articlesQuery = firestore.collection('articles').orderBy('publishedAt', 'desc');
+
+        if (count) {
+            articlesQuery = articlesQuery.limit(count);
+        }
+
+        const snapshot = await articlesQuery.get();
         
         if (snapshot.empty) {
-            console.log("Seeding articles collection...");
+            // If the collection is empty, maybe we should seed it.
+            console.log("Articles collection is empty. Seeding...");
             const batch = firestore.batch();
             seedArticles.forEach(article => {
-                const docRef = articlesCollection.doc();
-                batch.set(docRef, article);
+                const docRef = firestore.collection('articles').doc(); // Auto-generate ID
+                batch.set(docRef, {
+                    ...article,
+                    publishedAt: new Date(article.publishedAt)
+                });
             });
             await batch.commit();
+
+            // After seeding, refetch
+            const newSnapshot = await articlesQuery.get();
+             return newSnapshot.docs.map(doc => {
+                const data = doc.data();
+                const publishedAt = data.publishedAt;
+                return {
+                    id: doc.id,
+                    ...data,
+                    publishedAt: publishedAt instanceof Timestamp ? publishedAt.toDate().toISOString() : publishedAt,
+                } as Article;
+            });
         }
+    
+        return snapshot.docs.map(doc => {
+            const data = doc.data();
+            const publishedAt = data.publishedAt;
+            return {
+                id: doc.id,
+                ...data,
+                publishedAt: publishedAt instanceof Timestamp ? publishedAt.toDate().toISOString() : publishedAt,
+            } as Article;
+        });
+
     } catch (error: any) {
-        // Gracefully handle the case where the Firestore API is not enabled or credentials are missing.
         if (error.code === 7 || error.code === 'UNAUTHENTICATED' || (error.message && (error.message.includes('Could not refresh access token') || error.message.includes('firestore.googleapis.com')))) {
             console.warn('//////////////////////////////////////////////////////////////////');
             console.warn('// WARNING: Firestore API is not enabled or credentials are missing.');
-            console.warn('// The application will proceed without database seeding.');
+            console.warn('// The application will proceed using fallback data.');
             console.warn(`// Project: ${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`);
             console.warn('//////////////////////////////////////////////////////////////////');
-            return; // Return early, do not throw
+            return null; // Return null to indicate fallback
         }
-        throw error;
+        throw error; // Re-throw other errors
     }
-}
-
-async function fetchArticlesFromFirestore(count?: number): Promise<Article[]> {
-    let articlesQuery = firestore.collection('articles').orderBy('publishedAt', 'desc');
-
-    if (count) {
-        articlesQuery = articlesQuery.limit(count);
-    }
-
-    const snapshot = await articlesQuery.get();
-
-    if (snapshot.empty) {
-        return [];
-    }
-    
-    return snapshot.docs.map(doc => {
-        const data = doc.data();
-        const publishedAt = data.publishedAt;
-        return {
-            id: doc.id,
-            ...data,
-            publishedAt: publishedAt instanceof Timestamp ? publishedAt.toDate().toISOString() : publishedAt,
-        } as Article;
-    });
 }
 
 
 export async function getArticles(first?: number): Promise<Article[]> {
-  try {
-    await seedDatabase();
-    const articles = await fetchArticlesFromFirestore(first);
-    
-    // If firestore is empty, but seeding didn't run because of an auth error, fallback to seeds
-    if (articles.length === 0) {
-        return seedArticles.map((article, index) => ({
-            ...article,
-            id: `seed-${index}`,
-            publishedAt: new Date(article.publishedAt).toISOString(),
-            audioDataUri: '',
-        })).slice(0, first);
-    }
+  const articles = await fetchArticlesFromFirestore(first);
 
-    return articles;
-  } catch (error: any) {
-    // Gracefully handle the case where the Firestore API is not enabled or credentials are missing.
-    if (error.code === 7 || error.code === 'UNAUTHENTICATED' || (error.message && (error.message.includes('Could not refresh access token') || error.message.includes('firestore.googleapis.com')))) {
-        console.warn('//////////////////////////////////////////////////////////////////');
-        console.warn('// WARNING: Firestore API is not enabled or credentials are missing.');
-        console.warn('// The application will proceed without fetching articles.');
-        console.warn(`// Project: ${process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID}`);
-        console.warn('//////////////////////////////////////////////////////////////////');
-        // Fallback to returning the hardcoded seed articles if Firestore is unavailable
-        return seedArticles.map((article, index) => ({
-            ...article,
-            id: `seed-${index}`,
-            publishedAt: new Date(article.publishedAt).toISOString(),
-             audioDataUri: '',
-        })).slice(0, first);
-    }
-    // For other errors, we still want the build to fail to alert the user.
-    throw error;
+  if (articles === null) {
+      // If Firestore failed, return the hardcoded articles.
+      return first ? fallbackArticles.slice(0, first) : fallbackArticles;
   }
+  
+  return articles;
 }
 
 export async function getArticleByHandle(handle: string): Promise<Article | null> {
@@ -176,12 +165,8 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
         const snapshot = await articlesCollection.where('handle', '==', handle).limit(1).get();
 
         if (snapshot.empty) {
-             // Fallback to check seed articles if nothing is found in DB
-            const seedArticle = seedArticles.find(a => a.handle === handle);
-            if (seedArticle) {
-                return { ...seedArticle, id: 'seed-fallback', publishedAt: new Date(seedArticle.publishedAt).toISOString() };
-            }
-            return null;
+            // Fallback to check seed articles if nothing is found in DB
+            return fallbackArticles.find(a => a.handle === handle) || null;
         }
         
         const doc = snapshot.docs[0];
@@ -194,20 +179,10 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
             publishedAt: publishedAt instanceof Timestamp ? publishedAt.toDate().toISOString() : publishedAt,
         } as Article;
     } catch (error: any) {
-        // Also handle auth errors gracefully here
         if (error.code === 7 || error.code === 'UNAUTHENTICATED' || (error.message && error.message.includes('Could not refresh access token'))) {
              console.warn('// WARNING: Firestore API is not enabled or credentials are missing. Could not fetch article by handle.');
-            // Fallback to check seed articles if Firestore is unavailable
-            const seedArticle = seedArticles.find(a => a.handle === handle);
-            if (seedArticle) {
-                return { ...seedArticle, id: 'seed-fallback', publishedAt: new Date(seedArticle.publishedAt).toISOString() };
-            }
-            return null;
+            return fallbackArticles.find(a => a.handle === handle) || null;
         }
         throw error;
     }
 }
-
-    
-
-    
