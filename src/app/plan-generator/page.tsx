@@ -1,4 +1,3 @@
-
 'use client';
 
 import { useState } from 'react';
@@ -26,7 +25,7 @@ const formSchema = z.object({
   experience: z.enum(['beginner', 'intermediate', 'advanced'], {
     required_error: 'Debes seleccionar tu nivel de experiencia.',
   }),
-  daysPerWeek: z.coerce.number().min(2).max(6),
+  daysPerWeek: z.coerce.number().int().min(2).max(6),
   preferences: z.string().optional(),
 });
 
@@ -57,7 +56,7 @@ export default function PlanGeneratorPage() {
 
     const input: WorkoutPlanGeneratorInput = {
       ...values,
-      daysPerWeek: String(values.daysPerWeek),
+      daysPerWeek: values.daysPerWeek, // Pass as a number
     };
 
     try {
@@ -89,7 +88,7 @@ export default function PlanGeneratorPage() {
     const userInput = {
         objective: lastSubmittedData.objective,
         experience: lastSubmittedData.experience,
-        daysPerWeek: String(lastSubmittedData.daysPerWeek),
+        daysPerWeek: String(lastSubmittedData.daysPerWeek), // Convert to string for Firestore consistency
         preferences: lastSubmittedData.preferences || ''
     };
 
@@ -308,3 +307,5 @@ export default function PlanGeneratorPage() {
     </div>
   );
 }
+
+    

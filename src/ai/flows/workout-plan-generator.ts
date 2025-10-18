@@ -1,4 +1,3 @@
-
 'use server';
 /**
  * @fileOverview A flow to generate personalized workout plans.
@@ -17,7 +16,7 @@ const ExperienceEnum = z.enum(['beginner', 'intermediate', 'advanced']);
 export const WorkoutPlanGeneratorInputSchema = z.object({
   objective: ObjectiveEnum.describe('El objetivo principal del usuario (perder grasa, ganar músculo, mantenimiento).'),
   experience: ExperienceEnum.describe('El nivel de experiencia del usuario (principiante, intermedio, avanzado).'),
-  daysPerWeek: z.string().describe('El número de días a la semana que el usuario puede entrenar.'),
+  daysPerWeek: z.number().int().min(2).max(6).describe('El número de días a la semana que el usuario puede entrenar.'),
   preferences: z.string().optional().describe('Preferencias o limitaciones adicionales del usuario (ej. "enfocarse en glúteos", "lesión en la rodilla", "prefiere peso corporal").'),
 });
 export type WorkoutPlanGeneratorInput = z.infer<typeof WorkoutPlanGeneratorInputSchema>;
@@ -36,13 +35,18 @@ export const WorkoutPlanGeneratorOutputSchema = z.object({
 export type WorkoutPlanGeneratorOutput = z.infer<typeof WorkoutPlanGeneratorOutputSchema>;
 
 export async function generateWorkoutPlan(input: WorkoutPlanGeneratorInput): Promise<WorkoutPlanGeneratorOutput> {
-  return workoutPlanGeneratorFlow(input);
+  // The 'daysPerWeek' from the form is a number, but the AI prompt expects a string.
+  const promptInput = {
+    ...input,
+    daysPerWeek: String(input.daysPerWeek),
+  };
+  return workoutPlanGeneratorFlow(promptInput);
 }
 
 const workoutPlanPrompt = ai.definePrompt({
   name: 'workoutPlanPrompt',
   model: 'gemini-1.5-flash',
-  input: { schema: WorkoutPlanGeneratorInputSchema },
+  input: { schema: WorkoutPlanGeneratorInputSchema.extend({ daysPerWeek: z.string() }) }, // Internally, we handle it as a string for the prompt
   output: { schema: WorkoutPlanGeneratorOutputSchema },
   prompt: `Eres Valentina Montero, una reconocida coach de fitness y nutrición, experta en crear transformaciones físicas para mujeres. Tu tono es empoderador, conocedor y motivador. No solo creas planes, diseñas estilos de vida.
 
@@ -75,11 +79,20 @@ const workoutPlanPrompt = ai.definePrompt({
 const workoutPlanGeneratorFlow = ai.defineFlow(
   {
     name: 'workoutPlanGeneratorFlow',
-    inputSchema: WorkoutPlanGeneratorInputSchema,
+    inputSchema: WorkoutPlanGeneratorInputSchema.extend({ daysPerWeek: z.string() }),
     outputSchema: WorkoutPlanGeneratorOutputSchema,
   },
   async (input) => {
     const { output } = await workoutPlanPrompt(input);
-    return output!;
+    
+    if (!output) {
+      throw new Error("AI review failed: output is null");
+    }
+
+    // Genkit's schema-based output already validates the JSON structure.
+    // We just need to ensure the object is returned.
+    return output;
   }
 );
+
+    
