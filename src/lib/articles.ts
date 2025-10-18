@@ -98,30 +98,9 @@ async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | n
 
         const snapshot = await articlesQuery.get();
         
+        // If firestore is available but empty, return an empty array.
         if (snapshot.empty) {
-            // If the collection is empty, maybe we should seed it.
-            console.log("Articles collection is empty. Seeding...");
-            const batch = firestore.batch();
-            seedArticles.forEach(article => {
-                const docRef = firestore.collection('articles').doc(); // Auto-generate ID
-                batch.set(docRef, {
-                    ...article,
-                    publishedAt: new Date(article.publishedAt)
-                });
-            });
-            await batch.commit();
-
-            // After seeding, refetch
-            const newSnapshot = await articlesQuery.get();
-             return newSnapshot.docs.map(doc => {
-                const data = doc.data();
-                const publishedAt = data.publishedAt;
-                return {
-                    id: doc.id,
-                    ...data,
-                    publishedAt: publishedAt instanceof Timestamp ? publishedAt.toDate().toISOString() : publishedAt,
-                } as Article;
-            });
+            return [];
         }
     
         return snapshot.docs.map(doc => {
@@ -135,6 +114,8 @@ async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | n
         });
 
     } catch (error: any) {
+        // This error code (7) indicates missing permissions, which often happens when the service account isn't set up.
+        // We gracefully fall back to local data in this case.
         if (error.code === 7 || error.code === 'UNAUTHENTICATED' || (error.message && (error.message.includes('Could not refresh access token') || error.message.includes('firestore.googleapis.com')))) {
             console.warn('//////////////////////////////////////////////////////////////////');
             console.warn('// WARNING: Firestore API is not enabled or credentials are missing.');
@@ -147,16 +128,15 @@ async function fetchArticlesFromFirestore(count?: number): Promise<Article[] | n
     }
 }
 
-
 export async function getArticles(first?: number): Promise<Article[]> {
-  const articles = await fetchArticlesFromFirestore(first);
+  const articlesFromDb = await fetchArticlesFromFirestore(first);
 
-  if (articles === null) {
-      // If Firestore failed, return the hardcoded articles.
+  if (articlesFromDb === null) {
+      // Firestore failed, return the hardcoded articles.
       return first ? fallbackArticles.slice(0, first) : fallbackArticles;
   }
   
-  return articles;
+  return articlesFromDb;
 }
 
 export async function getArticleByHandle(handle: string): Promise<Article | null> {
@@ -186,3 +166,5 @@ export async function getArticleByHandle(handle: string): Promise<Article | null
         throw error;
     }
 }
+
+    

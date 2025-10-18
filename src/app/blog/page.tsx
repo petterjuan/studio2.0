@@ -25,7 +25,6 @@ export default async function BlogPage() {
           </p>
         </div>
 
-        {/* Blog Articles */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {articles.map((article) => {
               const image = getPlaceholder(article.imageId);
@@ -69,3 +68,5 @@ export default async function BlogPage() {
     </>
   );
 }
+
+    
