@@ -49,7 +49,7 @@ const generatePlanTool = ai.defineTool({
 // ========================
 const shoppingAssistantPrompt = ai.definePrompt({
   name: 'shoppingAssistantPrompt',
-  model: 'gemini-1.5-flash',
+  model: 'gemini-1.5-flash-latest',
   tools: [searchProductsTool, generatePlanTool],
   input: { schema: ShoppingAssistantInputSchema },
   prompt: `
