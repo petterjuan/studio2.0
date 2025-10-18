@@ -31,7 +31,7 @@ const ExperienceEnum = z.enum(['beginner', 'intermediate', 'advanced']);
 export const WorkoutPlanGeneratorInputSchema = z.object({
   objective: ObjectiveEnum.describe('El objetivo principal del usuario (perder grasa, ganar músculo, mantenimiento).'),
   experience: ExperienceEnum.describe('El nivel de experiencia del usuario (principiante, intermedio, avanzado).'),
-  daysPerWeek: z.number().int().min(2).max(6).describe('El número de días a la semana que el usuario puede entrenar.'),
+  daysPerWeek: z.string().describe('El número de días a la semana que el usuario puede entrenar.'),
   preferences: z.string().optional().describe('Preferencias o limitaciones adicionales del usuario (ej. "enfocarse en glúteos", "lesión en la rodilla", "prefiere peso corporal").'),
 });
 export type WorkoutPlanGeneratorInput = z.infer<typeof WorkoutPlanGeneratorInputSchema>;

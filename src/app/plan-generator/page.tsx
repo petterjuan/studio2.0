@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState } from 'react';
@@ -25,7 +26,7 @@ const formSchema = z.object({
   experience: z.enum(['beginner', 'intermediate', 'advanced'], {
     required_error: 'Debes seleccionar tu nivel de experiencia.',
   }),
-  daysPerWeek: z.coerce.number().int().min(2).max(6),
+  daysPerWeek: z.string({ required_error: 'Debes seleccionar el número de días.'}),
   preferences: z.string().optional(),
 });
 
@@ -43,7 +44,7 @@ export default function PlanGeneratorPage() {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      daysPerWeek: 3,
+      daysPerWeek: "3",
       preferences: '',
     },
   });
@@ -56,7 +57,6 @@ export default function PlanGeneratorPage() {
 
     const input: WorkoutPlanGeneratorInput = {
       ...values,
-      daysPerWeek: values.daysPerWeek, // Pass as a number
     };
 
     try {
@@ -88,7 +88,7 @@ export default function PlanGeneratorPage() {
     const userInput: WorkoutPlanGeneratorInputData = {
         objective: lastSubmittedData.objective,
         experience: lastSubmittedData.experience,
-        daysPerWeek: String(lastSubmittedData.daysPerWeek), // Convert to string for Firestore consistency
+        daysPerWeek: lastSubmittedData.daysPerWeek,
         preferences: lastSubmittedData.preferences || ''
     };
 
@@ -199,7 +199,7 @@ export default function PlanGeneratorPage() {
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel className="font-bold text-base">3. ¿Cuántos días a la semana quieres entrenar?</FormLabel>
-                      <Select onValueChange={(value) => field.onChange(Number(value))} defaultValue={String(field.value)}>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
                             <SelectValue placeholder="Selecciona los días" />
